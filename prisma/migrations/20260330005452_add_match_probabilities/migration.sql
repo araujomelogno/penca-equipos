@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Match" ADD COLUMN     "analysis" TEXT,
+ADD COLUMN     "awayWinProb" DOUBLE PRECISION,
+ADD COLUMN     "drawProb" DOUBLE PRECISION,
+ADD COLUMN     "homeWinProb" DOUBLE PRECISION;

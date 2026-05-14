@@ -1,0 +1,588 @@
+{
+  "header": {
+    "home": "HOME",
+    "standings": "STANDINGS",
+    "fixture": "FIXTURE",
+    "matches": "MATCHES",
+    "predictions": "PREDICTIONS",
+    "activity": "ACTIVITY",
+    "arena": "ARENA",
+    "rules": "RULES",
+    "admin": "ADMIN",
+    "toggleNav": "Toggle navigation",
+    "editProfile": "Edit Profile",
+    "logOut": "Log Out",
+    "profileFallback": "User",
+    "languageEnglish": "English",
+    "languageSpanish": "Spanish",
+    "switchLanguage": "Switch language"
+  },
+  "home": {
+    "hero": {
+      "title": "COMPLETE YOUR PREDICTIONS",
+      "cta": "ENTER PREDICTIONS"
+    },
+    "stats": {
+      "matches": "MATCHES",
+      "accuracy": "ACCURACY",
+      "streak": "STREAK",
+      "predicted": "PREDICTED",
+      "pending": "PENDING"
+    },
+    "countdown": {
+      "title": "KICKOFF IN",
+      "days": "DAYS",
+      "hours": "HRS",
+      "minutes": "MIN",
+      "seconds": "SEC"
+    },
+    "favorites": {
+      "title": "TOP FAVORITES"
+    },
+    "highlights": {
+      "title": "HIGHLIGHTS",
+      "viewInFeed": "View in activity feed →"
+    },
+    "nostradamus": {
+      "title": "Nostradamus",
+      "weekAndPoints": "Week {week} · {points} pts",
+      "empty": "No Nostradamus yet",
+      "cta": "View Prediction Arena →"
+    },
+    "arenaStatus": {
+      "open": "ARENA OPEN",
+      "inPlay": "ARENA IN PLAY",
+      "week": "Week {week}",
+      "predictWithin": "Predict within {countdown}",
+      "lastChance": "Last chance to predict",
+      "resolving": "Events resolving...",
+      "goPredict": "Go predict →",
+      "viewStatus": "View status →"
+    },
+    "nextMatch": {
+      "title": "NEXT MATCH",
+      "vs": "VS"
+    },
+    "upcoming": {
+      "title": "UPCOMING MATCHES",
+      "empty": "No upcoming matches scheduled",
+      "viewAll": "View all matches",
+      "vs": "VS",
+      "predict": "PREDICT",
+      "yourPrediction": "Your prediction: {home} - {away}",
+      "avg": "Avg: {home} - {away}",
+      "count": "{n, plural, one {# prediction} other {# predictions}}",
+      "beFirst": "Be the first to predict"
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "empty": "Leaderboard activates when matches begin",
+      "viewFull": "VIEW FULL RANKING",
+      "pts": "{n} pts",
+      "youSuffix": " (you)"
+    },
+    "feed": {
+      "title": "ACTIVITY",
+      "empty": "No recent activity yet"
+    },
+    "stage": {
+      "GROUP": "Group Stage",
+      "R16": "Round of 16",
+      "QF": "Quarter Finals",
+      "SF": "Semi Finals",
+      "FINAL": "Final",
+      "groupLabel": "Group {name}"
+    },
+    "you": "You"
+  },
+  "matches": {
+    "title": "Matches 2026",
+    "today": "TODAY",
+    "empty": "No matches found for the selected filters",
+    "status": {
+      "all": "All",
+      "scheduled": "Scheduled",
+      "ongoing": "Ongoing",
+      "finished": "Finished"
+    },
+    "stageFilter": {
+      "all": "All",
+      "allShort": "All",
+      "group": "GROUP {letter}",
+      "groupShort": "{letter}"
+    },
+    "stage": {
+      "GROUP": "Group Stage",
+      "R32": "Round of 32",
+      "R16": "Round of 16",
+      "QF": "Quarter Finals",
+      "SF": "Semi Finals",
+      "FINAL": "Final"
+    },
+    "card": {
+      "vs": "VS",
+      "predict": "PREDICT",
+      "edit": "EDIT",
+      "ongoing": "ONGOING",
+      "notPredicted": "Not predicted",
+      "predictionLabel": "Prediction: {home}-{away}",
+      "exact": "EXACT MATCH",
+      "partial": "PARTIAL MATCH",
+      "miss": "MISS",
+      "points": "{n, plural, one {+# PT} other {+# PTS}}",
+      "exactCount": "{n, plural, one {# got the exact result} other {# got the exact result}}",
+      "winnerPct": "{pct}% got the winner",
+      "alreadyPredicted": "{n, plural, one {# already predicted} other {# already predicted}}",
+      "avg": "Avg: {home}-{away}"
+    },
+    "calendar": {
+      "weekdays": ["S", "M", "T", "W", "T", "F", "S"]
+    },
+    "detail": {
+      "backToMatches": "Back to Matches",
+      "backToPredictions": "Back to Predictions",
+      "tabs": {
+        "info": "Match Info",
+        "discussion": "Discussion"
+      },
+      "hero": {
+        "ongoing": "ONGOING",
+        "vs": "VS"
+      },
+      "community": {
+        "title": "Predictions",
+        "empty": "No predictions yet",
+        "users": "{n, plural, one {# user} other {# users}}",
+        "loneWolf": "Lone wolf",
+        "loneWolfLabel": "Lone wolf — only one with this call",
+        "boldCall": "Bold call",
+        "boldCallLabel": "Bold call — against the odds"
+      },
+      "probability": {
+        "title": "Probability",
+        "draw": "DRAW",
+        "legendOdds": "Betting odds",
+        "legendCommunity": "Community ({total})"
+      },
+      "analysis": {
+        "title": "AI Analysis",
+        "default": "{home} and {away} face off in what promises to be an exciting encounter. Both teams bring strong form and tactical discipline to this matchup. Historical data suggests competitive balance, making this one of the more difficult matches to predict in the group stage.",
+        "source": "Based on betting odds from NBC Sports / Sky Bet (March 2026)"
+      },
+      "prediction": {
+        "title": "Your Prediction",
+        "enterScore": "ENTER SCORE",
+        "notYetPredicted": "NOT YET PREDICTED",
+        "matchInProgress": "MATCH IN PROGRESS",
+        "predicted": "PREDICTED",
+        "resultExact": "Exact match",
+        "resultWinner": "Winner correct",
+        "resultMiss": "Miss",
+        "save": "SAVE",
+        "saving": "SAVING...",
+        "cancel": "CANCEL",
+        "edit": "EDIT",
+        "predict": "PREDICT",
+        "editTitle": "Edit Prediction",
+        "createTitle": "Make Your Prediction",
+        "updateAction": "UPDATE PREDICTION",
+        "saveAction": "SAVE PREDICTION",
+        "failedSave": "Failed to save prediction"
+      },
+      "chat": {
+        "chat": "Chat",
+        "discussion": "Discussion",
+        "replyingTo": "Replying to comment...",
+        "cancel": "Cancel",
+        "failedLoad": "Failed to load messages",
+        "retry": "Retry",
+        "empty": "No messages yet. Start the conversation!",
+        "delete": "Delete",
+        "deleteConfirm": "Delete this comment and all its replies?",
+        "attachImage": "Attach image",
+        "placeholders": [
+          "Drop your hot take...",
+          "What's your call?",
+          "Go on, say it...",
+          "Talk your talk...",
+          "Brave enough to predict?",
+          "Stir the pot...",
+          "Your move, pundit...",
+          "What say you?",
+          "Call it like you see it...",
+          "Sound off..."
+        ],
+        "replyPlaceholders": [
+          "Fire back...",
+          "Your turn...",
+          "Agree? Disagree? Say it.",
+          "Go on...",
+          "Let them hear it...",
+          "Clap back..."
+        ]
+      }
+    }
+  },
+  "standings": {
+    "title": "Standings",
+    "emptyGroups": "No groups available yet",
+    "emptyKnockout": "No matches in this stage yet",
+    "all": "All",
+    "groupLabel": "GROUP {name}",
+    "columnTeam": "TEAM",
+    "stage": {
+      "GROUP": "Group Stage",
+      "R32": "Round of 32",
+      "R16": "Round of 16",
+      "QF": "Quarter Finals",
+      "SF": "Semi Finals",
+      "FINAL": "Final"
+    },
+    "ft": "FT",
+    "ongoing": "ONGOING"
+  },
+  "predictions": {
+    "title": "Predictions",
+    "groupLabel": "GROUP {name}",
+    "progress": "PROGRESS",
+    "floating": {
+      "summary": "CURRENT SUMMARY",
+      "incomplete": "Complete both scores before saving",
+      "unsaved": "{n, plural, one {# unsaved new prediction} other {# unsaved new predictions}}",
+      "discard": "Discard",
+      "save": "SAVE CHANGES",
+      "saving": "SAVING...",
+      "saved": "Predictions saved ✓"
+    },
+    "errors": {
+      "failed": "Failed to save predictions",
+      "partial": "Saved {saved} predictions. {failed} failed (matches may have started)."
+    }
+  },
+  "fixture": {
+    "title": "Fixture",
+    "roundOf32": "Round of 32",
+    "quarterFinals": "Quarter Finals",
+    "semisAndFinal": "Semi Finals & Final",
+    "final": "FINAL",
+    "live": "LIVE"
+  },
+  "activity": {
+    "title": "Activity",
+    "filters": {
+      "all": "All",
+      "comments": "Comments",
+      "events": "Events"
+    },
+    "empty": "No activity yet",
+    "loading": "Loading...",
+    "loadMore": "Load more activity",
+    "social": {
+      "reply": "Reply",
+      "loading": "Loading...",
+      "deleteReply": "Delete reply",
+      "delete": "Delete",
+      "attachImage": "Attach image",
+      "deleteReplyConfirm": "Delete this reply?",
+      "deleteCommentConfirm": "Delete this comment and all its replies?"
+    },
+    "composer": {
+      "post": "Post",
+      "attachImage": "Attach image",
+      "placeholders": [
+        "Drop your hot take...",
+        "What's your call?",
+        "Go on, say it...",
+        "Talk your talk...",
+        "Brave enough to predict?",
+        "Stir the pot...",
+        "Your move, pundit...",
+        "What say you?",
+        "Call it like you see it...",
+        "Sound off..."
+      ]
+    },
+    "replyPlaceholders": [
+      "Fire back...",
+      "Your turn...",
+      "Agree? Disagree? Say it.",
+      "Go on...",
+      "Let them hear it...",
+      "Clap back..."
+    ],
+    "highlights": {
+      "showMore": "Show {n} more",
+      "showLess": "Show less"
+    }
+  },
+  "profile": {
+    "title": "Edit Profile",
+    "subtitle": "Manage your arena identity and account preferences.",
+    "chooseAvatar": "Choose Avatar",
+    "changePhoto": "Change Photo",
+    "uploading": "Uploading...",
+    "orChooseAvatar": "or choose an avatar",
+    "photoHint": "JPG, GIF or PNG. Max 2MB.",
+    "fields": {
+      "nickname": "NICKNAME",
+      "fullName": "FULL NAME",
+      "email": "EMAIL ADDRESS",
+      "team": "MY TEAM",
+      "teamPlaceholder": "Select your country..."
+    },
+    "cancel": "Cancel",
+    "save": "Save Changes",
+    "saving": "Saving...",
+    "errors": {
+      "failedSave": "Failed to save profile",
+      "failedUpload": "Failed to upload photo",
+      "failedAvatar": "Failed to update avatar",
+      "failedPassword": "Failed to update password",
+      "passwordSuccess": "Password updated successfully"
+    },
+    "password": {
+      "title": "Change Password",
+      "description": "Update your password regularly to maintain high account integrity.",
+      "cta": "Update Password",
+      "current": "CURRENT PASSWORD",
+      "new": "NEW PASSWORD",
+      "update": "Update",
+      "saving": "Saving...",
+      "cancel": "Cancel"
+    }
+  },
+  "rules": {
+    "title": "Rules",
+    "comingSoon": "Coming soon."
+  },
+  "teams": {
+    "ALG": "Algeria",
+    "ARG": "Argentina",
+    "AUS": "Australia",
+    "AUT": "Austria",
+    "BEL": "Belgium",
+    "BIH": "Bosnia and Herzegovina",
+    "BRA": "Brazil",
+    "CAN": "Canada",
+    "CPV": "Cape Verde",
+    "COL": "Colombia",
+    "CRO": "Croatia",
+    "CUW": "Curaçao",
+    "CZE": "Czechia",
+    "COD": "DR Congo",
+    "ECU": "Ecuador",
+    "EGY": "Egypt",
+    "ENG": "England",
+    "FRA": "France",
+    "GER": "Germany",
+    "GHA": "Ghana",
+    "HAI": "Haiti",
+    "IRN": "Iran",
+    "IRQ": "Iraq",
+    "CIV": "Ivory Coast",
+    "JPN": "Japan",
+    "JOR": "Jordan",
+    "MEX": "Mexico",
+    "MAR": "Morocco",
+    "NED": "Netherlands",
+    "NZL": "New Zealand",
+    "NOR": "Norway",
+    "PAN": "Panama",
+    "PAR": "Paraguay",
+    "POR": "Portugal",
+    "QAT": "Qatar",
+    "KSA": "Saudi Arabia",
+    "SCO": "Scotland",
+    "SEN": "Senegal",
+    "RSA": "South Africa",
+    "KOR": "South Korea",
+    "ESP": "Spain",
+    "SWE": "Sweden",
+    "SUI": "Switzerland",
+    "TUN": "Tunisia",
+    "TUR": "Turkey",
+    "USA": "United States",
+    "URU": "Uruguay",
+    "UZB": "Uzbekistan"
+  },
+  "highlights": {
+    "rank_change_up": "{user} climbed {delta} spots to #{newRank}",
+    "rank_change_down": "{user} dropped {delta} spots to #{newRank}",
+    "exact_score": "{users} nailed the exact score on {match}!",
+    "day_leader": "{user} scored {points}pts today — best of the day!",
+    "global_stat": "Only {correct} of {total} predicted the winner of {match}",
+    "streak": "{user} is on a {count}-match prediction streak!",
+    "all_predicted": "{user} completed all {total} predictions!",
+    "bold_call": "{user} made a bold call on {match} — bookies give it only {prob}%!",
+    "lone_wolf": "{user} is the only one with a different call on {match}"
+  },
+  "auth": {
+    "login": {
+      "email": "EMAIL",
+      "emailPlaceholder": "you@email.com",
+      "password": "PASSWORD",
+      "passwordPlaceholder": "••••••••",
+      "submit": "LOG IN",
+      "invalid": "Invalid credentials",
+      "togglePassword": "PASSWORD",
+      "toggleOtp": "EMAIL CODE",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "otp": {
+        "sendCode": "SEND CODE",
+        "sendFailed": "Failed to send code",
+        "sentMessage": "We sent a 6-digit code to",
+        "code": "CODE",
+        "codePlaceholder": "123456",
+        "verify": "VERIFY",
+        "verifyFailed": "Verification failed",
+        "differentEmail": "Use a different email"
+      }
+    },
+    "register": {
+      "code": "INVITATION CODE",
+      "codePlaceholder": "PENCACHI-001",
+      "nickname": "NICKNAME",
+      "nicknamePlaceholder": "YourNickname",
+      "email": "EMAIL",
+      "emailPlaceholder": "you@email.com",
+      "password": "PASSWORD",
+      "passwordPlaceholder": "••••••••",
+      "favoriteTeam": "FAVORITE TEAM",
+      "teamPlaceholder": "Select a team (optional)",
+      "submit": "CREATE ACCOUNT",
+      "failed": "Registration failed",
+      "hasAccount": "Already have an account?",
+      "login": "Log in"
+    }
+  },
+  "api": {
+    "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "notFound": "Not found",
+    "invalidJson": "Invalid JSON body",
+    "unexpected": "An unexpected error occurred",
+    "rateLimited": "Too many requests, please try again later",
+    "profile": {
+      "nicknameLength": "Nickname must be 3-30 characters",
+      "nicknameTaken": "Nickname is already taken",
+      "invalidTeam": "Invalid team",
+      "invalidAvatar": "Invalid avatar preset",
+      "noFields": "No fields to update",
+      "failedSave": "Failed to save profile"
+    },
+    "password": {
+      "bothRequired": "Both current and new password are required",
+      "tooShort": "New password must be at least 6 characters",
+      "userNotFound": "User not found",
+      "currentIncorrect": "Current password is incorrect"
+    },
+    "register": {
+      "allRequired": "All fields are required",
+      "invalidEmail": "Invalid email format",
+      "nicknameChars": "Nickname can only contain letters, numbers, and underscores",
+      "passwordShort": "Password must be at least 6 characters",
+      "nicknameShort": "Nickname must be at least 3 characters",
+      "invalidCode": "Invalid or expired invitation code",
+      "invalidTeam": "Invalid team selection",
+      "emailTaken": "Email is already registered",
+      "nicknameTaken": "Nickname is already taken",
+      "uniqueViolation": "A unique constraint was violated"
+    },
+    "otp": {
+      "emailRequired": "Email is required",
+      "waitBefore": "Please wait before requesting another code",
+      "emailAndCodeRequired": "Email and code are required",
+      "invalidCode": "Invalid code",
+      "codeExpired": "Code expired, request a new one"
+    },
+    "prediction": {
+      "scoresRange": "Scores must be between 0 and 20",
+      "matchNotFound": "Match not found",
+      "deadlinePassed": "Prediction deadline has passed",
+      "afterStarted": "Cannot predict after match has started"
+    },
+    "upload": {
+      "noFile": "No file provided",
+      "invalidType": "Only JPEG, PNG, GIF, and WebP are allowed",
+      "tooLarge5": "File must be under 5MB",
+      "tooLarge2": "File must be under 2MB"
+    },
+    "comment": {
+      "messageEmpty": "Message cannot be empty",
+      "maxChars": "Maximum 500 characters",
+      "matchNotFound": "Match not found",
+      "notFound": "Not found",
+      "parentNotFound": "Parent comment not found",
+      "activityNotFound": "Activity not found"
+    }
+  },
+  "email": {
+    "otpSubject": "Your Pencachi login code",
+    "otpIntro": "Your one-time login code is:",
+    "otpExpiry": "This code expires in 10 minutes."
+  },
+  "admin": {
+    "title": "Admin Panel",
+    "reviewMatches": "Review Matches",
+    "predictionArena": "Prediction Arena",
+    "generateHighlights": "Generate Highlights",
+    "generating": "Generating..."
+  },
+  "arena": {
+    "title": "Prediction Arena",
+    "intro": "Predict special events for this week's matches (Wednesday–Sunday).",
+    "lockIn": "Lock in your picks before ",
+    "week": "Week {n}",
+    "countdown": {
+      "closed": "Closed",
+      "closesInDays": "Closes in {days}d {hours}h",
+      "closesInHours": "Closes in {hours}h {minutes}m",
+      "closesInMinutes": "Closes in {minutes}m"
+    },
+    "statusClosedPending": "Closed — pending resolution",
+    "statusResolved": "Resolved",
+    "yourScore": "Your score: {n} pts",
+    "noWeek": "No Prediction Arena this week yet",
+    "save": "SAVE",
+    "saving": "SAVING...",
+    "unsaved": "{n, plural, one {# unsaved prediction} other {# unsaved predictions}}",
+    "saved": "Predictions saved",
+    "errorSaving": "Error saving",
+    "leaders": {
+      "title": "Arena Leaders",
+      "subtitle": "The experts who dominate the special predictions.",
+      "colRank": "#",
+      "colUser": "User",
+      "colPoints": "Points",
+      "you": "(you)"
+    },
+    "history": {
+      "title": "History",
+      "week": "Week {n}",
+      "pts": "{n} pts"
+    },
+    "card": {
+      "statusCompleted": "Completed",
+      "statusClosed": "Closed",
+      "statusOpen": "Open",
+      "selectPrediction": "Select prediction",
+      "didNotHappen": "Didn't happen",
+      "correctPrediction": "Correct prediction",
+      "yourPrediction": "Your prediction: {pick}",
+      "wontHappen": "Won't happen",
+      "predictionLocked": "Prediction locked",
+      "yourPick": "You: {pick}",
+      "communityVotes": "Community votes"
+    },
+    "dropdown": {
+      "wontHappen": "❌ Won't happen",
+      "wontHappenShort": "Won't happen",
+      "choose": "Choose...",
+      "search": "Search country..."
+    },
+    "votes": {
+      "wontHappen": "Won't happen"
+    }
+  }
+}

@@ -1,0 +1,39 @@
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_USER: pencachi
+      POSTGRES_PASSWORD: pencachi
+      POSTGRES_DB: pencachi
+    volumes:
+      - pgdata_prod:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pencachi"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    ports:
+      - "3031:3000"
+    volumes:
+      - uploads_data:/app/public/uploads
+    environment:
+      DATABASE_URL: "postgresql://pencachi:pencachi@db:5432/pencachi"
+      NEXTAUTH_SECRET: "test-secret-local"
+      NEXTAUTH_URL: "http://localhost:3031"
+      API_FOOTBALL_KEY: ""
+      API_FOOTBALL_LEAGUE_ID: "1"
+      API_FOOTBALL_SEASON: "2026"
+      CRON_SECRET: "test-cron-secret"
+      AUTH_TRUST_HOST: "true"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata_prod:
+  uploads_data:

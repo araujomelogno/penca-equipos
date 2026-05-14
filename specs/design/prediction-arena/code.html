@@ -1,0 +1,440 @@
+<html class="dark"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#e7c268",
+                        "secondary": "#c9bffa",
+                        "on-tertiary-fixed": "#2f1400",
+                        "tertiary-fixed-dim": "#ffb780",
+                        "primary-fixed": "#ffdf96",
+                        "on-tertiary-fixed-variant": "#6f3800",
+                        "on-secondary-fixed-variant": "#474072",
+                        "surface-container-highest": "#353151",
+                        "surface-container-lowest": "#0e0928",
+                        "on-background": "#e5deff",
+                        "on-error-container": "#ffdad6",
+                        "on-surface-variant": "#d0c5b2",
+                        "surface-container-low": "#1b1736",
+                        "primary": "#ffe19e",
+                        "tertiary-container": "#ffb984",
+                        "on-secondary-container": "#b7aee7",
+                        "inverse-surface": "#e5deff",
+                        "surface-tint": "#e7c268",
+                        "surface-bright": "#393556",
+                        "surface-container": "#1f1b3b",
+                        "on-tertiary": "#4e2600",
+                        "on-surface": "#e5deff",
+                        "surface-dim": "#130f2e",
+                        "on-primary-fixed-variant": "#5a4400",
+                        "on-primary-fixed": "#251a00",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#353151",
+                        "inverse-primary": "#765a05",
+                        "secondary-container": "#474072",
+                        "background": "#130f2e",
+                        "surface": "#130f2e",
+                        "on-error": "#690005",
+                        "on-secondary": "#312959",
+                        "on-primary": "#3e2e00",
+                        "secondary-fixed": "#e5deff",
+                        "secondary-fixed-dim": "#c9bffa",
+                        "tertiary-fixed": "#ffdcc4",
+                        "outline": "#99907e",
+                        "tertiary": "#ffdec8",
+                        "surface-container-high": "#2a2646",
+                        "error-container": "#93000a",
+                        "outline-variant": "#4d4638",
+                        "inverse-on-surface": "#302c4c",
+                        "on-secondary-fixed": "#1b1343",
+                        "on-primary-container": "#695000",
+                        "primary-container": "#e9c46a",
+                        "on-tertiary-container": "#804407"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #0d0a21;
+            font-family: 'Inter', sans-serif;
+        }
+        .glass-panel {
+            background: rgba(27, 23, 54, 0.4);
+            backdrop-filter: blur(20px);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .gold-gradient {
+            background: linear-gradient(135deg, #ffe19e 0%, #e9c46a 100%);
+        }
+    </style>
+</head>
+<body class="text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#1b1736]/40 backdrop-blur-xl shadow-2xl shadow-black/40 h-16 flex items-center justify-between px-6">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 flex items-center justify-center rounded-xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="stylized golden octopus mascot logo for a world cup prediction platform, sleek professional vector art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpwdSGrPxiMbjzPUxGaCHCdiv4eR_wGtQiylFy51YxLzl8xbL4REqCwauDN_bw3jYD9quVUegwcqQvGIhF7FpnIyJ4V4X4Hn0DrdpqYhNBXpdH43MA7tBhz0XfszDpIpLpxhgHlVg3SFhcAndc4oZRRWtHwv0YpbW_wmLpfUWTHDlDtgRsHetCE37M_SsUZ-HSacEWnHhWgWeCWe7ZMfAvf12mLRmjf4JXlDfBfXxHozyqwMq2wb8UkL1glT6xNUhfddB9t8Dhdwf-"/>
+</div>
+<span class="font-headline font-black text-xl text-[#ffe19e] tracking-tighter">Arena de Eventos</span>
+</div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="font-headline font-bold text-sm tracking-tight text-[#ffe19e] transition-colors" href="#">Arena</a>
+<a class="font-headline font-bold text-sm tracking-tight text-[#e5deff]/70 hover:text-[#ffe19e] transition-colors" href="#">Partidos</a>
+<a class="font-headline font-bold text-sm tracking-tight text-[#e5deff]/70 hover:text-[#ffe19e] transition-colors" href="#">Fixture</a>
+<a class="font-headline font-bold text-sm tracking-tight text-[#e5deff]/70 hover:text-[#ffe19e] transition-colors" href="#">Perfil</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="flex flex-col items-end">
+<span class="text-[10px] uppercase tracking-widest text-[#ffe19e] font-bold">Puntos</span>
+<span class="font-headline font-black text-lg leading-none">2,450</span>
+</div>
+<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center border border-outline-variant/20">
+<span class="material-symbols-outlined text-[#ffe19e]">person</span>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-12 px-6 max-w-7xl mx-auto">
+<!-- Hero Section -->
+<section class="mb-12 relative overflow-hidden rounded-2xl p-10 bg-surface-container-low min-h-[240px] flex flex-col justify-center">
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-r from-surface-dim via-transparent to-transparent z-10"></div>
+<img class="w-full h-full object-cover opacity-30" data-alt="atmospheric wide shot of a futuristic football stadium at night with blue and gold lighting and motion blur" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASgNBlKqaxDX1Am5125J5wW0RAJPgqqcLtVDg104KPSH3d1IUrKUWEzC-uSjH45zN3hzVqqbuKpfewjsRtQtGLhFaqhZ09vcbIv4_u2BYbolt6YMIowLciwE-T9nQ1wxEYrahV62dRrNcEj9zh0iXNe3WMrvoH5WzBVkzcw_cIxEA9FfeRnv9oGv_RzW3pg894Fi4_GKS22zJWJNQJ62tO0VPIfA1NtJpyfbSwsAy6g0GLwgxn3Vky-U7vOhrp26QMx62Il463u_Sg"/>
+</div>
+<div class="relative z-20 max-w-xl">
+<span class="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-[0.2em] mb-4">Eventos Especiales</span>
+<h1 class="font-headline text-4xl md:text-5xl font-black text-on-surface tracking-tighter mb-4 italic">PREDICCIONES DEL ARENA</h1>
+<p class="text-on-surface-variant font-body text-lg max-w-md leading-relaxed">
+                    Domina el tablero con jugadas maestras. Gana puntos extra acertando los eventos más improbables del Mundial.
+                </p>
+</div>
+</section>
+<!-- Prediction Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Card 1: Pending (Mexico focus) -->
+<div class="bg-surface-container-high rounded-2xl p-6 shadow-xl flex flex-col justify-between transition-transform hover:scale-[1.02] duration-300">
+<div>
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline font-extrabold text-xl leading-tight">Primera Tarjeta Roja del Torneo</h3>
+<span class="px-2 py-1 bg-surface-container-highest text-[10px] font-bold uppercase text-primary tracking-widest rounded-md">Abierto</span>
+</div>
+<div class="mb-8">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 block">Seleccionar País</label>
+<button class="w-full bg-surface-container-lowest border border-outline-variant/15 rounded-xl px-4 py-3 flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<img alt="Mexico Flag" class="w-6 h-4 object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn5Gqe_O9fTqa717rdLnwYj5AItDqdvVZgHy_CVYqc4MC1UGZRRs04G72udAoMC-zFT0kT-G4AMQQPybS_5SIQejd4oxkpZK4FCiNqFOUJvl_eg__spnSx6xb5yGKgu9CW2z587QptJDAKUKWGi4roQis9G27A1iHab6PJWG4zK1Aa9r3Lat0N8TJRfD9IEGwovpdH6MWvpCcQIZrTVt8DUOLCSafLsDIwpVcWEnLW1M9lM_tXWKJ7ld_WZXmtmST0MfubZtrAZtwS"/>
+<span class="font-semibold text-on-surface">México</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">expand_more</span>
+</button>
+</div>
+</div>
+<div>
+<div class="mb-6 space-y-3">
+<div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter">
+<span class="text-on-surface-variant">Votos de la Comunidad</span>
+<span class="text-primary">México 45%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden flex">
+<div class="h-full gold-gradient" style="width: 45%"></div>
+<div class="h-full bg-secondary-container" style="width: 30%"></div>
+<div class="h-full bg-surface-bright" style="width: 25%"></div>
+</div>
+<div class="flex gap-4 text-[10px] font-medium text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full gold-gradient"></span> MEX 45%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-container"></span> BRA 30%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-surface-bright"></span> OTR 25%</span>
+</div>
+</div>
+<button class="w-full gold-gradient text-on-primary font-headline font-black text-xs uppercase tracking-widest py-4 rounded-xl shadow-[0_4px_20px_rgba(233,196,106,0.2)] active:scale-95 transition-all">
+                        Realizar Predicción
+                    </button>
+</div>
+</div>
+<!-- Card 2: Pending (Brasil focus) -->
+<div class="bg-surface-container-high rounded-2xl p-6 shadow-xl flex flex-col justify-between transition-transform hover:scale-[1.02] duration-300">
+<div>
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline font-extrabold text-xl leading-tight">Primer Autogol del Mundial</h3>
+<span class="px-2 py-1 bg-surface-container-highest text-[10px] font-bold uppercase text-primary tracking-widest rounded-md">Abierto</span>
+</div>
+<div class="mb-8">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 block">Seleccionar País</label>
+<button class="w-full bg-surface-container-lowest border border-outline-variant/15 rounded-xl px-4 py-3 flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<img alt="Brazil Flag" class="w-6 h-4 object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEaOc6yk8L-Uq7ZkJNN35KX-toSx_IEEnvIR-5CtXTWKYiQ5dPkpejTs_PvmYY1AwDln-sSiJPgF5XJwnjCW-1-y_EOmnzGXkBwyan8_F3MkN0zFo7q7BwoTtthU_yraOGFoTr0jN6KkCJ6C8M1VuResOA4jY3Neo5b3itVWFGuJ7-iRAzfVyUoT_bObWCxJarMcvLRppmHyzmrg5yAWPD_Yv_iFheqEdxkGclZ-WG0DQe5_8g_wW9L0t8p3UvfTjNZauzxQvBcZdr"/>
+<span class="font-semibold text-on-surface">Brasil</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">expand_more</span>
+</button>
+</div>
+</div>
+<div>
+<div class="mb-6 space-y-3">
+<div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter">
+<span class="text-on-surface-variant">Votos de la Comunidad</span>
+<span class="text-primary">Brasil 30%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden flex">
+<div class="h-full gold-gradient" style="width: 30%"></div>
+<div class="h-full bg-secondary-container" style="width: 45%"></div>
+<div class="h-full bg-surface-bright" style="width: 25%"></div>
+</div>
+<div class="flex gap-4 text-[10px] font-medium text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full gold-gradient"></span> BRA 30%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-container"></span> MEX 45%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-surface-bright"></span> OTR 25%</span>
+</div>
+</div>
+<button class="w-full gold-gradient text-on-primary font-headline font-black text-xs uppercase tracking-widest py-4 rounded-xl shadow-[0_4px_20px_rgba(233,196,106,0.2)] active:scale-95 transition-all">
+                        Realizar Predicción
+                    </button>
+</div>
+</div>
+<!-- Card 3: Completed (Winner state) -->
+<div class="bg-surface-bright border-2 border-primary/20 rounded-2xl p-6 shadow-2xl flex flex-col justify-between relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4">
+<span class="flex items-center gap-1 text-[#ffe19e] font-headline font-black text-sm bg-black/40 px-3 py-1 rounded-full backdrop-blur-md">
+                        +5 <span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+</span>
+</div>
+<div>
+<div class="flex justify-between items-start mb-6">
+<div class="max-w-[70%]">
+<h3 class="font-headline font-extrabold text-xl leading-tight">Equipo con más Córners</h3>
+<span class="px-2 py-1 bg-primary text-[10px] font-black uppercase text-on-primary tracking-widest rounded-md mt-2 inline-block">Completado</span>
+</div>
+</div>
+<div class="mb-8">
+<div class="w-full bg-primary/10 border border-primary/30 rounded-xl px-4 py-3 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img alt="Argentina Flag" class="w-6 h-4 object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDA2HxaM3R8uu7p1Fe1NeQxxdTDWRovj2UQx0uevh4ebaBSl2w22p9aVQcE3INRpaZDL5ceMYAvMPVUTSuR6Zf8GvGUCOu5OlFN5ODhMznFvCIYABJ_z8DON-kNu18ivWS12yw_Nq_nIptG8uwuzlpu7z2EDP3B8B7Y7rtJLT-tD68B79wYD9WL9v82SPGKP8d0-8s7-EV5yLs3JcgtipgZBHrRTaRdAKmHDxdBjutXZCmGJ7f_p4nbhsknrvHvcQsCtucN75l0wXz7"/>
+<span class="font-bold text-primary">Argentina</span>
+</div>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="text-[10px] font-bold text-primary mt-2 uppercase tracking-widest">Predicción Acertada</p>
+</div>
+</div>
+<div>
+<div class="mb-0 space-y-3 opacity-60">
+<div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter">
+<span class="text-on-surface-variant">Estadística Final</span>
+<span class="text-primary">ARG 12 - FRA 8</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden flex">
+<div class="h-full gold-gradient" style="width: 60%"></div>
+<div class="h-full bg-surface-variant" style="width: 40%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4: Closed -->
+<div class="bg-surface-container-high/50 rounded-2xl p-6 flex flex-col justify-between opacity-80 grayscale-[0.5]">
+<div>
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline font-extrabold text-xl leading-tight text-on-surface/50">Minuto del Primer Gol</h3>
+<span class="px-2 py-1 bg-surface-container-highest text-[10px] font-bold uppercase text-on-surface-variant tracking-widest rounded-md">Cerrado</span>
+</div>
+<div class="mb-8">
+<div class="w-full bg-surface-container-low border border-outline-variant/10 rounded-xl px-4 py-3 flex items-center justify-between cursor-not-allowed">
+<div class="flex items-center gap-3 opacity-40">
+<span class="material-symbols-outlined">schedule</span>
+<span class="font-semibold">Minutos 15 - 30</span>
+</div>
+</div>
+</div>
+</div>
+<div class="text-center py-4 border-t border-outline-variant/10">
+<span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Predicción bloqueada</span>
+</div>
+</div>
+<!-- Card 5: Pending (Generic) -->
+<div class="bg-surface-container-high rounded-2xl p-6 shadow-xl flex flex-col justify-between transition-transform hover:scale-[1.02] duration-300">
+<div>
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline font-extrabold text-xl leading-tight">Más Penaltis Atajados</h3>
+<span class="px-2 py-1 bg-surface-container-highest text-[10px] font-bold uppercase text-primary tracking-widest rounded-md">Abierto</span>
+</div>
+<div class="mb-8">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 block">Seleccionar País</label>
+<button class="w-full bg-surface-container-lowest border border-outline-variant/15 rounded-xl px-4 py-3 flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<img alt="Belgium Flag" class="w-6 h-4 object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_y3qPQ6-DHWc-VeKntZDG5aCRhxYTPNBSUD9CwftfltXI9SPK2beHS98VHMf3G5IXpGWX7iRVyV0Gdycz5L2bP0VOJhficxQT2q143ukb2YrRbd2_er10Vs_v1ABXmBdqjQfH4e8oGspjKfrldyKLbMYNuWRL1sL7WxqIAhQ43LUxQqNjFxqwxagODjAzirUTUnU3hohlsl2b43j3km2QPQ-t88IOP2YOH3HXVkWW3TtQsPwvsPt0wueuWxyzOzE-fWwxT17F7PIJ"/>
+<span class="font-semibold text-on-surface">Bélgica</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">expand_more</span>
+</button>
+</div>
+</div>
+<div>
+<div class="mb-6 space-y-3">
+<div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter">
+<span class="text-on-surface-variant">Votos de la Comunidad</span>
+<span class="text-primary">Bélgica 15%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden flex">
+<div class="h-full gold-gradient" style="width: 15%"></div>
+<div class="h-full bg-secondary-container" style="width: 60%"></div>
+<div class="h-full bg-surface-bright" style="width: 25%"></div>
+</div>
+<div class="flex gap-4 text-[10px] font-medium text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full gold-gradient"></span> BEL 15%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-container"></span> GER 60%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-surface-bright"></span> OTR 25%</span>
+</div>
+</div>
+<button class="w-full gold-gradient text-on-primary font-headline font-black text-xs uppercase tracking-widest py-4 rounded-xl shadow-[0_4px_20px_rgba(233,196,106,0.2)] active:scale-95 transition-all">
+                        Realizar Predicción
+                    </button>
+</div>
+</div>
+<!-- Card 6: Pending (New) -->
+<div class="bg-surface-container-high rounded-2xl p-6 shadow-xl flex flex-col justify-between transition-transform hover:scale-[1.02] duration-300">
+<div>
+<div class="flex justify-between items-start mb-6">
+<h3 class="font-headline font-extrabold text-xl leading-tight">Mejor Asistente del Torneo</h3>
+<span class="px-2 py-1 bg-surface-container-highest text-[10px] font-bold uppercase text-primary tracking-widest rounded-md">Abierto</span>
+</div>
+<div class="mb-8">
+<label class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-3 block">Seleccionar País</label>
+<button class="w-full bg-surface-container-lowest border border-outline-variant/15 rounded-xl px-4 py-3 flex items-center justify-between group">
+<div class="flex items-center gap-3">
+<img alt="Spain Flag" class="w-6 h-4 object-cover rounded-sm" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDH8S87sz32nASrWN4Zmj0Eez72gvS6iAHICOYp-dObTp5-NlnwzSZXEg8mjjTCuKwBgvXJyRRqwGD6HelstVmNmahHuzlnVDnAm8hDZ_3ETcOCwIJXMQM8ZOBwpLyp3-fy63ZeBf_VpmJainViTGpczM9v989yDE6YM72RWT9Gc-uS0_uQ5vxvVkig4cnMTPWXsXtk67S8MLT3a-lf8sve5GbduS263h6eokuw3muQG_wwppZ_bJuq-6uXF2tFLp2t8g5lnnmCZuKR"/>
+<span class="font-semibold text-on-surface">España</span>
+</div>
+<span class="material-symbols-outlined text-outline group-hover:text-primary transition-colors">expand_more</span>
+</button>
+</div>
+</div>
+<div>
+<div class="mb-6 space-y-3">
+<div class="flex justify-between text-[10px] font-bold uppercase tracking-tighter">
+<span class="text-on-surface-variant">Votos de la Comunidad</span>
+<span class="text-primary">España 25%</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-lowest rounded-full overflow-hidden flex">
+<div class="h-full gold-gradient" style="width: 25%"></div>
+<div class="h-full bg-secondary-container" style="width: 50%"></div>
+<div class="h-full bg-surface-bright" style="width: 25%"></div>
+</div>
+<div class="flex gap-4 text-[10px] font-medium text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full gold-gradient"></span> ESP 25%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary-container"></span> FRA 50%</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-surface-bright"></span> OTR 25%</span>
+</div>
+</div>
+<button class="w-full gold-gradient text-on-primary font-headline font-black text-xs uppercase tracking-widest py-4 rounded-xl shadow-[0_4px_20px_rgba(233,196,106,0.2)] active:scale-95 transition-all">
+                        Realizar Predicción
+                    </button>
+</div>
+</div>
+</div>
+<!-- Leaderboard Preview Section -->
+<section class="mt-20">
+<div class="flex items-end justify-between mb-8">
+<div>
+<h2 class="font-headline text-3xl font-black italic tracking-tighter">LÍDERES DE LA ARENA</h2>
+<p class="text-on-surface-variant text-sm mt-1">Los expertos que dominan las predicciones especiales.</p>
+</div>
+<button class="text-primary font-bold text-xs uppercase tracking-widest flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    Ver Ranking Completo <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<div class="bg-surface-container-low rounded-2xl overflow-hidden border border-outline-variant/10">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-highest/30">
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Rango</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Usuario</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Aciertos</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Multiplicador</th>
+<th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-on-surface-variant text-right">Puntos</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/5">
+<tr class="hover:bg-surface-bright/20 transition-colors">
+<td class="px-6 py-4 font-headline font-black text-primary">01</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-secondary-container flex items-center justify-center font-bold text-[10px]">JG</div>
+<span class="font-bold">JuanGol2026</span>
+</div>
+</td>
+<td class="px-6 py-4 font-medium">18</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-tertiary-container/20 text-tertiary-container text-[10px] font-bold rounded">x1.5</span>
+</td>
+<td class="px-6 py-4 font-headline font-black text-right">4,890</td>
+</tr>
+<tr class="hover:bg-surface-bright/20 transition-colors">
+<td class="px-6 py-4 font-headline font-black text-on-surface-variant">02</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-[10px]">SM</div>
+<span class="font-bold">SofiaMundial</span>
+</div>
+</td>
+<td class="px-6 py-4 font-medium">15</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-tertiary-container/20 text-tertiary-container text-[10px] font-bold rounded">x1.2</span>
+</td>
+<td class="px-6 py-4 font-headline font-black text-right">3,420</td>
+</tr>
+<tr class="hover:bg-surface-bright/20 transition-colors">
+<td class="px-6 py-4 font-headline font-black text-on-surface-variant">03</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-[10px]">RK</div>
+<span class="font-bold">R_Kahn_Predict</span>
+</div>
+</td>
+<td class="px-6 py-4 font-medium">14</td>
+<td class="px-6 py-4">
+<span class="px-2 py-0.5 bg-tertiary-container/20 text-tertiary-container text-[10px] font-bold rounded">x1.0</span>
+</td>
+<td class="px-6 py-4 font-headline font-black text-right">2,150</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</main>
+<!-- Footer Space for Desktop (No bottom nav per instructions for desktop layout optimization but keeping shell logic ready) -->
+<footer class="py-12 border-t border-outline-variant/10 mt-12">
+<div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-3">
+<img class="w-8 h-8 opacity-50 grayscale" data-alt="golden octopus mascot logo, professional vector" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBsBqO3bS75wRwdpdiw1B9LXlTPJ3d9rUWJhylhHrNrHC5vUXqZUSBSXy8cYhbnuxoCPuHhj9htD2yaGCWbU1WWy9gp7D1HwIqjokSfmBMb0LSHf3_kR6pQkHZSYgMJ4asC7zMea5_h6WlxjPCiYkOu4Xu4VVL0ClY7vqpt1JWqEaavgSWfYrociaCEsl5yG9tUETDyGVgsfmPds8t4paHMJK98I572MoMdeFi3OEjLEnB3CaBiBVhmQ5uqxLwnzhlcAs5qf827G8dc"/>
+<span class="font-headline font-bold text-on-surface-variant/50 uppercase tracking-widest text-sm">Arena de Eventos © 2026</span>
+</div>
+<div class="flex gap-8">
+<a class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant hover:text-primary transition-colors" href="#">Términos</a>
+<a class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant hover:text-primary transition-colors" href="#">Contacto</a>
+</div>
+</div>
+</footer>
+</body></html>

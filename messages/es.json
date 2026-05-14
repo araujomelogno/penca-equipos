@@ -1,0 +1,588 @@
+{
+  "header": {
+    "home": "INICIO",
+    "standings": "POSICIONES",
+    "fixture": "FIXTURE",
+    "matches": "PARTIDOS",
+    "predictions": "PRONÓSTICOS",
+    "activity": "ACTIVIDAD",
+    "arena": "ARENA",
+    "rules": "REGLAS",
+    "admin": "ADMIN",
+    "toggleNav": "Abrir navegación",
+    "editProfile": "Editar perfil",
+    "logOut": "Cerrar sesión",
+    "profileFallback": "Usuario",
+    "languageEnglish": "Inglés",
+    "languageSpanish": "Español",
+    "switchLanguage": "Cambiar idioma"
+  },
+  "home": {
+    "hero": {
+      "title": "COMPLETÁ TUS PRONÓSTICOS",
+      "cta": "IR A PRONÓSTICOS"
+    },
+    "stats": {
+      "matches": "PARTIDOS",
+      "accuracy": "ACIERTO",
+      "streak": "RACHA",
+      "predicted": "ACERTADOS",
+      "pending": "PENDIENTES"
+    },
+    "countdown": {
+      "title": "COMIENZA EN",
+      "days": "DÍAS",
+      "hours": "HRS",
+      "minutes": "MIN",
+      "seconds": "SEG"
+    },
+    "favorites": {
+      "title": "FAVORITOS"
+    },
+    "highlights": {
+      "title": "DESTACADOS",
+      "viewInFeed": "Ver en el feed de actividad →"
+    },
+    "nostradamus": {
+      "title": "Nostradamus",
+      "weekAndPoints": "Semana {week} · {points} pts",
+      "empty": "Aún no hay Nostradamus",
+      "cta": "Ver Prediction Arena →"
+    },
+    "arenaStatus": {
+      "open": "ARENA ABIERTA",
+      "inPlay": "ARENA EN JUEGO",
+      "week": "Semana {week}",
+      "predictWithin": "Pronosticá en {countdown}",
+      "lastChance": "Última oportunidad para pronosticar",
+      "resolving": "Resolviendo eventos...",
+      "goPredict": "Ir a pronosticar →",
+      "viewStatus": "Ver estado →"
+    },
+    "nextMatch": {
+      "title": "PRÓXIMO PARTIDO",
+      "vs": "VS"
+    },
+    "upcoming": {
+      "title": "PRÓXIMOS PARTIDOS",
+      "empty": "No hay partidos próximos",
+      "viewAll": "Ver todos los partidos",
+      "vs": "VS",
+      "predict": "PRONOSTICAR",
+      "yourPrediction": "Tu pronóstico: {home} - {away}",
+      "avg": "Promedio {home} - {away}",
+      "count": "{n, plural, one {# pronóstico} other {# pronósticos}}",
+      "beFirst": "Sé el primero en pronosticar"
+    },
+    "leaderboard": {
+      "title": "Tabla",
+      "empty": "La tabla se activa cuando empiezan los partidos",
+      "viewFull": "VER RANKING COMPLETO",
+      "pts": "{n} pts",
+      "youSuffix": " (vos)"
+    },
+    "feed": {
+      "title": "ACTIVIDAD",
+      "empty": "Todavía no hay actividad reciente"
+    },
+    "stage": {
+      "GROUP": "Fase de grupos",
+      "R16": "Octavos de final",
+      "QF": "Cuartos de final",
+      "SF": "Semifinales",
+      "FINAL": "Final",
+      "groupLabel": "Grupo {name}"
+    },
+    "you": "Vos"
+  },
+  "matches": {
+    "title": "Partidos 2026",
+    "today": "HOY",
+    "empty": "No hay partidos con esos filtros",
+    "status": {
+      "all": "Todos",
+      "scheduled": "Programados",
+      "ongoing": "En curso",
+      "finished": "Finalizados"
+    },
+    "stageFilter": {
+      "all": "Todos",
+      "allShort": "Todos",
+      "group": "GRUPO {letter}",
+      "groupShort": "{letter}"
+    },
+    "stage": {
+      "GROUP": "Fase de grupos",
+      "R32": "Dieciseisavos",
+      "R16": "Octavos de final",
+      "QF": "Cuartos de final",
+      "SF": "Semifinales",
+      "FINAL": "Final"
+    },
+    "card": {
+      "vs": "VS",
+      "predict": "PRONOSTICAR",
+      "edit": "EDITAR",
+      "ongoing": "EN CURSO",
+      "notPredicted": "Sin pronóstico",
+      "predictionLabel": "Pronóstico: {home}-{away}",
+      "exact": "EXACTO",
+      "partial": "PARCIAL",
+      "miss": "FALLO",
+      "points": "{n, plural, one {+# PT} other {+# PTS}}",
+      "exactCount": "{n, plural, one {# acertó el exacto} other {# acertaron el exacto}}",
+      "winnerPct": "{pct}% acertó al ganador",
+      "alreadyPredicted": "{n, plural, one {# ya pronosticó} other {# ya pronosticaron}}",
+      "avg": "Promedio {home} - {away}"
+    },
+    "calendar": {
+      "weekdays": ["D", "L", "M", "M", "J", "V", "S"]
+    },
+    "detail": {
+      "backToMatches": "Volver a Partidos",
+      "backToPredictions": "Volver a Pronósticos",
+      "tabs": {
+        "info": "Info del partido",
+        "discussion": "Discusión"
+      },
+      "hero": {
+        "ongoing": "EN CURSO",
+        "vs": "VS"
+      },
+      "community": {
+        "title": "Pronósticos",
+        "empty": "Todavía no hay pronósticos",
+        "users": "{n, plural, one {# usuario} other {# usuarios}}",
+        "loneWolf": "Lobo solitario",
+        "loneWolfLabel": "Lobo solitario — el único con este pronóstico",
+        "boldCall": "Apuesta arriesgada",
+        "boldCallLabel": "Apuesta arriesgada — contra las probabilidades"
+      },
+      "probability": {
+        "title": "Probabilidad",
+        "draw": "EMPATE",
+        "legendOdds": "Mercado de Apuestas",
+        "legendCommunity": "Comunidad ({total})"
+      },
+      "analysis": {
+        "title": "Análisis IA",
+        "default": "{home} y {away} se enfrentan en lo que promete ser un encuentro emocionante. Ambos equipos llegan con buena forma y disciplina táctica. Los datos históricos sugieren un balance competitivo, convirtiéndolo en uno de los partidos más difíciles de pronosticar en la fase de grupos.",
+        "source": "Basado en cuotas de NBC Sports / Sky Bet (marzo 2026)"
+      },
+      "prediction": {
+        "title": "Tu pronóstico",
+        "enterScore": "INGRESÁ EL RESULTADO",
+        "notYetPredicted": "SIN PRONOSTICAR",
+        "matchInProgress": "PARTIDO EN CURSO",
+        "predicted": "PRONOSTICADO",
+        "resultExact": "Exacto",
+        "resultWinner": "Ganador correcto",
+        "resultMiss": "Fallo",
+        "save": "GUARDAR",
+        "saving": "GUARDANDO...",
+        "cancel": "CANCELAR",
+        "edit": "EDITAR",
+        "predict": "PRONOSTICAR",
+        "editTitle": "Editar pronóstico",
+        "createTitle": "Hacé tu pronóstico",
+        "updateAction": "ACTUALIZAR PRONÓSTICO",
+        "saveAction": "GUARDAR PRONÓSTICO",
+        "failedSave": "No se pudo guardar el pronóstico"
+      },
+      "chat": {
+        "chat": "Chat",
+        "discussion": "Discusión",
+        "replyingTo": "Respondiendo al comentario...",
+        "cancel": "Cancelar",
+        "failedLoad": "No se pudieron cargar los mensajes",
+        "retry": "Reintentar",
+        "empty": "Todavía no hay mensajes. ¡Arrancá la conversación!",
+        "delete": "Eliminar",
+        "deleteConfirm": "¿Eliminar este comentario y todas sus respuestas?",
+        "attachImage": "Adjuntar imagen",
+        "placeholders": [
+          "Tirá tu pronóstico...",
+          "¿Cómo la ves?",
+          "Dale, bancátela...",
+          "Mandá mensaje...",
+          "¿Te animás a pronosticar?",
+          "Meté ruido...",
+          "Tu turno, experto...",
+          "¿Qué decís?",
+          "Decilo como lo sentís...",
+          "Dejá tu opinión..."
+        ],
+        "replyPlaceholders": [
+          "Respondé...",
+          "Tu turno...",
+          "¿De acuerdo? ¿En contra? Decilo.",
+          "Dale...",
+          "Que se enteren...",
+          "Contestá..."
+        ]
+      }
+    }
+  },
+  "standings": {
+    "title": "Posiciones",
+    "emptyGroups": "Todavía no hay grupos disponibles",
+    "emptyKnockout": "Todavía no hay partidos en esta fase",
+    "all": "Todos",
+    "groupLabel": "GRUPO {name}",
+    "columnTeam": "EQUIPO",
+    "stage": {
+      "GROUP": "Fase de grupos",
+      "R32": "Dieciseisavos",
+      "R16": "Octavos de final",
+      "QF": "Cuartos de final",
+      "SF": "Semifinales",
+      "FINAL": "Final"
+    },
+    "ft": "FT",
+    "ongoing": "EN CURSO"
+  },
+  "predictions": {
+    "title": "Pronósticos",
+    "groupLabel": "GRUPO {name}",
+    "progress": "PROGRESO",
+    "floating": {
+      "summary": "RESUMEN ACTUAL",
+      "incomplete": "Completá ambos marcadores antes de guardar",
+      "unsaved": "{n, plural, one {# pronóstico sin guardar} other {# pronósticos sin guardar}}",
+      "discard": "Descartar",
+      "save": "GUARDAR CAMBIOS",
+      "saving": "GUARDANDO...",
+      "saved": "Pronósticos guardados ✓"
+    },
+    "errors": {
+      "failed": "No se pudieron guardar los pronósticos",
+      "partial": "Se guardaron {saved} pronósticos. {failed} fallaron (los partidos ya pueden haber empezado)."
+    }
+  },
+  "fixture": {
+    "title": "Fixture",
+    "roundOf32": "Dieciseisavos",
+    "quarterFinals": "Cuartos de final",
+    "semisAndFinal": "Semifinales y Final",
+    "final": "FINAL",
+    "live": "EN VIVO"
+  },
+  "activity": {
+    "title": "Actividad",
+    "filters": {
+      "all": "Todo",
+      "comments": "Comentarios",
+      "events": "Eventos"
+    },
+    "empty": "Todavía no hay actividad",
+    "loading": "Cargando...",
+    "loadMore": "Ver más actividad",
+    "social": {
+      "reply": "Responder",
+      "loading": "Cargando...",
+      "deleteReply": "Eliminar respuesta",
+      "delete": "Eliminar",
+      "attachImage": "Adjuntar imagen",
+      "deleteReplyConfirm": "¿Eliminar esta respuesta?",
+      "deleteCommentConfirm": "¿Eliminar este comentario y todas sus respuestas?"
+    },
+    "composer": {
+      "post": "Publicar",
+      "attachImage": "Adjuntar imagen",
+      "placeholders": [
+        "Tirá tu pronóstico...",
+        "¿Cómo la ves?",
+        "Dale, bancátela...",
+        "Mandá mensaje...",
+        "¿Te animás a pronosticar?",
+        "Meté ruido...",
+        "Tu turno, experto...",
+        "¿Qué decís?",
+        "Decilo como lo sentís...",
+        "Dejá tu opinión..."
+      ]
+    },
+    "replyPlaceholders": [
+      "Respondé...",
+      "Tu turno...",
+      "¿De acuerdo? ¿En contra? Decilo.",
+      "Dale...",
+      "Que se enteren...",
+      "Contestá..."
+    ],
+    "highlights": {
+      "showMore": "Mostrar {n} más",
+      "showLess": "Mostrar menos"
+    }
+  },
+  "profile": {
+    "title": "Editar perfil",
+    "subtitle": "Gestioná tu identidad en la arena y las preferencias de la cuenta.",
+    "chooseAvatar": "Elegí un avatar",
+    "changePhoto": "Cambiar foto",
+    "uploading": "Subiendo...",
+    "orChooseAvatar": "o elegí un avatar",
+    "photoHint": "JPG, GIF o PNG. Máx 2MB.",
+    "fields": {
+      "nickname": "NICKNAME",
+      "fullName": "NOMBRE COMPLETO",
+      "email": "EMAIL",
+      "team": "MI EQUIPO",
+      "teamPlaceholder": "Elegí tu país..."
+    },
+    "cancel": "Cancelar",
+    "save": "Guardar cambios",
+    "saving": "Guardando...",
+    "errors": {
+      "failedSave": "No se pudo guardar el perfil",
+      "failedUpload": "No se pudo subir la foto",
+      "failedAvatar": "No se pudo actualizar el avatar",
+      "failedPassword": "No se pudo actualizar la contraseña",
+      "passwordSuccess": "Contraseña actualizada con éxito"
+    },
+    "password": {
+      "title": "Cambiar contraseña",
+      "description": "Actualizá tu contraseña regularmente para mantener la cuenta segura.",
+      "cta": "Actualizar contraseña",
+      "current": "CONTRASEÑA ACTUAL",
+      "new": "NUEVA CONTRASEÑA",
+      "update": "Actualizar",
+      "saving": "Guardando...",
+      "cancel": "Cancelar"
+    }
+  },
+  "rules": {
+    "title": "Reglas",
+    "comingSoon": "Próximamente."
+  },
+  "teams": {
+    "ALG": "Argelia",
+    "ARG": "Argentina",
+    "AUS": "Australia",
+    "AUT": "Austria",
+    "BEL": "Bélgica",
+    "BIH": "Bosnia y Herzegovina",
+    "BRA": "Brasil",
+    "CAN": "Canadá",
+    "CPV": "Cabo Verde",
+    "COL": "Colombia",
+    "CRO": "Croacia",
+    "CUW": "Curazao",
+    "CZE": "Chequia",
+    "COD": "RD del Congo",
+    "ECU": "Ecuador",
+    "EGY": "Egipto",
+    "ENG": "Inglaterra",
+    "FRA": "Francia",
+    "GER": "Alemania",
+    "GHA": "Ghana",
+    "HAI": "Haití",
+    "IRN": "Irán",
+    "IRQ": "Irak",
+    "CIV": "Costa de Marfil",
+    "JPN": "Japón",
+    "JOR": "Jordania",
+    "MEX": "México",
+    "MAR": "Marruecos",
+    "NED": "Países Bajos",
+    "NZL": "Nueva Zelanda",
+    "NOR": "Noruega",
+    "PAN": "Panamá",
+    "PAR": "Paraguay",
+    "POR": "Portugal",
+    "QAT": "Catar",
+    "KSA": "Arabia Saudita",
+    "SCO": "Escocia",
+    "SEN": "Senegal",
+    "RSA": "Sudáfrica",
+    "KOR": "Corea del Sur",
+    "ESP": "España",
+    "SWE": "Suecia",
+    "SUI": "Suiza",
+    "TUN": "Túnez",
+    "TUR": "Turquía",
+    "USA": "Estados Unidos",
+    "URU": "Uruguay",
+    "UZB": "Uzbekistán"
+  },
+  "highlights": {
+    "rank_change_up": "{user} subió {delta} puestos al #{newRank}",
+    "rank_change_down": "{user} bajó {delta} puestos al #{newRank}",
+    "exact_score": "Resultado exacto en {match}: {users}",
+    "day_leader": "{user} hizo {points}pts hoy — ¡el mejor del día!",
+    "global_stat": "Sólo {correct} de {total} acertaron al ganador de {match}",
+    "streak": "{user} tiene una racha de {count} partidos acertados!",
+    "all_predicted": "{user} completó los {total} pronósticos!",
+    "bold_call": "{user} se la jugó en {match} — ¡el mercado de apuestas le da sólo el {prob}%!",
+    "lone_wolf": "{user} es el único con un pronóstico distinto en {match}"
+  },
+  "auth": {
+    "login": {
+      "email": "EMAIL",
+      "emailPlaceholder": "tu@email.com",
+      "password": "CONTRASEÑA",
+      "passwordPlaceholder": "••••••••",
+      "submit": "INGRESAR",
+      "invalid": "Credenciales inválidas",
+      "togglePassword": "CONTRASEÑA",
+      "toggleOtp": "CÓDIGO POR EMAIL",
+      "noAccount": "¿No tenés cuenta?",
+      "signUp": "Registrate",
+      "otp": {
+        "sendCode": "ENVIAR CÓDIGO",
+        "sendFailed": "No se pudo enviar el código",
+        "sentMessage": "Enviamos un código de 6 dígitos a",
+        "code": "CÓDIGO",
+        "codePlaceholder": "123456",
+        "verify": "VERIFICAR",
+        "verifyFailed": "Verificación fallida",
+        "differentEmail": "Usar otro email"
+      }
+    },
+    "register": {
+      "code": "CÓDIGO DE INVITACIÓN",
+      "codePlaceholder": "PENCACHI-001",
+      "nickname": "NICKNAME",
+      "nicknamePlaceholder": "TuNickname",
+      "email": "EMAIL",
+      "emailPlaceholder": "tu@email.com",
+      "password": "CONTRASEÑA",
+      "passwordPlaceholder": "••••••••",
+      "favoriteTeam": "EQUIPO FAVORITO",
+      "teamPlaceholder": "Elegí un equipo (opcional)",
+      "submit": "CREAR CUENTA",
+      "failed": "Error al registrarse",
+      "hasAccount": "¿Ya tenés cuenta?",
+      "login": "Ingresar"
+    }
+  },
+  "api": {
+    "unauthorized": "No autorizado",
+    "forbidden": "Prohibido",
+    "notFound": "No encontrado",
+    "invalidJson": "Cuerpo JSON inválido",
+    "unexpected": "Ocurrió un error inesperado",
+    "rateLimited": "Demasiadas solicitudes, intentá de nuevo más tarde",
+    "profile": {
+      "nicknameLength": "El nickname debe tener entre 3 y 30 caracteres",
+      "nicknameTaken": "El nickname ya está en uso",
+      "invalidTeam": "Equipo inválido",
+      "invalidAvatar": "Avatar inválido",
+      "noFields": "No hay campos para actualizar",
+      "failedSave": "No se pudo guardar el perfil"
+    },
+    "password": {
+      "bothRequired": "Se requiere la contraseña actual y la nueva",
+      "tooShort": "La nueva contraseña debe tener al menos 6 caracteres",
+      "userNotFound": "Usuario no encontrado",
+      "currentIncorrect": "La contraseña actual es incorrecta"
+    },
+    "register": {
+      "allRequired": "Todos los campos son obligatorios",
+      "invalidEmail": "Formato de email inválido",
+      "nicknameChars": "El nickname sólo puede contener letras, números y guiones bajos",
+      "passwordShort": "La contraseña debe tener al menos 6 caracteres",
+      "nicknameShort": "El nickname debe tener al menos 3 caracteres",
+      "invalidCode": "Código de invitación inválido o vencido",
+      "invalidTeam": "Selección de equipo inválida",
+      "emailTaken": "El email ya está registrado",
+      "nicknameTaken": "El nickname ya está en uso",
+      "uniqueViolation": "Se violó una restricción de unicidad"
+    },
+    "otp": {
+      "emailRequired": "Se requiere el email",
+      "waitBefore": "Esperá antes de pedir otro código",
+      "emailAndCodeRequired": "Se requiere email y código",
+      "invalidCode": "Código inválido",
+      "codeExpired": "Código vencido, pedí uno nuevo"
+    },
+    "prediction": {
+      "scoresRange": "Los marcadores deben estar entre 0 y 20",
+      "matchNotFound": "Partido no encontrado",
+      "deadlinePassed": "El plazo para pronosticar ya pasó",
+      "afterStarted": "No se puede pronosticar después de que empezó el partido"
+    },
+    "upload": {
+      "noFile": "No se proporcionó ningún archivo",
+      "invalidType": "Sólo se permiten JPEG, PNG, GIF y WebP",
+      "tooLarge5": "El archivo debe ser menor a 5MB",
+      "tooLarge2": "El archivo debe ser menor a 2MB"
+    },
+    "comment": {
+      "messageEmpty": "El mensaje no puede estar vacío",
+      "maxChars": "Máximo 500 caracteres",
+      "matchNotFound": "Partido no encontrado",
+      "notFound": "No encontrado",
+      "parentNotFound": "Comentario padre no encontrado",
+      "activityNotFound": "Actividad no encontrada"
+    }
+  },
+  "email": {
+    "otpSubject": "Tu código de acceso a Pencachi",
+    "otpIntro": "Tu código de acceso único es:",
+    "otpExpiry": "Este código expira en 10 minutos."
+  },
+  "admin": {
+    "title": "Panel de Admin",
+    "reviewMatches": "Revisar Partidos",
+    "predictionArena": "Prediction Arena",
+    "generateHighlights": "Generar Highlights",
+    "generating": "Generando..."
+  },
+  "arena": {
+    "title": "Prediction Arena",
+    "intro": "Pronosticá eventos especiales para los partidos de esta semana (miércoles a domingo).",
+    "lockIn": "Cerrá tus picks antes del ",
+    "week": "Semana {n}",
+    "countdown": {
+      "closed": "Cerrada",
+      "closesInDays": "Cierra en {days}d {hours}h",
+      "closesInHours": "Cierra en {hours}h {minutes}m",
+      "closesInMinutes": "Cierra en {minutes}m"
+    },
+    "statusClosedPending": "Cerrada — esperando resolución",
+    "statusResolved": "Resuelta",
+    "yourScore": "Tu puntaje: {n} pts",
+    "noWeek": "Todavía no hay Prediction Arena esta semana",
+    "save": "GUARDAR",
+    "saving": "GUARDANDO...",
+    "unsaved": "{n, plural, one {# pronóstico sin guardar} other {# pronósticos sin guardar}}",
+    "saved": "Pronósticos guardados",
+    "errorSaving": "Error al guardar",
+    "leaders": {
+      "title": "Líderes de la Arena",
+      "subtitle": "Los expertos que dominan los pronósticos especiales.",
+      "colRank": "#",
+      "colUser": "Usuario",
+      "colPoints": "Puntos",
+      "you": "(vos)"
+    },
+    "history": {
+      "title": "Historial",
+      "week": "Semana {n}",
+      "pts": "{n} pts"
+    },
+    "card": {
+      "statusCompleted": "Completado",
+      "statusClosed": "Cerrado",
+      "statusOpen": "Abierto",
+      "selectPrediction": "Elegí tu pronóstico",
+      "didNotHappen": "No sucedió",
+      "correctPrediction": "Pronóstico correcto",
+      "yourPrediction": "Tu pronóstico: {pick}",
+      "wontHappen": "No va a suceder",
+      "predictionLocked": "Pronóstico bloqueado",
+      "yourPick": "Vos: {pick}",
+      "communityVotes": "Votos de la comunidad"
+    },
+    "dropdown": {
+      "wontHappen": "❌ No va a suceder",
+      "wontHappenShort": "No va a suceder",
+      "choose": "Elegí...",
+      "search": "Buscar país..."
+    },
+    "votes": {
+      "wontHappen": "No pasa"
+    }
+  }
+}

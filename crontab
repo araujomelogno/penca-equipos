@@ -1,0 +1,5 @@
+# Generate highlights at 23:00 UTC and 02:00 UTC daily
+# 23:00 catches European/African/Asian evening matches
+# 02:00 catches late Americas matches
+0 23 * * * . /etc/cron.env && curl -sf -X POST http://127.0.0.1:3000/api/cron/highlights -H "Authorization: Bearer $CRON_SECRET" >> /proc/1/fd/1 2>> /proc/1/fd/2
+0 2 * * * . /etc/cron.env && curl -sf -X POST http://127.0.0.1:3000/api/cron/highlights -H "Authorization: Bearer $CRON_SECRET" >> /proc/1/fd/1 2>> /proc/1/fd/2

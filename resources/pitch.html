@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pencachi — La penca del Mundial 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:ital,wght@0,500;0,700;0,800;1,800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #130f2e;
+    --bg-2: #1a1539;
+    --card: #2a2646;
+    --card-2: #332d55;
+    --input: #0e0928;
+    --gold: #ffe19e;
+    --gold-2: #e9c46a;
+    --text: #e5deff;
+    --muted: #8b8399;
+    --pink: #f7a6c7;
+    --purple: #b99cff;
+    --blue: #7bd1ff;
+    --green: #9ae6b4;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, sans-serif; }
+  body {
+    background:
+      radial-gradient(900px 600px at 15% -10%, rgba(233, 196, 106, 0.10), transparent 60%),
+      radial-gradient(800px 500px at 100% 10%, rgba(185, 156, 255, 0.10), transparent 60%),
+      radial-gradient(1000px 700px at 50% 110%, rgba(255, 225, 158, 0.06), transparent 70%),
+      var(--bg);
+    min-height: 100vh;
+  }
+  .display { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; font-weight: 800; letter-spacing: -0.02em; }
+  .italic { font-style: italic; }
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+
+  /* Layout */
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    backdrop-filter: blur(14px);
+    background: rgba(19, 15, 46, 0.72);
+    border-bottom: 1px solid rgba(229, 222, 255, 0.06);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand img { width: 36px; height: 36px; border-radius: 8px; }
+  .brand-name { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 20px; letter-spacing: -0.5px; }
+  .brand-name em { color: var(--gold); font-style: italic; font-weight: 800; }
+  .nav-links { display: flex; gap: 22px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .nav-links a { color: var(--muted); text-decoration: none; }
+  .nav-links a:hover { color: var(--text); }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 20px; border-radius: 999px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-2));
+    color: #1a1208; font-weight: 700; text-decoration: none; border: 0; cursor: pointer;
+    box-shadow: 0 6px 24px rgba(255, 225, 158, 0.2);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 32px rgba(255, 225, 158, 0.3); }
+  .btn.ghost {
+    background: transparent; color: var(--text);
+    border: 1px solid rgba(229, 222, 255, 0.18); box-shadow: none;
+  }
+  .btn.ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Hero */
+  .hero { padding: 96px 0 72px; position: relative; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 6px 14px; border-radius: 999px;
+    background: rgba(255, 225, 158, 0.08);
+    color: var(--gold); font-size: 12px; letter-spacing: 2px; text-transform: uppercase;
+    border: 1px solid rgba(255, 225, 158, 0.22);
+  }
+  .hero h1 {
+    font-family: 'Plus Jakarta Sans'; font-weight: 800; font-style: italic;
+    font-size: clamp(44px, 7vw, 88px);
+    letter-spacing: -2px; line-height: 1.02;
+    margin: 20px 0 22px;
+  }
+  .hero h1 .accent { color: var(--gold); }
+  .hero p.lead {
+    max-width: 640px; font-size: 20px; line-height: 1.55;
+    color: #c9c2e4;
+  }
+  .cta-row { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+  .hero-meta {
+    display: flex; gap: 32px; margin-top: 52px; flex-wrap: wrap;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 4px; }
+  .meta-val { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 28px; color: var(--gold); font-style: italic; }
+  .meta-lbl { color: var(--muted); font-size: 13px; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* Section headers */
+  .section { padding: 72px 0; }
+  .section-eyebrow { color: var(--gold); font-size: 12px; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; }
+  .section h2 {
+    font-family: 'Plus Jakarta Sans'; font-weight: 800; font-style: italic;
+    font-size: clamp(32px, 4vw, 52px);
+    letter-spacing: -1.5px; margin: 8px 0 16px;
+  }
+  .section h2 .accent { color: var(--gold); }
+  .section .sub { color: var(--muted); font-size: 17px; max-width: 640px; line-height: 1.5; }
+
+  /* Cards grid */
+  .grid { display: grid; gap: 20px; margin-top: 40px; }
+  .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 900px) { .grid.cols-3, .grid.cols-2 { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--card);
+    border: 1px solid rgba(229, 222, 255, 0.06);
+    border-radius: 20px;
+    padding: 28px;
+    position: relative; overflow: hidden;
+    transition: border-color .2s ease, transform .2s ease;
+  }
+  .card:hover { border-color: rgba(255, 225, 158, 0.3); transform: translateY(-3px); }
+  .card .icon-box {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: rgba(255, 225, 158, 0.12);
+    color: var(--gold);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 18px;
+    font-size: 22px;
+  }
+  .card h3 { font-family: 'Plus Jakarta Sans'; font-weight: 700; font-size: 20px; margin: 0 0 8px; letter-spacing: -0.5px; }
+  .card p { color: var(--muted); line-height: 1.55; font-size: 15px; margin: 0; }
+
+  /* Feature showcase (alternating) */
+  .showcase { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; margin-top: 48px; }
+  .showcase.reverse { grid-template-columns: 1fr 1fr; direction: rtl; }
+  .showcase.reverse > * { direction: ltr; }
+  .showcase h3 { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-style: italic; font-size: 34px; letter-spacing: -1px; margin: 12px 0 14px; }
+  .showcase h3 .accent { color: var(--gold); }
+  .showcase p { color: #c9c2e4; line-height: 1.6; font-size: 16px; }
+  .showcase ul { list-style: none; padding: 0; margin: 20px 0 0; }
+  .showcase ul li { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; color: #d6cfe8; font-size: 15px; }
+  .showcase ul li .material-symbols-outlined { color: var(--gold); font-size: 20px; margin-top: 1px; }
+  @media (max-width: 900px) { .showcase, .showcase.reverse { grid-template-columns: 1fr; } }
+
+  /* Mockups */
+  .mock {
+    background: var(--card);
+    border: 1px solid rgba(229, 222, 255, 0.08);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  }
+  .mock-title { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-style: italic; font-size: 22px; color: var(--text); letter-spacing: -0.5px; margin-bottom: 16px; }
+
+  /* Leaderboard mock */
+  .lb-row {
+    display: grid; grid-template-columns: 28px 32px 1fr auto;
+    gap: 12px; align-items: center;
+    padding: 10px 12px; border-radius: 12px;
+  }
+  .lb-row + .lb-row { margin-top: 4px; }
+  .lb-row.me { background: rgba(255, 225, 158, 0.08); border: 1px solid rgba(255, 225, 158, 0.22); }
+  .lb-pos { color: var(--muted); font-weight: 700; font-size: 13px; }
+  .lb-pos.top { color: var(--gold); }
+  .lb-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #b99cff, #7bd1ff); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: #130f2e; }
+  .lb-name { font-weight: 600; font-size: 14px; }
+  .lb-pts { font-family: 'Plus Jakarta Sans'; font-weight: 800; color: var(--gold); font-size: 16px; font-style: italic; }
+
+  /* Prediction mock */
+  .pred-row {
+    display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px;
+    align-items: center; padding: 14px; border-radius: 14px;
+    background: var(--input); border: 1px solid rgba(229, 222, 255, 0.06);
+  }
+  .pred-row + .pred-row { margin-top: 8px; }
+  .team { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 14px; }
+  .team.right { justify-content: flex-end; }
+  .flag { width: 28px; height: 20px; border-radius: 3px; background: var(--card-2); display: inline-block; }
+  .flag.arg { background: linear-gradient(to bottom, #75aadb 33%, #fff 33% 66%, #75aadb 66%); }
+  .flag.bra { background: #009639; position: relative; }
+  .flag.bra::after { content: ''; position: absolute; inset: 4px; background: #fedf00; clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%); }
+  .flag.fra { background: linear-gradient(to right, #002395 33%, #fff 33% 66%, #ed2939 66%); }
+  .flag.esp { background: linear-gradient(to bottom, #aa151b 25%, #f1bf00 25% 75%, #aa151b 75%); }
+  .score-box { display: flex; gap: 6px; align-items: center; }
+  .score-input { width: 40px; height: 40px; border-radius: 10px; background: var(--card); display: flex; align-items: center; justify-content: center; font-family: 'Plus Jakarta Sans'; font-weight: 800; font-size: 18px; color: var(--gold); border: 1px solid rgba(255, 225, 158, 0.3); }
+  .score-sep { color: var(--muted); font-weight: 700; }
+
+  /* Arena cards mock */
+  .arena-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .arena-card {
+    background: var(--input); border: 1px solid rgba(229, 222, 255, 0.08);
+    border-radius: 12px; padding: 12px; min-height: 100px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .arena-card.hit { border-color: rgba(255, 225, 158, 0.4); background: rgba(255, 225, 158, 0.08); }
+  .arena-title { font-size: 12px; font-weight: 700; letter-spacing: 0.3px; line-height: 1.25; }
+  .arena-pill { align-self: flex-start; font-size: 10px; padding: 3px 8px; border-radius: 999px; background: rgba(139, 131, 153, 0.15); color: var(--muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+  .arena-pill.gold { background: rgba(255, 225, 158, 0.15); color: var(--gold); }
+
+  /* Highlights mock */
+  .hl-item { display: flex; gap: 12px; padding: 12px; border-radius: 12px; background: var(--input); }
+  .hl-item + .hl-item { margin-top: 8px; }
+  .hl-icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .hl-icon.pink { background: rgba(247, 166, 199, 0.15); color: var(--pink); }
+  .hl-icon.gold { background: rgba(255, 225, 158, 0.15); color: var(--gold); }
+  .hl-icon.purple { background: rgba(185, 156, 255, 0.15); color: var(--purple); }
+  .hl-icon.orange { background: rgba(255, 176, 107, 0.15); color: #ffb06b; }
+  .hl-text { font-size: 14px; line-height: 1.45; color: #d6cfe8; }
+  .hl-text b { color: var(--gold); font-weight: 700; }
+
+  /* Stats strip */
+  .stats-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    background: linear-gradient(135deg, rgba(42, 38, 70, 0.6), rgba(19, 15, 46, 0.6));
+    border: 1px solid rgba(255, 225, 158, 0.15);
+    border-radius: 20px; padding: 32px;
+    margin-top: 40px;
+  }
+  .stats-strip .stat { text-align: center; }
+  .stats-strip .stat .val { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-style: italic; font-size: 42px; color: var(--gold); letter-spacing: -1px; }
+  .stats-strip .stat .lbl { color: var(--muted); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; margin-top: 4px; }
+  @media (max-width: 900px) { .stats-strip { grid-template-columns: repeat(2, 1fr); } }
+
+  /* Steps */
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px; }
+  .step { background: var(--card); border-radius: 16px; padding: 24px; border: 1px solid rgba(229, 222, 255, 0.06); position: relative; }
+  .step-num { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-style: italic; font-size: 36px; color: var(--gold); letter-spacing: -1px; line-height: 1; }
+  .step h4 { font-family: 'Plus Jakarta Sans'; font-weight: 700; font-size: 17px; margin: 12px 0 6px; letter-spacing: -0.3px; }
+  .step p { color: var(--muted); font-size: 14px; line-height: 1.5; margin: 0; }
+  @media (max-width: 900px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+
+  /* Scoring ribbon */
+  .scoring { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 28px; }
+  .score-chip { display: flex; align-items: center; gap: 12px; padding: 16px 22px; background: var(--card); border: 1px solid rgba(229, 222, 255, 0.08); border-radius: 14px; }
+  .score-chip .val { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-style: italic; font-size: 32px; color: var(--gold); letter-spacing: -1px; }
+  .score-chip .lbl { color: var(--muted); font-size: 14px; }
+
+  /* Closing CTA */
+  .cta-box {
+    background:
+      radial-gradient(600px 300px at 100% 0%, rgba(255, 225, 158, 0.18), transparent 60%),
+      radial-gradient(500px 250px at 0% 100%, rgba(185, 156, 255, 0.18), transparent 60%),
+      var(--card);
+    border: 1px solid rgba(255, 225, 158, 0.25);
+    border-radius: 24px; padding: 56px; text-align: center;
+    margin: 48px 0 40px;
+  }
+  .cta-box h2 { font-family: 'Plus Jakarta Sans'; font-weight: 800; font-style: italic; font-size: clamp(32px, 5vw, 52px); letter-spacing: -1.5px; margin: 0 0 14px; }
+  .cta-box h2 .accent { color: var(--gold); }
+  .cta-box p { color: #c9c2e4; font-size: 17px; max-width: 560px; margin: 0 auto 28px; }
+
+  footer { padding: 40px 0 60px; color: var(--muted); font-size: 13px; text-align: center; border-top: 1px solid rgba(229, 222, 255, 0.06); }
+  footer .brand-name em { color: var(--gold); }
+
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand">
+      <img src="public/logo-octopus.png" alt="Pencachi" onerror="this.style.display='none'" />
+      <div class="brand-name">Pen<em>cachi</em></div>
+    </div>
+    <nav class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#arena">Arena</a>
+      <a href="#howitworks">Cómo va</a>
+      <a href="#highlights">Highlights</a>
+    </nav>
+    <a href="#cta" class="btn"><span class="material-symbols-outlined">rocket_launch</span>Sumate</a>
+  </div>
+</header>
+
+<section class="hero wrap">
+  <span class="eyebrow"><span class="material-symbols-outlined" style="font-size:16px;">stadium</span>Mundial 2026 · USA · MEX · CAN</span>
+  <h1>La penca donde <span class="accent italic">sí</span><br/>te escuchan festejar.</h1>
+  <p class="lead">Pencachi es la penca privada del Mundial 2026 para tu grupo de amigos. Predicciones, chat en vivo, un leaderboard que calienta la previa, y una Arena semanal donde se corona al Nostradamus del grupo. Sin spam, sin extraños, solo ustedes.</p>
+  <div class="cta-row">
+    <a href="#cta" class="btn"><span class="material-symbols-outlined">mail</span>Pedí tu invitación</a>
+    <a href="#features" class="btn ghost"><span class="material-symbols-outlined">play_circle</span>Ver cómo funciona</a>
+  </div>
+  <div class="hero-meta">
+    <div class="meta-item"><span class="meta-val">48</span><span class="meta-lbl">Selecciones</span></div>
+    <div class="meta-item"><span class="meta-val">72+</span><span class="meta-lbl">Partidos</span></div>
+    <div class="meta-item"><span class="meta-val">EN / ES</span><span class="meta-lbl">Bilingüe</span></div>
+    <div class="meta-item"><span class="meta-val">Solo invitados</span><span class="meta-lbl">Grupo privado</span></div>
+  </div>
+</section>
+
+<section id="features" class="section wrap">
+  <div class="section-eyebrow">Lo que viene adentro</div>
+  <h2>Más que pronósticos.<br/><span class="accent italic">Es el grupo, pero con tabla.</span></h2>
+  <p class="sub">Toda la emoción de la previa, del entretiempo y del después, en un solo lugar que se siente de ustedes.</p>
+
+  <div class="grid cols-3">
+    <div class="card">
+      <div class="icon-box"><span class="material-symbols-outlined">sports_soccer</span></div>
+      <h3>Pronósticos simples</h3>
+      <p>Un tap y listo: resultado exacto vale 5 puntos, acertar ganador o empate vale 3. Sin fórmulas raras, sin planillas.</p>
+    </div>
+    <div class="card">
+      <div class="icon-box"><span class="material-symbols-outlined">leaderboard</span></div>
+      <h3>Leaderboard en vivo</h3>
+      <p>La tabla del grupo se actualiza apenas termina cada partido. Tu posición destaca con "(tú)" y podés subir o bajar cada jornada.</p>
+    </div>
+    <div class="card">
+      <div class="icon-box"><span class="material-symbols-outlined">forum</span></div>
+      <h3>Chat en cada partido</h3>
+      <p>Cargá una imagen, respondé al delirio de tu compadre, mandá el clásico "te lo dije". Un feed por partido, con likes y replies.</p>
+    </div>
+    <div class="card">
+      <div class="icon-box"><span class="material-symbols-outlined">bolt</span></div>
+      <h3>Arena semanal</h3>
+      <p>6 eventos especiales por semana: <em>"¿quién mete hat-trick?"</em>, <em>"¿habrá VAR polémico?"</em>. Predicen lunes y martes, se juega miércoles a domingo.</p>
+    </div>
+    <div class="card">
+      <div class="icon-box"><span class="material-symbols-outlined">auto_awesome</span></div>
+      <h3>Highlights diarios</h3>
+      <p>Cada noche el sistema arma las nuggets del día: la apuesta suicida que acertaste, tu racha, el que se trepó en la tabla, el "lobo solitario".</p>
+    </div>
+    <div class="card">
+      <div class="icon-box"><span class="material-symbols-outlined">psychology</span></div>
+      <h3>Probabilidades + IA</h3>
+      <p>Cada partido trae las odds reales y un análisis generado, comparado contra lo que predice tu comunidad. Datos para la chicana.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap">
+  <div class="stats-strip">
+    <div class="stat"><div class="val">5</div><div class="lbl">Puntos · Exacto</div></div>
+    <div class="stat"><div class="val">3</div><div class="lbl">Puntos · Ganador</div></div>
+    <div class="stat"><div class="val">6</div><div class="lbl">Eventos / Arena</div></div>
+    <div class="stat"><div class="val">24/7</div><div class="lbl">Feed social</div></div>
+  </div>
+</section>
+
+<section class="section wrap">
+  <div class="showcase">
+    <div>
+      <div class="section-eyebrow">Predicciones</div>
+      <h3>Pronosticá <span class="accent italic">sin fricción</span>.</h3>
+      <p>Abrís el partido, tocás los números, listo. Todo en la misma pantalla: tu predicción, la de la comunidad, el promedio, los íconos de "lobo solitario" 🐺 y "jugada suicida" 🔥 para cada uno que se animó contra las probabilidades.</p>
+      <ul>
+        <li><span class="material-symbols-outlined">check_circle</span>Edición in-place — sin formularios anidados</li>
+        <li><span class="material-symbols-outlined">check_circle</span>Vista de consenso del grupo antes del pitazo</li>
+        <li><span class="material-symbols-outlined">check_circle</span>Calendario con pills por día y filtro por grupo</li>
+      </ul>
+    </div>
+    <div class="mock">
+      <div class="mock-title">Cuartos de final</div>
+      <div class="pred-row">
+        <div class="team"><span class="flag arg"></span>Argentina</div>
+        <div class="score-box">
+          <div class="score-input">2</div><span class="score-sep">:</span><div class="score-input">1</div>
+        </div>
+        <div class="team right">Brasil<span class="flag bra"></span></div>
+      </div>
+      <div class="pred-row">
+        <div class="team"><span class="flag fra"></span>Francia</div>
+        <div class="score-box">
+          <div class="score-input">1</div><span class="score-sep">:</span><div class="score-input">1</div>
+        </div>
+        <div class="team right">España<span class="flag esp"></span></div>
+      </div>
+      <div style="margin-top:12px; font-size:12px; color:var(--muted); display:flex; gap:14px; align-items:center;">
+        <span class="material-symbols-outlined" style="font-size:16px; color:var(--gold);">groups</span>
+        24 predicciones del grupo · consenso: ARG 2-2 BRA
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section wrap">
+  <div class="showcase reverse">
+    <div>
+      <div class="section-eyebrow">Tabla</div>
+      <h3>La tabla que <span class="accent italic">todos miran</span>.</h3>
+      <p>Un leaderboard del grupo que se actualiza solo. Tu fila se resalta, ves cuántos puntos te separan del de arriba, y si bajaste dos posiciones, el sistema lo va a publicar en los highlights del día. Suerte con eso.</p>
+      <ul>
+        <li><span class="material-symbols-outlined">check_circle</span>Fuente única — misma query en home, perfil y standings</li>
+        <li><span class="material-symbols-outlined">check_circle</span>Rachas, subidas y caídas marcadas automáticamente</li>
+        <li><span class="material-symbols-outlined">check_circle</span>Avatar personalizado (pulpitos ✨) por usuario</li>
+      </ul>
+    </div>
+    <div class="mock">
+      <div class="mock-title">Tabla general</div>
+      <div class="lb-row">
+        <div class="lb-pos top">1</div>
+        <div class="lb-avatar" style="background: linear-gradient(135deg, #ffe19e, #e9c46a);">M</div>
+        <div class="lb-name">Martín</div>
+        <div class="lb-pts">87</div>
+      </div>
+      <div class="lb-row">
+        <div class="lb-pos top">2</div>
+        <div class="lb-avatar" style="background: linear-gradient(135deg, #f7a6c7, #b99cff);">S</div>
+        <div class="lb-name">Sofi</div>
+        <div class="lb-pts">82</div>
+      </div>
+      <div class="lb-row me">
+        <div class="lb-pos">3</div>
+        <div class="lb-avatar">L</div>
+        <div class="lb-name">Laura <span style="color:var(--muted); font-weight:400;">(tú)</span></div>
+        <div class="lb-pts">79</div>
+      </div>
+      <div class="lb-row">
+        <div class="lb-pos">4</div>
+        <div class="lb-avatar" style="background: linear-gradient(135deg, #7bd1ff, #9ae6b4);">J</div>
+        <div class="lb-name">Juanca</div>
+        <div class="lb-pts">71</div>
+      </div>
+      <div class="lb-row">
+        <div class="lb-pos">5</div>
+        <div class="lb-avatar" style="background: linear-gradient(135deg, #b99cff, #7bd1ff);">R</div>
+        <div class="lb-name">Ramiro</div>
+        <div class="lb-pts">68</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="arena" class="section wrap">
+  <div class="showcase">
+    <div>
+      <div class="section-eyebrow">Prediction Arena</div>
+      <h3>El que acierta gana el<br/><span class="accent italic">Nostradamus</span> de la semana.</h3>
+      <p>6 eventos especiales armados por la organización cada semana. Predicen de lunes a martes, se juega de miércoles a domingo. Acertar el equipo exacto vale 5 puntos. El que más suma se lleva el título (y el bullying positivo) de la semana.</p>
+      <ul>
+        <li><span class="material-symbols-outlined">check_circle</span>Dropdown con banderas — sin códigos de 3 letras feos</li>
+        <li><span class="material-symbols-outlined">check_circle</span>Ves los votos de la comunidad antes del deadline</li>
+        <li><span class="material-symbols-outlined">check_circle</span>Countdown con alerta cuando quedan &lt; 3 horas</li>
+      </ul>
+    </div>
+    <div class="mock">
+      <div class="mock-title">Semana 4 · Arena abierta</div>
+      <div class="arena-grid">
+        <div class="arena-card hit">
+          <span class="arena-pill gold">Correcto</span>
+          <div class="arena-title">¿Quién mete hat-trick?</div>
+          <div style="font-size:11px; color:var(--gold);">🇦🇷 Argentina</div>
+        </div>
+        <div class="arena-card">
+          <span class="arena-pill">Abierto</span>
+          <div class="arena-title">¿Habrá penal decisivo?</div>
+          <div style="font-size:11px; color:var(--muted);">Tu pick: 🇪🇸 España</div>
+        </div>
+        <div class="arena-card">
+          <span class="arena-pill">Abierto</span>
+          <div class="arena-title">¿Tarjeta roja esta jornada?</div>
+          <div style="font-size:11px; color:var(--muted);">Tu pick: 🇫🇷 Francia</div>
+        </div>
+        <div class="arena-card">
+          <span class="arena-pill">Abierto</span>
+          <div class="arena-title">¿Gol de tiro libre?</div>
+          <div style="font-size:11px; color:var(--muted);">Tu pick: 🇧🇷 Brasil</div>
+        </div>
+        <div class="arena-card">
+          <span class="arena-pill">Abierto</span>
+          <div class="arena-title">¿VAR polémico?</div>
+          <div style="font-size:11px; color:var(--muted);">Tu pick: 🇵🇹 Portugal</div>
+        </div>
+        <div class="arena-card">
+          <span class="arena-pill">Abierto</span>
+          <div class="arena-title">¿Partido 0-0?</div>
+          <div style="font-size:11px; color:var(--muted);">Tu pick: No pasa</div>
+        </div>
+      </div>
+      <div style="margin-top:14px; font-size:12px; color:var(--muted); display:flex; justify-content:space-between;">
+        <span><span class="material-symbols-outlined" style="font-size:14px; vertical-align:-3px;">schedule</span> Cierra martes 23:00 UTC</span>
+        <span style="color:var(--gold); font-weight:700;">12 del grupo ya votaron</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="highlights" class="section wrap">
+  <div class="showcase reverse">
+    <div>
+      <div class="section-eyebrow">Daily Highlights</div>
+      <h3>Cada noche, el grupo tiene <span class="accent italic">titulares</span>.</h3>
+      <p>Un proceso automático (cron, corre dos veces al día) arma las mejores historias del día: quién le pegó a una apuesta suicida, quién lleva 3 aciertos seguidos, quién cayó dos puestos, quién fue el único que predijo el batacazo. Conversación servida en bandeja.</p>
+      <ul>
+        <li><span class="material-symbols-outlined">check_circle</span>8 tipos de nuggets con prioridad y color propio</li>
+        <li><span class="material-symbols-outlined">check_circle</span>Publicado como "Pencachi" en el feed con logo propio</li>
+        <li><span class="material-symbols-outlined">check_circle</span>Cards en home: top 4 del día, clickables al partido</li>
+      </ul>
+    </div>
+    <div class="mock">
+      <div class="mock-title">Highlights de hoy</div>
+      <div class="hl-item">
+        <div class="hl-icon pink"><span class="material-symbols-outlined">casino</span></div>
+        <div class="hl-text"><b>Martín</b> le pegó a una apuesta <b>suicida</b>: predijo Japón 2-1 Alemania (probabilidad 8%). +5 puntos.</div>
+      </div>
+      <div class="hl-item">
+        <div class="hl-icon gold"><span class="material-symbols-outlined">target</span></div>
+        <div class="hl-text"><b>Sofi</b> clavó el resultado <b>exacto</b>: Francia 3-1 Dinamarca.</div>
+      </div>
+      <div class="hl-item">
+        <div class="hl-icon purple"><span class="material-symbols-outlined">person_alert</span></div>
+        <div class="hl-text"><b>Juanca</b> fue el <b>lobo solitario</b>: el único del grupo que predijo ganador a Marruecos.</div>
+      </div>
+      <div class="hl-item">
+        <div class="hl-icon orange"><span class="material-symbols-outlined">local_fire_department</span></div>
+        <div class="hl-text"><b>Laura</b> lleva <b>4 aciertos seguidos</b>. Calentita para la próxima fecha.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="howitworks" class="section wrap">
+  <div class="section-eyebrow">Cómo se juega</div>
+  <h2>De la invitación al <span class="accent italic">papelón grupal</span>.</h2>
+  <p class="sub">Cuatro pasos, sin cuentas nuevas raras, sin apps que instalar.</p>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>Recibís tu invite</h4>
+      <p>Un código del organizador. Grupo cerrado, solo gente que ya conocés.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>Entrás y pronosticás</h4>
+      <p>Email + contraseña o código OTP al mail. Elegís tu pulpito avatar y a jugar.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>Vivís el partido</h4>
+      <p>Chat por partido, comunidad visible, tabla que se mueve apenas termina el encuentro.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h4>Ganás (o pagás)</h4>
+      <p>El Nostradamus semanal y el campeón general se corona en la tabla. El premio lo arreglan ustedes.</p>
+    </div>
+  </div>
+
+  <div class="scoring">
+    <div class="score-chip"><span class="val">5</span><span class="lbl">Resultado exacto</span></div>
+    <div class="score-chip"><span class="val">3</span><span class="lbl">Ganador o empate</span></div>
+    <div class="score-chip"><span class="val">5</span><span class="lbl">Arena · equipo exacto</span></div>
+    <div class="score-chip"><span class="val">2</span><span class="lbl">Arena · pasó, otro equipo</span></div>
+    <div class="score-chip"><span class="val">1</span><span class="lbl">Arena · acertar "no pasa"</span></div>
+  </div>
+</section>
+
+<section id="cta" class="wrap">
+  <div class="cta-box">
+    <span class="eyebrow"><span class="material-symbols-outlined" style="font-size:16px;">groups</span>Grupo privado · Solo por invitación</span>
+    <h2 style="margin-top:18px;">Tu grupo tiene su<br/><span class="accent italic">propia penca</span>.</h2>
+    <p>Pedile al organizador el código de invitación, entrá, elegí pulpito, y empezá a ganarle a tus amigos con cara de nada.</p>
+    <div class="cta-row" style="justify-content: center;">
+      <a href="/login" class="btn"><span class="material-symbols-outlined">login</span>Ya tengo invitación</a>
+      <a href="mailto:laguiar@gmail.com?subject=Quiero%20entrar%20a%20Pencachi" class="btn ghost"><span class="material-symbols-outlined">mail</span>Pedir invitación</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="brand-name" style="font-size:16px; margin-bottom:8px;">Pen<em>cachi</em></div>
+    <div>Mundial 2026 · Hecho con cariño para los que no se pierden un partido.</div>
+  </div>
+</footer>
+
+</body>
+</html>
