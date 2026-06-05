@@ -1,6 +1,23 @@
 import { prisma } from "@/lib/prisma";
 import { POINTS_EXACT, POINTS_CORRECT_WINNER, KNOCKOUT_STAGES, STAGE_LABELS } from "./constants";
 
+// Uruguay does not observe DST; offset is permanently UTC-3.
+const APP_TZ = "America/Montevideo";
+const APP_TZ_OFFSET = "-03:00";
+
+function localDateKey(date: Date): string {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: APP_TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+  const y = parts.find((p) => p.type === "year")!.value;
+  const m = parts.find((p) => p.type === "month")!.value;
+  const d = parts.find((p) => p.type === "day")!.value;
+  return `${y}-${m}-${d}`;
+}
+
 // --- Exported Types ---
 
 export interface MatchCardData {
@@ -192,10 +209,10 @@ async function getFilteredMatches(filters: MatchesFilters) {
     }
   }
 
-  // Date filter
+  // Date filter (interpret the YYYY-MM-DD as a local Montevideo day)
   if (filters.date) {
-    const start = new Date(filters.date + "T00:00:00");
-    const end = new Date(filters.date + "T23:59:59.999");
+    const start = new Date(filters.date + "T00:00:00" + APP_TZ_OFFSET);
+    const end = new Date(filters.date + "T23:59:59.999" + APP_TZ_OFFSET);
     where.kickoffTime = { gte: start, lte: end };
   }
 
@@ -262,7 +279,7 @@ async function getAllMatchDates(): Promise<string[]> {
 
   const dateSet = new Set<string>();
   for (const r of rows) {
-    dateSet.add(r.kickoffTime.toISOString().split("T")[0]);
+    dateSet.add(localDateKey(r.kickoffTime));
   }
   return Array.from(dateSet);
 }
@@ -270,9 +287,7 @@ async function getAllMatchDates(): Promise<string[]> {
 export function buildDatePills(allDates: string[], selectedDate?: string): DatePill[] {
   if (allDates.length === 0) return [];
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const todayStr = today.toISOString().split("T")[0];
+  const todayStr = localDateKey(new Date());
   const center = selectedDate ?? todayStr;
 
   const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -316,8 +331,7 @@ export function groupByDate(matches: MatchCardData[]): DateGroup[] {
   const groups = new Map<string, MatchCardData[]>();
 
   for (const m of matches) {
-    const d = new Date(m.kickoffTime);
-    const dateKey = d.toISOString().split("T")[0];
+    const dateKey = localDateKey(new Date(m.kickoffTime));
 
     const arr = groups.get(dateKey) ?? [];
     arr.push(m);
