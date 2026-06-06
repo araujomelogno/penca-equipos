@@ -118,30 +118,31 @@ describe("computeBadges", () => {
     expect(badges).toEqual([]);
   });
 
-  it("returns bold_call when outcome prob <= 15%", () => {
+  it("returns bold_call for an extremely unlikely scoreline (blowout)", () => {
     const outcomes = { home: 3, draw: 2, away: 0 };
-    const probs = { home: 60, draw: 10, away: 30 };
-    const badges = computeBadges("1-1", outcomes, 5, probs);
-    expect(badges).toEqual(["bold_call"]);
+    const probs = { home: 60, draw: 25, away: 15 };
+    const badges = computeBadges("8-0", outcomes, 5, probs);
+    expect(badges).toContain("bold_call");
   });
 
-  it("does not return bold_call when prob > 15%", () => {
+  it("does not return bold_call for a likely scoreline", () => {
     const outcomes = { home: 3, draw: 2, away: 0 };
-    const probs = { home: 60, draw: 20, away: 20 };
-    const badges = computeBadges("1-1", outcomes, 5, probs);
-    expect(badges).toEqual([]);
+    const probs = { home: 40, draw: 30, away: 30 };
+    const badges = computeBadges("1-0", outcomes, 5, probs);
+    expect(badges).not.toContain("bold_call");
   });
 
-  it("does not return bold_call when prob is null", () => {
+  it("does not return bold_call when probs are null", () => {
     const outcomes = { home: 3, draw: 2, away: 0 };
-    const badges = computeBadges("1-1", outcomes, 5, noProbs);
+    const badges = computeBadges("8-0", outcomes, 5, noProbs);
     expect(badges).toEqual([]);
   });
 
   it("returns both badges when lone_wolf and bold_call apply", () => {
-    const outcomes = { home: 4, draw: 1, away: 0 };
-    const probs = { home: 70, draw: 10, away: 20 };
-    const badges = computeBadges("1-1", outcomes, 5, probs);
+    // home outcome predicted by exactly 1 user (lone wolf) + an unlikely scoreline (bold)
+    const outcomes = { home: 1, draw: 2, away: 2 };
+    const probs = { home: 50, draw: 25, away: 25 };
+    const badges = computeBadges("8-0", outcomes, 5, probs);
     expect(badges).toEqual(["lone_wolf", "bold_call"]);
   });
 

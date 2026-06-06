@@ -184,7 +184,7 @@ export function PredictionArenaView({ week, history, nostradamus, communityVotes
           <h1 className="page-title" style={{ marginBottom: 4 }}>{t("title")}</h1>
           <p style={{ fontSize: 13, color: "var(--color-text-muted)", lineHeight: 1.5, marginBottom: 4, maxWidth: 440 }}>
             {t("intro")}
-            {week && isOpen && <> {t("lockIn")}<strong style={{ color: "var(--color-text-primary)" }}>{new Date(week.deadline).toLocaleString(locale, { weekday: "long", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", timeZone: "UTC" })} UTC</strong>.</>}
+            {week && isOpen && <> {t("lockIn")}<strong style={{ color: "var(--color-text-primary)" }}>{new Date(week.deadline).toLocaleString(locale, { weekday: "long", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</strong>.</>}
           </p>
           {week && (
             <div className="flex items-center gap-2" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>

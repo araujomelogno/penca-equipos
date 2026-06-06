@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { isBoldCall } from "@/lib/boldness";
 
 // --- Exported Types ---
 
@@ -206,9 +207,9 @@ export function computeBadges(
     badges.push("lone_wolf");
   }
 
-  // Bold call: bookmaker probability for this outcome <= 15%
-  const prob = probs[outcome];
-  if (prob != null && prob > 0 && prob <= 15) {
+  // Bold call: the exact predicted scoreline is very unlikely (Poisson model).
+  const [homeGoals, awayGoals] = score.split("-").map(Number);
+  if (isBoldCall(homeGoals, awayGoals, probs)) {
     badges.push("bold_call");
   }
 

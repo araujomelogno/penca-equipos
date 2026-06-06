@@ -1,22 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import { POINTS_EXACT, POINTS_CORRECT_WINNER, KNOCKOUT_STAGES, STAGE_LABELS } from "./constants";
-
-// Uruguay does not observe DST; offset is permanently UTC-3.
-const APP_TZ = "America/Montevideo";
-const APP_TZ_OFFSET = "-03:00";
-
-function localDateKey(date: Date): string {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone: APP_TZ,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  }).formatToParts(date);
-  const y = parts.find((p) => p.type === "year")!.value;
-  const m = parts.find((p) => p.type === "month")!.value;
-  const d = parts.find((p) => p.type === "day")!.value;
-  return `${y}-${m}-${d}`;
-}
+import {
+  instantToDateKey,
+  dayRangeUtc,
+  todayDateKey,
+  defaultTimeZone,
+} from "@/lib/timezone";
+import { getTimeZone } from "@/lib/timezone.server";
 
 // --- Exported Types ---
 
@@ -82,13 +72,15 @@ export async function getMatchesData(
   userId: string,
   filters: MatchesFilters,
 ): Promise<MatchesData> {
+  const tz = await getTimeZone();
+
   const [stages, allMatchDates, matchRows] = await Promise.all([
     getAvailableStages(),
-    getAllMatchDates(),
-    getFilteredMatches(filters),
+    getAllMatchDates(tz),
+    getFilteredMatches(filters, tz),
   ]);
 
-  const datePills = buildDatePills(allMatchDates, filters.date);
+  const datePills = buildDatePills(allMatchDates, filters.date, tz);
 
   const matchIds = matchRows.map((m) => m.id);
 
@@ -173,7 +165,7 @@ export async function getMatchesData(
   });
 
   // Group by date
-  const dateGroups = groupByDate(matches);
+  const dateGroups = groupByDate(matches, tz);
 
   return {
     dateGroups,
@@ -187,7 +179,7 @@ export async function getMatchesData(
 
 // --- Filtered matches ---
 
-async function getFilteredMatches(filters: MatchesFilters) {
+async function getFilteredMatches(filters: MatchesFilters, tz: string) {
   const where: Record<string, unknown> = {};
 
   // Status filter
@@ -209,10 +201,9 @@ async function getFilteredMatches(filters: MatchesFilters) {
     }
   }
 
-  // Date filter (interpret the YYYY-MM-DD as a local Montevideo day)
+  // Date filter (day boundaries in the user's TZ)
   if (filters.date) {
-    const start = new Date(filters.date + "T00:00:00" + APP_TZ_OFFSET);
-    const end = new Date(filters.date + "T23:59:59.999" + APP_TZ_OFFSET);
+    const { start, end } = dayRangeUtc(filters.date, tz);
     where.kickoffTime = { gte: start, lte: end };
   }
 
@@ -271,7 +262,7 @@ async function getAvailableStages(): Promise<StageTab[]> {
 
 // --- Date pills ---
 
-async function getAllMatchDates(): Promise<string[]> {
+async function getAllMatchDates(tz: string): Promise<string[]> {
   const rows = await prisma.match.findMany({
     select: { kickoffTime: true },
     orderBy: { kickoffTime: "asc" },
@@ -279,15 +270,19 @@ async function getAllMatchDates(): Promise<string[]> {
 
   const dateSet = new Set<string>();
   for (const r of rows) {
-    dateSet.add(localDateKey(r.kickoffTime));
+    dateSet.add(instantToDateKey(r.kickoffTime, tz));
   }
   return Array.from(dateSet);
 }
 
-export function buildDatePills(allDates: string[], selectedDate?: string): DatePill[] {
+export function buildDatePills(
+  allDates: string[],
+  selectedDate?: string,
+  tz: string = defaultTimeZone,
+): DatePill[] {
   if (allDates.length === 0) return [];
 
-  const todayStr = localDateKey(new Date());
+  const todayStr = todayDateKey(tz);
   const center = selectedDate ?? todayStr;
 
   const dayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -314,12 +309,13 @@ export function buildDatePills(allDates: string[], selectedDate?: string): DateP
   }
 
   return selected.map((dateStr) => {
-    const d = new Date(dateStr + "T00:00:00");
+    const [y, m, d] = dateStr.split("-").map(Number);
+    const dow = new Date(Date.UTC(y, m - 1, d)).getUTCDay();
     return {
       date: dateStr,
-      dayOfWeek: dayNames[d.getDay()],
-      dayOfMonth: d.getDate(),
-      month: monthNames[d.getMonth()],
+      dayOfWeek: dayNames[dow],
+      dayOfMonth: d,
+      month: monthNames[m - 1],
       isToday: dateStr === todayStr,
     };
   });
@@ -327,12 +323,14 @@ export function buildDatePills(allDates: string[], selectedDate?: string): DateP
 
 // --- Group matches by date ---
 
-export function groupByDate(matches: MatchCardData[]): DateGroup[] {
+export function groupByDate(
+  matches: MatchCardData[],
+  tz: string = defaultTimeZone,
+): DateGroup[] {
   const groups = new Map<string, MatchCardData[]>();
 
   for (const m of matches) {
-    const dateKey = localDateKey(new Date(m.kickoffTime));
-
+    const dateKey = instantToDateKey(new Date(m.kickoffTime), tz);
     const arr = groups.get(dateKey) ?? [];
     arr.push(m);
     groups.set(dateKey, arr);
@@ -347,8 +345,9 @@ export function groupByDate(matches: MatchCardData[]): DateGroup[] {
   return [...groups.entries()]
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([dateKey, matches]) => {
-      const d = new Date(dateKey + "T12:00:00");
-      const label = `${dayNames[d.getDay()]} ${monthNames[d.getMonth()]} ${d.getDate()}`;
+      const [y, mo, d] = dateKey.split("-").map(Number);
+      const dow = new Date(Date.UTC(y, mo - 1, d)).getUTCDay();
+      const label = `${dayNames[dow]} ${monthNames[mo - 1]} ${d}`;
       return { dateLabel: label, dateKey, matches };
     });
 }

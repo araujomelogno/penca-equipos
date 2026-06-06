@@ -169,7 +169,7 @@ export function PredictionArenaAdmin() {
           <div style={{ fontSize: 12, color: "var(--color-text-muted)" }}>
             {week && <>Status: {week.status} · {matchCount} matches · </>}
             {deadline
-              ? `Deadline: ${new Date(deadline).toLocaleString("en", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} UTC`
+              ? `Deadline: ${new Date(deadline).toLocaleString("en", { weekday: "short", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}`
               : "Auto deadline: Sunday 23:00 UTC"}
           </div>
         </div>

@@ -151,7 +151,7 @@ export async function MatchHero({ data }: Props) {
         padding: "16px clamp(12px, 4vw, 32px)",
         borderRadius: 16,
         background:
-          "linear-gradient(180deg, #0e0928EE 0%, #0e0928BB 45%, #0e092866 100%), url('https://images.unsplash.com/photo-1728659964407-ed9a942ec2de?w=1080&q=80') center/cover",
+          "linear-gradient(180deg, #0e0928EE 0%, #0e0928BB 45%, #0e092866 100%), url('/match-hero-bg.jpg') center/cover",
       }}
     >
       {/* Main row: match info (left/center) + prediction (right on desktop, below on mobile) */}

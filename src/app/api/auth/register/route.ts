@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
 import { getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/prisma"; 
+import { prisma } from "@/lib/prisma";
 import { Prisma } from "@/generated/prisma/client";
 import { AVATAR_PRESETS, getPresetUrl } from "@/lib/avatarPresets";
 import { EMAIL_REGEX, NICKNAME_REGEX } from "@/lib/validation";

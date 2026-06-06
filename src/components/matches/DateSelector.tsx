@@ -55,9 +55,7 @@ function CalendarMonth({
   const firstDay = new Date(group.year, group.month - 1, 1).getDay();
   const daysInMonth = new Date(group.year, group.month, 0).getDate();
 
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  const todayStr = today.toISOString().split("T")[0];
+  const todayStr = new Intl.DateTimeFormat("en-CA").format(new Date());
 
   const cells: (number | null)[] = [];
   for (let i = 0; i < firstDay; i++) cells.push(null);

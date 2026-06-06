@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
+import { TimeZoneSync } from "@/components/TimeZoneSync";
 import "./globals.css";
 
 // Material Symbols for icons (used throughout the app)
@@ -44,6 +45,7 @@ export default async function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider locale={locale} messages={messages}>
+          <TimeZoneSync />
           {children}
         </NextIntlClientProvider>
       </body>

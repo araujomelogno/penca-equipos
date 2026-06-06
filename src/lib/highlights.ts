@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { POINTS_EXACT, POINTS_CORRECT_WINNER } from "@/lib/queries/constants";
 import type { HighlightNugget } from "@/lib/highlight-templates";
+import { isBoldCall, scorelineProbability } from "@/lib/boldness";
 
 // --- Dedupe key ---
 
@@ -368,34 +369,29 @@ async function boldCallNuggets(): Promise<HighlightNugget[]> {
   const nuggets: HighlightNugget[] = [];
 
   for (const m of matches) {
+    const probs = { home: m.homeWinProb, draw: m.drawProb, away: m.awayWinProb };
     for (const p of m.predictions) {
-      let predictedOutcome: "home" | "draw" | "away";
-      if (p.homeScore > p.awayScore) predictedOutcome = "home";
-      else if (p.homeScore === p.awayScore) predictedOutcome = "draw";
-      else predictedOutcome = "away";
+      // Bold call = the exact predicted scoreline is very unlikely (Poisson model)
+      if (!isBoldCall(p.homeScore, p.awayScore, probs)) continue;
 
-      const probMap = {
-        home: m.homeWinProb ?? 0,
-        draw: m.drawProb ?? 0,
-        away: m.awayWinProb ?? 0,
-      };
+      const pct =
+        scorelineProbability(p.homeScore, p.awayScore, {
+          home: m.homeWinProb ?? 0,
+          draw: m.drawProb ?? 0,
+          away: m.awayWinProb ?? 0,
+        }) * 100;
 
-      const prob = probMap[predictedOutcome];
-
-      // Bold call = predicted outcome has <= 15% probability
-      if (prob > 0 && prob <= 15) {
-        nuggets.push({
-          type: "bold_call",
-          i18nKey: "bold_call",
-          data: { prob: Math.round(prob) },
-          entities: { users: [p.userId], matches: [m.id] },
-          priority: 82,
-        });
-      }
+      nuggets.push({
+        type: "bold_call",
+        i18nKey: "bold_call",
+        data: { prob: Math.max(1, Math.round(pct)) },
+        entities: { users: [p.userId], matches: [m.id] },
+        priority: 82,
+      });
     }
   }
 
-  // Sort by boldest (lowest prob)
+  // Sort by boldest (lowest probability shown)
   nuggets.sort((a, b) => (a.data.prob as number) - (b.data.prob as number));
   return nuggets;
 }

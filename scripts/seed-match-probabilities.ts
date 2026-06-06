@@ -1,8 +1,12 @@
 /**
  * Seed match probabilities & AI analysis for all World Cup 2026 group-stage matches.
  *
- * Uses tournament odds (from NBC Sports / Sky Bet, March 2026) to derive
- * per-match win/draw/loss probabilities via a simple strength-ratio model.
+ * Uses tournament (outright winner) odds to derive per-match win/draw/loss
+ * probabilities via a simple strength-ratio model.
+ *
+ * Odds source: FanDuel (via Sports Illustrated), June 2026 — ~10 days before
+ * kickoff, refreshed from the original NBC/Sky Bet March 2026 numbers now that
+ * the playoff teams are decided. Algeria's number (400/1) is from Squawka.
  *
  * Run:  npx tsx scripts/seed-match-probabilities.ts
  */
@@ -18,27 +22,21 @@ import { PrismaPg } from "@prisma/adapter-pg";
 // We use this as a proxy for team "strength".
 
 const tournamentOdds: Record<string, number> = {
-  // Favorites
-  ESP: 450, ENG: 550, FRA: 750, BRA: 750, ARG: 800,
-  POR: 1100, GER: 1200, NED: 2000, NOR: 2500, BEL: 3000,
-  // Mid-tier
-  COL: 4000, MAR: 6000, USA: 6500, URU: 6500, MEX: 7000,
-  ECU: 8000, SUI: 9000, CRO: 9000, JPN: 9000,
-  // Longer shots
-  SEN: 10000, AUT: 15000, PAR: 17000, SCO: 20000, CAN: 20000,
-  // Underdogs
-  CIV: 25000, EGY: 25000, KOR: 30000, ALG: 30000,
-  GHA: 35000, RSA: 40000, TUN: 40000, IRN: 40000,
-  CPV: 50000, KSA: 50000, QAT: 50000, PAN: 50000,
-  NZL: 60000, HAI: 80000, UZB: 60000, JOR: 60000,
-  CUW: 100000,
-  // Playoff TBD — assign mid-range underdog strength
-  UPA: 15000,  // UEFA Playoff A (likely Italy)
-  UPB: 20000,  // UEFA Playoff B (likely Ukraine/Poland)
-  UPC: 20000,  // UEFA Playoff C (likely Turkey/Romania)
-  UPD: 15000,  // UEFA Playoff D (likely Denmark)
-  IP1: 50000,  // IC Playoff 1
-  IP2: 50000,  // IC Playoff 2
+  // Top favorites
+  ESP: 420, FRA: 460, ENG: 650, BRA: 850, POR: 1000, ARG: 1000,
+  GER: 1300, NED: 1600, BEL: 2200,
+  // Contenders
+  NOR: 3500, COL: 4000, JPN: 4500,
+  MAR: 6000, USA: 6000, URU: 6000, MEX: 6500, SUI: 6500, CRO: 7000,
+  TUR: 8000, ECU: 10000,
+  // Outsiders
+  SEN: 12500, AUT: 12500, CAN: 17500, SWE: 17500, CIV: 17500,
+  PAR: 20000, EGY: 25000, SCO: 30000, ALG: 40000, BIH: 40000,
+  GHA: 60000, CZE: 60000, KOR: 70000, IRN: 100000, TUN: 200000,
+  // Longest shots (+250000)
+  CPV: 250000, UZB: 250000, HAI: 250000, PAN: 250000, CUW: 250000,
+  QAT: 250000, KSA: 250000, NZL: 250000, AUS: 250000, COD: 250000,
+  IRQ: 250000, JOR: 250000, RSA: 250000,
 };
 
 /** Convert American odds (+X) to implied probability */
@@ -137,12 +135,14 @@ const teamDescriptions: Record<string, string> = {
   UZB: "Uzbekistan, Central Asia's debutants bringing technical skill and tactical discipline",
   JOR: "Jordan, making their remarkable World Cup debut after a surprising qualification campaign",
   CUW: "Curaçao, the tiny Caribbean island making a fairy-tale World Cup debut",
-  UPA: "The UEFA Playoff A winner, battling through qualification to earn their place",
-  UPB: "The UEFA Playoff B winner, a determined European side that fought through the playoffs",
-  UPC: "The UEFA Playoff C winner, emerging from a competitive European qualification path",
-  UPD: "The UEFA Playoff D winner, completing their qualification journey through the playoffs",
-  IP1: "The Intercontinental Playoff 1 winner, representing the global nature of football",
-  IP2: "The Intercontinental Playoff 2 winner, earning their spot through an intercontinental battle",
+  // Playoff qualifiers (decided March 2026)
+  TUR: "Turkey, a technically gifted side full of in-form European league talent after coming through the UEFA playoffs",
+  SWE: "Sweden, a physical and well-drilled Scandinavian side that battled through the playoffs",
+  BIH: "Bosnia and Herzegovina, a spirited side with quality in midfield that edged Italy in the playoffs",
+  CZE: "Czechia, a disciplined and organized European side with a knack for frustrating bigger nations",
+  COD: "DR Congo, a powerful and athletic African side making the most of their intercontinental playoff run",
+  IRQ: "Iraq, an emerging Asian side that earned their place through the intercontinental playoffs",
+  AUS: "Australia, the Socceroos bringing trademark grit and tournament experience from Asia",
 };
 
 function getDesc(code: string): string {

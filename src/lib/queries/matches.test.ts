@@ -95,4 +95,11 @@ describe("groupByDate", () => {
     const groups = groupByDate(matches);
     expect(groups[0].dateLabel).toMatch(/\w+ JUN 11/);
   });
+
+  it("groups a midnight-UTC kickoff under the previous day in Uruguay (UTC-3)", () => {
+    const m = makeMatch("2026-06-10", "x");
+    m.kickoffTime = new Date("2026-06-10T00:00:00Z"); // 2026-06-09 21:00 in UY
+    const groups = groupByDate([m], "America/Montevideo");
+    expect(groups[0].dateKey).toBe("2026-06-09");
+  });
 });
