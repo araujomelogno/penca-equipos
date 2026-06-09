@@ -102,23 +102,9 @@ export async function getMatchDetailData(
     getNavigation(match),
   ]);
 
-  // Community predictions: aggregate score distributions
-  const scoreCounts = new Map<string, number>();
-  for (const p of allPredictions) {
-    const key = `${p.homeScore}-${p.awayScore}`;
-    scoreCounts.set(key, (scoreCounts.get(key) ?? 0) + 1);
-  }
-
+  // Community predictions: aggregate score distributions (all scorelines, no cap)
   const totalPredictions = allPredictions.length;
-  const communityPredictions: ScoreDistribution[] = [...scoreCounts.entries()]
-    .map(([score, count]) => ({
-      score,
-      count,
-      percentage: totalPredictions > 0 ? Math.round((count / totalPredictions) * 100) : 0,
-      badges: [] as PredictionBadge[],
-    }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 4);
+  const communityPredictions = buildScoreDistribution(allPredictions);
 
   // Compute badges for each score row
   const outcomeCounts = countByOutcome(allPredictions);
@@ -142,6 +128,31 @@ export async function getMatchDetailData(
     commentCount,
     navigation,
   };
+}
+
+// --- Score distribution ---
+
+// Groups predictions by exact scoreline and returns every distinct scoreline
+// sorted by popularity (most-predicted first). No truncation: callers that want
+// a subset slice the result themselves.
+export function buildScoreDistribution(
+  predictions: { homeScore: number; awayScore: number }[],
+): ScoreDistribution[] {
+  const scoreCounts = new Map<string, number>();
+  for (const p of predictions) {
+    const key = `${p.homeScore}-${p.awayScore}`;
+    scoreCounts.set(key, (scoreCounts.get(key) ?? 0) + 1);
+  }
+
+  const total = predictions.length;
+  return [...scoreCounts.entries()]
+    .map(([score, count]) => ({
+      score,
+      count,
+      percentage: total > 0 ? Math.round((count / total) * 100) : 0,
+      badges: [] as PredictionBadge[],
+    }))
+    .sort((a, b) => b.count - a.count);
 }
 
 // --- Community odds calculation ---

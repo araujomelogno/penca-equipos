@@ -2,7 +2,12 @@ import { describe, it, expect, vi } from "vitest";
 
 vi.mock("@/lib/prisma", () => ({ prisma: {} }));
 
-import { computeCommunityOdds, countByOutcome, computeBadges } from "./matchDetail";
+import {
+  computeCommunityOdds,
+  countByOutcome,
+  computeBadges,
+  buildScoreDistribution,
+} from "./matchDetail";
 
 describe("computeCommunityOdds", () => {
   it("returns zeros for empty predictions", () => {
@@ -78,6 +83,53 @@ describe("computeCommunityOdds", () => {
       awayWin: 33,
       total: 3,
     });
+  });
+});
+
+describe("buildScoreDistribution", () => {
+  it("returns an empty array for no predictions", () => {
+    expect(buildScoreDistribution([])).toEqual([]);
+  });
+
+  it("returns ALL distinct scorelines without truncating (regression: was capped at top 4)", () => {
+    // 6 distinct scorelines among 9 users (mirrors ESP vs KSA in prod)
+    const predictions = [
+      { homeScore: 2, awayScore: 0 },
+      { homeScore: 2, awayScore: 0 },
+      { homeScore: 2, awayScore: 0 }, // 2-0 x3
+      { homeScore: 4, awayScore: 0 },
+      { homeScore: 4, awayScore: 0 }, // 4-0 x2
+      { homeScore: 3, awayScore: 0 }, // 3-0 x1
+      { homeScore: 4, awayScore: 1 }, // 4-1 x1
+      { homeScore: 2, awayScore: 2 }, // 2-2 x1 (lone wolf, previously hidden)
+      { homeScore: 0, awayScore: 1 }, // 0-1 x1 (lone wolf, previously hidden)
+    ];
+    const dist = buildScoreDistribution(predictions);
+    expect(dist).toHaveLength(6);
+    const scores = dist.map((d) => d.score);
+    expect(scores).toContain("2-2");
+    expect(scores).toContain("0-1");
+  });
+
+  it("sorts by count descending and computes count + percentage", () => {
+    const predictions = [
+      { homeScore: 1, awayScore: 0 },
+      { homeScore: 1, awayScore: 0 },
+      { homeScore: 0, awayScore: 0 },
+    ];
+    const dist = buildScoreDistribution(predictions);
+    expect(dist[0]).toMatchObject({ score: "1-0", count: 2, percentage: 67 });
+    expect(dist[1]).toMatchObject({ score: "0-0", count: 1, percentage: 33 });
+  });
+
+  it("total users across all rows equals the number of predictions", () => {
+    const predictions = [
+      { homeScore: 2, awayScore: 0 },
+      { homeScore: 2, awayScore: 2 },
+      { homeScore: 0, awayScore: 1 },
+    ];
+    const total = buildScoreDistribution(predictions).reduce((s, d) => s + d.count, 0);
+    expect(total).toBe(3);
   });
 });
 
