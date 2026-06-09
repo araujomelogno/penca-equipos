@@ -1,0 +1,9 @@
+
+# Pencachi highlights — 23:00 + 02:00 UTC daily.
+# The in-container dcron daemon wedges and never fires (investigated 2026-06-06),
+# so the host crontab is the real scheduler. 23:00 catches EU/AF/Asia evening
+# matches; 02:00 catches late Americas matches.
+0 23 * * * /opt/pencachi-prod/cron-trigger.sh /api/cron/highlights >> /var/log/pencachi-prod-highlights.log 2>&1
+0 2 * * *  /opt/pencachi-prod/cron-trigger.sh /api/cron/highlights >> /var/log/pencachi-prod-highlights.log 2>&1
+0 23 * * * /opt/pencachi/cron-trigger.sh /api/cron/highlights >> /var/log/pencachi-trunk-highlights.log 2>&1
+0 2 * * *  /opt/pencachi/cron-trigger.sh /api/cron/highlights >> /var/log/pencachi-trunk-highlights.log 2>&1

@@ -32,14 +32,19 @@ COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/src/generated ./src/generated
 COPY --from=builder /app/package.json ./package.json
 
-# Install only prisma CLI and seed deps in runner (avoids cherry-picking transitive deps)
-RUN npm install --no-save prisma@7.5.0 tsx bcryptjs dotenv
+# Runtime deps: prisma CLI (for `prisma db push` in entrypoint) and bcryptjs
+# (used by auth at runtime; not traced into .next/standalone). Clean the npm
+# cache in the same layer so the downloaded tarballs aren't baked into the image.
+RUN npm install --no-save prisma@7.5.0 bcryptjs && npm cache clean --force
 
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
-COPY crontab /etc/crontabs/root
 
-RUN apk add --no-cache su-exec dcron curl
+# su-exec only: drops privileges in entrypoint. Highlights cron runs on the
+# host droplet (see deploy/cron-trigger.sh), not in-container — the bundled
+# dcron daemon wedged and never fired. Healthcheck uses busybox wget, so curl
+# is not needed either.
+RUN apk add --no-cache su-exec
 
 EXPOSE 3000
 ENV PORT=3000

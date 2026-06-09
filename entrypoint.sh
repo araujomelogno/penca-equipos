@@ -9,10 +9,8 @@ echo "Running Prisma db push..."
 ./node_modules/.bin/prisma db push --accept-data-loss --url "$DATABASE_URL"
 echo "Prisma db push complete."
 
-# Write env for cron jobs and start cron daemon
-echo "CRON_SECRET=$CRON_SECRET" > /etc/cron.env
-crond -b -l 8
-echo "Cron daemon started."
+# Highlights are triggered by the host droplet's crontab (deploy/cron-trigger.sh),
+# not from inside this container — the bundled dcron daemon wedged and never fired.
 
 # Drop privileges and run as nextjs
 exec su-exec nextjs "$@"
