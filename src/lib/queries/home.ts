@@ -243,8 +243,10 @@ async function getParticipation(userId: string): Promise<ParticipationData> {
 }
 
 async function getFirstKickoff(): Promise<Date | null> {
+  // No status filter: once the first match goes LIVE/HALFTIME its kickoffTime is
+  // in the past and calcTimeLeft clamps to 0, which is what we want. Filtering
+  // by SCHEDULED would skip the in-progress match and count down to the next one.
   const match = await prisma.match.findFirst({
-    where: { status: "SCHEDULED" },
     orderBy: { kickoffTime: "asc" },
     select: { kickoffTime: true },
   });
