@@ -79,8 +79,13 @@ export async function syncMatchResults(
 
       updated++;
 
+      // True the first time we see this match as FINISHED (`match` is the
+      // pre-update snapshot, so `match.status` is the previous status).
+      const becameFinished =
+        apiStatus === "FINISHED" && match.status !== "FINISHED";
+
       // Create activity when transitioning to FINISHED
-      if (apiStatus === "FINISHED" && match.status !== "FINISHED") {
+      if (becameFinished) {
         await prisma.activity.upsert({
           where: { type_matchId: { type: "MATCH_RESULT", matchId: match.id } },
           create: { type: "MATCH_RESULT", matchId: match.id },
@@ -88,12 +93,15 @@ export async function syncMatchResults(
         });
       }
 
-      // Recalculate points if match is FINISHED and score changed
+      // Recalculate points when the match is FINISHED and we have a result,
+      // either because it just transitioned to FINISHED (the score may already
+      // have been persisted during a LIVE sync, so `scoreChanged` can be false)
+      // or because a finished score was later corrected.
       if (
         apiStatus === "FINISHED" &&
-        scoreChanged &&
         newHomeScore !== null &&
-        newAwayScore !== null
+        newAwayScore !== null &&
+        (becameFinished || scoreChanged)
       ) {
         const count = await recalculateMatchPoints(
           match.id,
