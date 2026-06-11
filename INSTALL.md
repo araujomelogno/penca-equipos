@@ -71,7 +71,7 @@ reemplace los IDs falsos por los reales, corré
 
 ```bash
 npm install
-npm run dev                      # http://localhost:3030
+npm run dev                      # http://localhost:3040
 ```
 
 **Producción (Docker):**

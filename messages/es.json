@@ -357,7 +357,55 @@
   },
   "rules": {
     "title": "Reglas",
-    "comingSoon": "Próximamente."
+    "intro": "Cómo se juega Pencachi — puntajes, cierres y la Arena semanal.",
+    "points": "{points, plural, one {# pt} other {# pts}}",
+    "penca": {
+      "title": "Pronósticos de partidos",
+      "intro": "Pronosticá el resultado de cada partido. Cuando termina, ganás:",
+      "exampleLabel": "Ejemplo: pronosticaste 2-1",
+      "exact": {
+        "label": "Resultado exacto",
+        "desc": "Clavaste el resultado final.",
+        "example": "Salió 2-1"
+      },
+      "winner": {
+        "label": "Acertaste el ganador",
+        "desc": "Acertaste quién ganaba (o el empate), pero no el resultado exacto.",
+        "example": "Salió 3-1"
+      },
+      "miss": {
+        "label": "Erraste",
+        "desc": "Ni el resultado ni el ganador.",
+        "example": "Salió 1-1"
+      },
+      "deadline": {
+        "title": "Cierres",
+        "desc": "Cada partido se cierra a la hora del kickoff. Hasta ese momento podés cargar o editar tu pronóstico."
+      },
+      "knockout": {
+        "title": "Partidos de eliminación",
+        "desc": "Mismo puntaje. Cuenta el resultado con alargue incluido; los penales no suman goles — un partido definido por penales puntúa como empate."
+      }
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "desc": "Tu total es la suma de puntos de todos los partidos terminados.",
+      "tiebreak": "Desempate: gana quien tenga más resultados exactos."
+    },
+    "arena": {
+      "title": "Prediction Arena",
+      "badge": "JUEGO APARTE",
+      "desc": "Un juego semanal paralelo con su propio ranking — los puntos de la Arena no suman al total de la penca.",
+      "schedule": "Elegí tus picks lunes y martes; los eventos van de miércoles a domingo.",
+      "scoringTitle": "Puntos por evento",
+      "scoring": {
+        "exact": "El evento pasó y acertaste el equipo",
+        "wrongTeam": "El evento pasó pero con otro equipo",
+        "noHappen": "Dijiste \"no pasa\" y no pasó",
+        "miss": "Cualquier otro caso"
+      }
+    },
+    "resultsNote": "Los resultados se sincronizan automáticamente poco después de terminar cada partido."
   },
   "teams": {
     "ALG": "Argelia",

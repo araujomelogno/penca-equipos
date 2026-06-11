@@ -56,7 +56,7 @@ export interface PredictNudge {
 }
 
 export interface HomeData {
-  hasLeaderboard: boolean;
+  tournamentStarted: boolean;
   leaderboard: LeaderboardEntry[];
   currentUserRank: number | null;
   userStats: UserStats;
@@ -71,12 +71,12 @@ export interface HomeData {
 }
 
 export async function getHomeData(userId: string): Promise<HomeData> {
-  // First check if leaderboard is needed before running expensive queries
-  const hasLeaderboard = await checkHasLeaderboard();
+  // First check if the tournament started before running expensive queries
+  const tournamentStarted = await checkTournamentStarted();
 
   const [leaderboardRaw, userPredictions, upcomingMatchesRaw, activityFeed, participation, firstKickoff, favorites, nextFavoriteMatch, latestHighlights, predictNudge] =
     await Promise.all([
-      hasLeaderboard ? getLeaderboardData() : Promise.resolve([]),
+      tournamentStarted ? getLeaderboardData() : Promise.resolve([]),
       getUserPredictions(userId),
       getUpcomingMatches(userId),
       getActivityFeed(userId),
@@ -94,7 +94,7 @@ export async function getHomeData(userId: string): Promise<HomeData> {
     leaderboardRaw.find((e) => e.id === userId)?.rank ?? null;
 
   return {
-    hasLeaderboard,
+    tournamentStarted,
     leaderboard: leaderboardRaw,
     currentUserRank,
     userStats,
@@ -109,9 +109,12 @@ export async function getHomeData(userId: string): Promise<HomeData> {
   };
 }
 
-async function checkHasLeaderboard(): Promise<boolean> {
+// The tournament is "started" as soon as the first kickoff time has passed.
+// Deliberately based on kickoffTime, NOT match status: status flips (LIVE/
+// FINISHED) depend on cron/admin syncs and can lag behind reality.
+export async function checkTournamentStarted(): Promise<boolean> {
   const count = await prisma.match.count({
-    where: { status: "FINISHED" },
+    where: { kickoffTime: { lte: new Date() } },
   });
   return count > 0;
 }
@@ -250,9 +253,11 @@ async function getParticipation(userId: string): Promise<ParticipationData> {
   };
 }
 
-async function getFirstKickoff(): Promise<Date | null> {
+// Earliest kickoff of the whole tournament, regardless of status.
+// A SCHEDULED-only filter would skip to the NEXT match once the opening
+// match goes LIVE, making the countdown show a wrong target.
+export async function getFirstKickoff(): Promise<Date | null> {
   const match = await prisma.match.findFirst({
-    where: { status: "SCHEDULED" },
     orderBy: { kickoffTime: "asc" },
     select: { kickoffTime: true },
   });

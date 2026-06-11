@@ -30,11 +30,13 @@ export default async function HomePage({
 
   // ?preview=active forces "Torneo Activo" state (admin only)
   const isPreview = isAdmin && preview === "active";
-  const hasLeaderboard = isPreview || data.hasLeaderboard;
+  const tournamentActive = isPreview || data.tournamentStarted;
 
-  // Dummy leaderboard for preview when no real data exists
+  // Dummy leaderboard only for admin preview when no real points exist yet.
+  // In the real active state the leaderboard is always shown, even if
+  // everyone still has 0 points (tournament started, nothing finished yet).
   const hasRealData = data.leaderboard.some((e) => e.totalPoints > 0);
-  const leaderboard = hasRealData ? data.leaderboard : isPreview ? [
+  const leaderboard = !hasRealData && isPreview ? [
     { id: "dummy-1", rank: 1, nickname: "Carlos_98", avatarUrl: null, totalPoints: 47 },
     { id: "dummy-2", rank: 2, nickname: "MariaPenca", avatarUrl: null, totalPoints: 41 },
     { id: "dummy-3", rank: 3, nickname: "GoalMaster", avatarUrl: null, totalPoints: 38 },
@@ -43,13 +45,13 @@ export default async function HomePage({
     { id: "dummy-6", rank: 6, nickname: "Pronostico", avatarUrl: null, totalPoints: 29 },
     { id: "dummy-7", rank: 7, nickname: "LaGloria", avatarUrl: null, totalPoints: 25 },
     { id: "dummy-8", rank: 8, nickname: "ElPulpo", avatarUrl: null, totalPoints: 22 },
-  ] : [];
+  ] : data.leaderboard;
 
   const userStats = isPreview && data.userStats.matchesFinished === 0
     ? { matchesFinished: 12, accuracy: 58, streak: 3 }
     : data.userStats;
 
-  if (hasLeaderboard) {
+  if (tournamentActive) {
     return (
       <div className="page-content">
         <PredictNudge nudge={data.predictNudge} />

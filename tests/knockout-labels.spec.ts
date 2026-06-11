@@ -4,7 +4,7 @@ import { test, expect } from "@playwright/test";
 test.describe("Knockout stage labels (ES locale)", () => {
   test.beforeEach(async ({ page, context, baseURL }) => {
     await context.addCookies([
-      { name: "NEXT_LOCALE", value: "es", url: baseURL ?? "http://localhost:3030" },
+      { name: "NEXT_LOCALE", value: "es", url: baseURL ?? "http://localhost:3040" },
     ]);
     await page.goto("/login");
     await page.locator('input[type="email"]').fill("admin@pencachi.com");

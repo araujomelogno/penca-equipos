@@ -357,7 +357,55 @@
   },
   "rules": {
     "title": "Rules",
-    "comingSoon": "Coming soon."
+    "intro": "How Pencachi works — scoring, deadlines and the weekly Arena.",
+    "points": "{points, plural, one {# pt} other {# pts}}",
+    "penca": {
+      "title": "Match predictions",
+      "intro": "Predict the score of every match. When it finishes, you earn:",
+      "exampleLabel": "Example: you predicted 2-1",
+      "exact": {
+        "label": "Exact score",
+        "desc": "You nailed the final score.",
+        "example": "It ended 2-1"
+      },
+      "winner": {
+        "label": "Right outcome",
+        "desc": "You called the winner (or the draw), but not the exact score.",
+        "example": "It ended 3-1"
+      },
+      "miss": {
+        "label": "Missed",
+        "desc": "Neither the score nor the outcome.",
+        "example": "It ended 1-1"
+      },
+      "deadline": {
+        "title": "Deadlines",
+        "desc": "Each match locks at kickoff. You can add or edit your prediction until then."
+      },
+      "knockout": {
+        "title": "Knockout matches",
+        "desc": "Same scoring. The score after extra time counts; penalty shootouts don't add goals — a match decided on penalties scores as a draw."
+      }
+    },
+    "leaderboard": {
+      "title": "Leaderboard",
+      "desc": "Your total is the sum of points across all finished matches.",
+      "tiebreak": "Tiebreaker: most exact scores wins."
+    },
+    "arena": {
+      "title": "Prediction Arena",
+      "badge": "SEPARATE GAME",
+      "desc": "A weekly side game with its own ranking — Arena points don't count toward your penca total.",
+      "schedule": "Pick on Monday and Tuesday; events run Wednesday to Sunday.",
+      "scoringTitle": "Points per event",
+      "scoring": {
+        "exact": "Event happened, right team",
+        "wrongTeam": "Event happened, different team",
+        "noHappen": "You said \"won't happen\" and it didn't",
+        "miss": "Anything else"
+      }
+    },
+    "resultsNote": "Results sync automatically shortly after each match ends."
   },
   "teams": {
     "ALG": "Algeria",

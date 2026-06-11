@@ -52,7 +52,7 @@ test.describe("Nav routes load with header (authenticated)", () => {
   });
 
   const routes = [
-    { path: "/home", title: "ENTER PREDICTIONS" },
+    { path: "/home", title: "Leaderboard" },
     { path: "/standings", title: "Standings" },
     { path: "/matches", title: "Matches" },
     { path: "/rules", title: "Rules" },
@@ -72,7 +72,11 @@ test.describe("Nav routes load with header (authenticated)", () => {
   }
 });
 
-test.describe("Home page (Pre-Mundial state)", () => {
+// The tournament started on 2026-06-11 (first kickoff in the seeded data),
+// so /home renders the "Torneo Activo" layout: leaderboard podium + user
+// stats. This holds even before any match FINISHES — the trigger is the
+// first kickoff time having passed, not match status.
+test.describe("Home page (Torneo Activo state)", () => {
   test.beforeEach(async ({ page }) => {
     await page.goto("/login");
     await page.locator('input[type="email"]').fill("admin@pencachi.com");
@@ -81,15 +85,14 @@ test.describe("Home page (Pre-Mundial state)", () => {
     await page.waitForURL(/\/home/, { timeout: 10000 });
   });
 
-  test("shows hero banner with ENTER PREDICTIONS CTA", async ({ page }) => {
-    await expect(page.getByText("COMPLETE YOUR PREDICTIONS")).toBeVisible();
-    await expect(page.getByText("ENTER PREDICTIONS")).toBeVisible();
+  test("shows leaderboard podium (even with everyone at 0 points)", async ({ page }) => {
+    await expect(page.getByRole("main").getByText("Leaderboard", { exact: true })).toBeVisible();
+    await expect(page.getByText("VIEW FULL RANKING")).toBeVisible();
   });
 
-  test("shows participation stats cards", async ({ page }) => {
-    await expect(page.getByText("PREDICTED")).toBeVisible();
-    await expect(page.getByText("PENDING")).toBeVisible();
-    await expect(page.getByRole("main").getByText("MATCHES")).toBeVisible();
+  test("shows user stats cards", async ({ page }) => {
+    await expect(page.getByText("ACCURACY")).toBeVisible();
+    await expect(page.getByText("STREAK")).toBeVisible();
   });
 
   test("shows activity feed section", async ({ page }) => {

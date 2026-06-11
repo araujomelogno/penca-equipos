@@ -12,7 +12,7 @@ import { chromium } from "@playwright/test";
 import fs from "node:fs";
 import path from "node:path";
 
-const BASE_URL = process.env.BASE_URL || "http://localhost:3030";
+const BASE_URL = process.env.BASE_URL || "http://localhost:3040";
 const label = process.argv[2] || "baseline";
 const outDir = path.join(".screenshots", label);
 

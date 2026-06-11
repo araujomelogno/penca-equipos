@@ -84,7 +84,7 @@ scripts/                 # Scripts utilitarios:
 - **Locale:** en-US (fechas, formatos numéricos, todo en inglés)
 - **Server vs Client components:** Preferir server components. Usar `"use client"` solo cuando se necesita interactividad (hooks, event handlers, polling).
 - **Data fetching:** Server components hacen queries Prisma directas. Client components usan API routes con `usePolling` para datos en tiempo real.
-- **Dev server:** Puerto 3030
+- **Dev server:** Puerto 3040
 
 ## 9. Reglas de negocio transversales
 - **BR-01:** Todas las rutas bajo `(main)/` requieren sesión autenticada. Sin sesión → redirect a `/login`.
