@@ -88,10 +88,16 @@ export async function syncMatchResults(
         });
       }
 
-      // Recalculate points if match is FINISHED and score changed
+      // Recalculate points when transitioning to FINISHED, or when a
+      // FINISHED match's score is corrected. The justFinished branch is
+      // critical: when the score was already persisted during a LIVE sync,
+      // scoreChanged is false on the LIVE→FINISHED tick and predictions
+      // would never get scored.
+      const justFinished =
+        apiStatus === "FINISHED" && match.status !== "FINISHED";
       if (
         apiStatus === "FINISHED" &&
-        scoreChanged &&
+        (justFinished || scoreChanged) &&
         newHomeScore !== null &&
         newAwayScore !== null
       ) {
