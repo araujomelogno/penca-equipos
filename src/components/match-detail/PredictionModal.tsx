@@ -127,7 +127,7 @@ export function PredictionModal({
                 fontSize: 28,
                 fontWeight: 900,
                 fontFamily: "var(--font-display)",
-                color: homeScore ? "var(--color-accent-gold)" : "#353151",
+                color: homeScore ? "var(--color-accent-gold)" : "var(--color-bg-elevated)",
                 borderRadius: 16,
               }}
             />
@@ -182,7 +182,7 @@ export function PredictionModal({
                 fontSize: 28,
                 fontWeight: 900,
                 fontFamily: "var(--font-display)",
-                color: awayScore ? "var(--color-accent-gold)" : "#353151",
+                color: awayScore ? "var(--color-accent-gold)" : "var(--color-bg-elevated)",
                 borderRadius: 16,
               }}
             />

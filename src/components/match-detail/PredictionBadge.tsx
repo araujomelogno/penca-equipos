@@ -98,30 +98,30 @@ export function PredictionBadge({
     if (userPrediction.points === 5) {
       resultBadge = {
         label: t("resultExact"),
-        color: "#4ade80",
-        bg: "#22c55e33",
-        border: "#22c55e4D",
+        color: "var(--color-success)",
+        bg: "color-mix(in srgb, var(--color-accent-green) 20%, transparent)",
+        border: "color-mix(in srgb, var(--color-accent-green) 30%, transparent)",
       };
     } else if (userPrediction.points === 3) {
       resultBadge = {
         label: t("resultWinner"),
-        color: "#4ade80",
-        bg: "#22c55e33",
-        border: "#22c55e4D",
+        color: "var(--color-success)",
+        bg: "color-mix(in srgb, var(--color-accent-green) 20%, transparent)",
+        border: "color-mix(in srgb, var(--color-accent-green) 30%, transparent)",
       };
     } else {
       resultBadge = {
         label: t("resultMiss"),
-        color: "#ffb4ab",
-        bg: "#ffb4ab1A",
-        border: "#ffb4ab33",
+        color: "var(--color-error-soft)",
+        bg: "color-mix(in srgb, var(--color-error-soft) 10%, transparent)",
+        border: "color-mix(in srgb, var(--color-error-soft) 20%, transparent)",
       };
     }
   }
 
   return (
     <div
-      className="flex flex-col items-center gap-2 lg:gap-3 shrink-0 w-full lg:w-[160px] lg:p-4 lg:rounded-xl lg:border lg:border-white/5 lg:bg-[#0e092880]"
+      className="flex flex-col items-center gap-2 lg:gap-3 shrink-0 w-full lg:w-[160px] lg:p-4 lg:rounded-xl lg:border lg:border-white/5 lg:bg-[color-mix(in_srgb,var(--color-bg-input)_50%,transparent)]"
     >
       {/* Header: title + status */}
       <div className="flex items-center gap-2 lg:flex-col lg:gap-1">
@@ -172,7 +172,7 @@ export function PredictionBadge({
               width: 48,
               height: 48,
               borderRadius: 12,
-              background: "var(--color-bg-input, #1a1540)",
+              background: "var(--color-bg-input)",
             }}
           >
             <input
@@ -193,7 +193,7 @@ export function PredictionBadge({
                 fontFamily: "var(--font-display)",
                 color: homeScore
                   ? "var(--color-accent-gold)"
-                  : "#e5deff4D",
+                  : "color-mix(in srgb, var(--color-text-primary) 30%, transparent)",
                 borderRadius: 12,
               }}
             />
@@ -203,7 +203,7 @@ export function PredictionBadge({
               fontSize: 16,
               fontWeight: 900,
               fontFamily: "var(--font-body)",
-              color: "#e5deff33",
+              color: "color-mix(in srgb, var(--color-text-primary) 20%, transparent)",
             }}
           >
             :
@@ -214,7 +214,7 @@ export function PredictionBadge({
               width: 48,
               height: 48,
               borderRadius: 12,
-              background: "var(--color-bg-input, #1a1540)",
+              background: "var(--color-bg-input)",
             }}
           >
             <input
@@ -234,7 +234,7 @@ export function PredictionBadge({
                 fontFamily: "var(--font-display)",
                 color: awayScore
                   ? "var(--color-accent-gold)"
-                  : "#e5deff4D",
+                  : "color-mix(in srgb, var(--color-text-primary) 30%, transparent)",
                 borderRadius: 12,
               }}
             />
@@ -245,8 +245,8 @@ export function PredictionBadge({
           className="flex items-center gap-3 py-1.5 px-4 lg:py-2 lg:px-5"
           style={{
             borderRadius: 12,
-            background: "#0e092880",
-            border: "1px solid #FFFFFF0D",
+            background: "color-mix(in srgb, var(--color-bg-input) 50%, transparent)",
+            border: "1px solid var(--color-border-subtle)",
           }}
         >
           <span
@@ -256,7 +256,7 @@ export function PredictionBadge({
               fontFamily: "var(--font-display)",
               color: userPrediction
                 ? "var(--color-accent-gold)"
-                : "#e5deff4D",
+                : "color-mix(in srgb, var(--color-text-primary) 30%, transparent)",
             }}
           >
             {userPrediction?.homeScore ?? "-"}
@@ -266,7 +266,7 @@ export function PredictionBadge({
               fontSize: 16,
               fontWeight: 900,
               fontFamily: "var(--font-body)",
-              color: userPrediction ? "#e5deff80" : "#e5deff1A",
+              color: userPrediction ? "color-mix(in srgb, var(--color-text-primary) 50%, transparent)" : "color-mix(in srgb, var(--color-text-primary) 10%, transparent)",
             }}
           >
             :
@@ -278,7 +278,7 @@ export function PredictionBadge({
               fontFamily: "var(--font-display)",
               color: userPrediction
                 ? "var(--color-accent-gold)"
-                : "#e5deff4D",
+                : "color-mix(in srgb, var(--color-text-primary) 30%, transparent)",
             }}
           >
             {userPrediction?.awayScore ?? "-"}
@@ -339,7 +339,7 @@ export function PredictionBadge({
               borderRadius: 12,
               fontSize: 10,
               ...(userPrediction
-                ? { borderColor: "#e9c46a4D", color: "var(--color-accent-amber)" }
+                ? { borderColor: "color-mix(in srgb, var(--color-accent-amber) 30%, transparent)", color: "var(--color-accent-amber)" }
                 : {}),
             }}
           >

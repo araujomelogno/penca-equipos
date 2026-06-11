@@ -21,7 +21,7 @@ export async function NostradamusCard() {
             fontSize: 14,
             fontWeight: 700,
             fontFamily: "var(--font-display)",
-            color: "#c084fc",
+            color: "var(--color-accent-violet)",
           }}
         >
           {t("title")}
@@ -39,7 +39,7 @@ export async function NostradamusCard() {
                 height: 44,
                 borderRadius: "50%",
                 objectFit: "cover",
-                border: "2px solid #c084fc",
+                border: "2px solid var(--color-accent-violet)",
               }}
             />
           ) : (
@@ -49,11 +49,11 @@ export async function NostradamusCard() {
                 width: 44,
                 height: 44,
                 borderRadius: "50%",
-                background: "#c084fc20",
-                border: "2px solid #c084fc",
+                background: "color-mix(in srgb, var(--color-accent-violet) 13%, transparent)",
+                border: "2px solid var(--color-accent-violet)",
                 fontSize: 18,
                 fontWeight: 700,
-                color: "#c084fc",
+                color: "var(--color-accent-violet)",
               }}
             >
               {data.user.nickname.charAt(0).toUpperCase()}

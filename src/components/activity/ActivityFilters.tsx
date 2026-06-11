@@ -32,8 +32,8 @@ export function ActivityFilters({ active, onChange }: Props) {
               fontSize: 11,
               fontWeight: isActive ? 900 : 700,
               fontFamily: "Inter, sans-serif",
-              background: isActive ? "#ffe19e" : "#2a2646",
-              color: isActive ? "#3e2e00" : "#d0c5b2",
+              background: isActive ? "var(--color-accent-gold)" : "var(--color-bg-card)",
+              color: isActive ? "var(--color-text-accent-dark)" : "var(--color-text-secondary)",
               border: "none",
               cursor: "pointer",
             }}

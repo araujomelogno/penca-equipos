@@ -299,7 +299,7 @@ export function SocialRow({
               <Avatar nickname={reply.nickname} avatarUrl={reply.avatarUrl} size={24} />
               <div className="flex flex-col gap-0.5 flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span style={{ fontSize: 12, fontWeight: 700, color: "#e5deff" }}>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "var(--color-text-primary)" }}>
                     {reply.nickname}
                   </span>
                   <span style={{ fontSize: 10, color: "var(--color-text-muted)" }}>
@@ -355,7 +355,7 @@ export function SocialRow({
                     cursor: "pointer",
                   }}
                 >
-                  <span className="material-symbols-outlined" style={{ fontSize: 10, color: "#fff" }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: 10, color: "white" }}>
                     close
                   </span>
                 </button>
@@ -411,7 +411,7 @@ export function SocialRow({
                 className="shrink-0 mt-0.5"
                 style={{
                   borderRadius: 100,
-                  background: (replyText.trim() || replyImageFile) ? "var(--color-accent-gold)" : "#ffe19e66",
+                  background: (replyText.trim() || replyImageFile) ? "var(--color-accent-gold)" : "color-mix(in srgb, var(--color-accent-gold) 40%, transparent)",
                   padding: "6px 16px",
                   fontSize: 11,
                   fontWeight: 700,

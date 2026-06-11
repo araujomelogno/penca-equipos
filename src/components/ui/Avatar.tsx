@@ -14,8 +14,8 @@ export function Avatar({ nickname, avatarUrl, size = 40 }: AvatarProps) {
         width: size,
         height: size,
         borderRadius: "50%",
-        background: "#1b1736",
-        border: "1px solid #FFFFFF1A",
+        background: "var(--color-bg-card-secondary)",
+        border: "1px solid var(--color-border-light)",
       }}
     >
       {avatarUrl ? (

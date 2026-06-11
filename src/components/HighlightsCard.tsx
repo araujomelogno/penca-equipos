@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { BoldText } from "@/components/ui/BoldText";
+import { highlightIcon, highlightColor } from "@/lib/highlight-presentation";
 
 interface Nugget {
   type: string;
@@ -8,28 +9,6 @@ interface Nugget {
   priority: number;
   matchIds?: string[];
 }
-
-const ICON_MAP: Record<string, string> = {
-  rank_change: "trending_up",
-  exact_score: "target",
-  streak: "local_fire_department",
-  global_stat: "groups",
-  day_leader: "emoji_events",
-  all_predicted: "task_alt",
-  bold_call: "casino",
-  lone_wolf: "person_alert",
-};
-
-const COLOR_MAP: Record<string, string> = {
-  rank_change: "#818cf8",
-  exact_score: "#e9c46a",
-  streak: "#f97316",
-  global_stat: "#4ea8de",
-  day_leader: "#e9c46a",
-  all_predicted: "#4ade80",
-  bold_call: "#f472b6",
-  lone_wolf: "#c084fc",
-};
 
 export async function HighlightsCard({ nuggets }: { nuggets: Nugget[] }) {
   const t = await getTranslations("home.highlights");
@@ -73,11 +52,11 @@ export async function HighlightsCard({ nuggets }: { nuggets: Nugget[] }) {
                 className="material-symbols-outlined shrink-0"
                 style={{
                   fontSize: 14,
-                  color: COLOR_MAP[n.type] ?? "#d0c5b2",
+                  color: highlightColor(n.type),
                   marginTop: 2,
                 }}
               >
-                {ICON_MAP[n.type] ?? "info"}
+                {highlightIcon(n.type)}
               </span>
               <BoldText
                 text={n.text}
@@ -86,7 +65,7 @@ export async function HighlightsCard({ nuggets }: { nuggets: Nugget[] }) {
                   lineHeight: 1.4,
                   fontWeight: 500,
                   fontFamily: "var(--font-body)",
-                  color: "#d0c5b2",
+                  color: "var(--color-text-secondary)",
                 }}
               />
             </div>
@@ -107,7 +86,7 @@ export async function HighlightsCard({ nuggets }: { nuggets: Nugget[] }) {
           fontSize: 10,
           fontWeight: 700,
           fontFamily: "var(--font-body)",
-          color: "#e9c46a",
+          color: "var(--color-accent-amber)",
           textDecoration: "none",
           letterSpacing: 0.5,
         }}

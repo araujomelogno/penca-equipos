@@ -13,6 +13,8 @@ Definir los tokens de diseño y componentes reutilizables de Pencachi. Este arch
 | bg-card-secondary | Headers de tablas, sub-secciones |
 | bg-input | Inputs y campos de texto |
 | bg-glass | Overlays con transparencia |
+| bg-elevated | Superficies elevadas (chips, pills, hover de filas) |
+| bg-highlight | Filas/celdas destacadas dentro de cards |
 
 ### Texto
 | Token | Uso |
@@ -22,6 +24,8 @@ Definir los tokens de diseño y componentes reutilizables de Pencachi. Este arch
 | text-muted | Texto terciario, placeholders |
 | text-accent | Texto destacado (dorado claro) |
 | text-accent-dark | Texto sobre fondos dorados |
+| text-wrong | Predicciones erradas (lavanda apagado, decisión del arena) |
+| text-placeholder | Placeholders y labels tenues de formularios |
 
 ### Acentos
 | Token | Uso |
@@ -30,15 +34,32 @@ Definir los tokens de diseño y componentes reutilizables de Pencachi. Este arch
 | accent-amber | Gradients, CTAs |
 | accent-green | Estados activos, "LIVE", éxito |
 | accent-red | Errores, "FAILED" |
-| accent-purple | Likes, interacciones |
+| accent-purple | Likes, interacciones, cambios de ranking |
+| accent-violet | Highlights especiales (lone wolf, Nostradamus) |
+| accent-blue / accent-blue-light | Probabilidades, stats globales (gradiente) |
 | accent-silver | 2do lugar, nav inactiva |
 | accent-bronze | 3er lugar |
 
-### Bordes
+### Estados semánticos
 | Token | Uso |
 |-------|-----|
+| success | Aciertos, estados OK (verde claro sobre fondo oscuro) |
+| warning | Estados parciales/expirados (base para fondos/bordes con alpha) |
+| warning-soft | Texto de estados parciales/expirados |
+| error | Errores, "FAILED" (alias de accent-red) |
+| error-soft | Texto/fondos suaves de error |
+
+### Bordes
+Tres niveles de intensidad — no crear valores intermedios nuevos.
+
+| Token | Uso |
+|-------|-----|
+| border-faint | Separadores apenas visibles |
 | border-subtle | Separadores internos |
 | border-light | Bordes de cards y containers |
+
+### Transparencias
+Para variantes con alpha de un token existente usar `color-mix(in srgb, var(--token) N%, transparent)` — no hardcodear hex con sufijo alpha.
 
 ## 3. Tipografía
 

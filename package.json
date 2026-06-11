@@ -2,12 +2,11 @@
   "name": "pencachi",
   "version": "0.1.0",
   "private": true,
-   "scripts": {
+  "scripts": {
     "dev": "next dev -p 3030",
-    "build": "prisma generate && prisma migrate deploy && next build",
+    "build": "prisma generate && next build",
     "start": "next start -p 3030",
     "lint": "eslint",
-    "postinstall": "prisma generate",
     "db:seed": "npx tsx prisma/seed.ts",
     "db:sync-fixtures": "npx tsx scripts/sync-fixtures.ts",
     "test": "vitest run",

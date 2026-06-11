@@ -18,6 +18,9 @@ export default async function Icon() {
           width: 32,
           height: 32,
           borderRadius: 6,
+          // Satori (ImageResponse) renders outside the DOM — CSS vars from
+          // globals.css don't resolve here. Must stay a literal (= --color-bg-primary).
+          // eslint-disable-next-line no-restricted-syntax
           background: "#130f2e",
           display: "flex",
           alignItems: "center",

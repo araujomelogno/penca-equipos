@@ -161,7 +161,7 @@ function MatchCell({
             letterSpacing: 1,
             padding: "3px 0",
             background: "var(--color-accent-green)",
-            color: "#000",
+            color: "black",
           }}
         >
           {liveLabel}

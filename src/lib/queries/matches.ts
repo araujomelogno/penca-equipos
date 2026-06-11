@@ -239,7 +239,7 @@ async function getAvailableStages(): Promise<StageTab[]> {
 
   for (const g of groups) {
     if (g.group) {
-      tabs.push({ value: `GROUP_${g.group}`, label: `GROUP ${g.group}` });
+      tabs.push({ value: `GROUP_${g.group}`, label: g.group });
     }
   }
 

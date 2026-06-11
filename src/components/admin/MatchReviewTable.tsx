@@ -32,9 +32,9 @@ function SourceBadge({ source }: { source: string | null }) {
   if (!source) return <span style={{ width: 80, textAlign: "center", display: "block" }}>—</span>;
 
   const styles: Record<string, { bg: string; color: string; border: string }> = {
-    API: { bg: "#22c55e33", color: "#4ade80", border: "#22c55e4D" },
-    MANUAL: { bg: "#e9c46a1A", color: "#ffe19e", border: "#e9c46a33" },
-    FAILED: { bg: "#ffb4ab1A", color: "#ffb4ab", border: "#ffb4ab33" },
+    API: { bg: "color-mix(in srgb, var(--color-accent-green) 20%, transparent)", color: "var(--color-success)", border: "color-mix(in srgb, var(--color-accent-green) 30%, transparent)" },
+    MANUAL: { bg: "color-mix(in srgb, var(--color-accent-amber) 10%, transparent)", color: "var(--color-text-accent)", border: "color-mix(in srgb, var(--color-accent-amber) 20%, transparent)" },
+    FAILED: { bg: "color-mix(in srgb, var(--color-error-soft) 10%, transparent)", color: "var(--color-error-soft)", border: "color-mix(in srgb, var(--color-error-soft) 20%, transparent)" },
   };
 
   const s = styles[source] || styles.API;
@@ -186,8 +186,8 @@ export function MatchReviewTable() {
           style={{
             padding: "8px 16px",
             borderRadius: 8,
-            background: message.type === "success" ? "#22c55e1A" : "#ef44441A",
-            color: message.type === "success" ? "#4ade80" : "#ffb4ab",
+            background: message.type === "success" ? "color-mix(in srgb, var(--color-accent-green) 10%, transparent)" : "color-mix(in srgb, var(--color-error) 10%, transparent)",
+            color: message.type === "success" ? "var(--color-success)" : "var(--color-error-soft)",
             fontSize: 12,
             fontWeight: 600,
           }}
@@ -200,15 +200,15 @@ export function MatchReviewTable() {
       <div
         style={{
           borderRadius: 16,
-          background: "#2a2646",
-          border: "1px solid #FFFFFF0D",
+          background: "var(--color-bg-card)",
+          border: "1px solid var(--color-border-subtle)",
           overflow: "hidden",
         }}
       >
         {/* Search */}
         <div
           className="flex items-center"
-          style={{ background: "#1b1736", padding: "12px 24px", borderBottom: "1px solid #FFFFFF0D" }}
+          style={{ background: "var(--color-bg-card-secondary)", padding: "12px 24px", borderBottom: "1px solid var(--color-border-subtle)" }}
         >
           <SearchField value={search} onChange={handleSearchChange} placeholder="Search matches..." width={220} />
         </div>
@@ -216,7 +216,7 @@ export function MatchReviewTable() {
         {/* Table header (desktop only) */}
         <div
           className="hidden sm:flex items-center"
-          style={{ background: "#1b1736", padding: "14px 24px", borderBottom: "1px solid #FFFFFF0D" }}
+          style={{ background: "var(--color-bg-card-secondary)", padding: "14px 24px", borderBottom: "1px solid var(--color-border-subtle)" }}
         >
           <span style={{ ...thStyle, width: 120 }}>DATE</span>
           <span className="flex-1" style={thStyle}>MATCH</span>
@@ -236,14 +236,14 @@ export function MatchReviewTable() {
           const displayAway = edited?.awayScore ?? (match.awayScore !== null ? String(match.awayScore) : "");
 
           const inputBorder = isFailed
-            ? "#ef444466"
+            ? "color-mix(in srgb, var(--color-error) 40%, transparent)"
             : isEdited
-              ? "#ffe19e33"
-              : "#FFFFFF0D";
+              ? "color-mix(in srgb, var(--color-accent-gold) 20%, transparent)"
+              : "var(--color-border-subtle)";
 
           const inputColor = isFailed
-            ? "#ef4444"
-            : "#ffe19e";
+            ? "var(--color-error)"
+            : "var(--color-text-accent)";
 
           const scoreInput = (field: "homeScore" | "awayScore", value: string) => (
             <input
@@ -255,7 +255,7 @@ export function MatchReviewTable() {
                 width: 48,
                 height: 32,
                 borderRadius: 8,
-                background: "#0e0928",
+                background: "var(--color-bg-input)",
                 border: `1px solid ${inputBorder}`,
                 color: inputColor,
                 textAlign: "center",
@@ -274,15 +274,15 @@ export function MatchReviewTable() {
                 className="hidden sm:flex items-center"
                 style={{
                   padding: "14px 24px",
-                  borderBottom: "1px solid #FFFFFF08",
-                  background: isFailed ? "#ef44440D" : "transparent",
+                  borderBottom: "1px solid var(--color-border-faint)",
+                  background: isFailed ? "color-mix(in srgb, var(--color-error) 5%, transparent)" : "transparent",
                 }}
               >
-                <span style={{ width: 120, fontSize: 12, fontWeight: 500, color: "#d0c5b2", fontFamily: "Inter, sans-serif" }}>
+                <span style={{ width: 120, fontSize: 12, fontWeight: 500, color: "var(--color-text-secondary)", fontFamily: "Inter, sans-serif" }}>
                   {new Date(match.kickoffTime).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                 </span>
 
-                <span className="flex-1" style={{ fontSize: 13, fontWeight: 600, color: "#e5deff", fontFamily: "Inter, sans-serif" }}>
+                <span className="flex-1" style={{ fontSize: 13, fontWeight: 600, color: "var(--color-text-primary)", fontFamily: "Inter, sans-serif" }}>
                   {match.homeTeam.name} vs {match.awayTeam.name}
                 </span>
 
@@ -301,7 +301,7 @@ export function MatchReviewTable() {
                 <div style={{ width: 80, display: "flex", justifyContent: "center" }}>
                   <span
                     className="material-symbols-outlined"
-                    style={{ fontSize: 16, color: isFailed ? "#ef4444" : "#64748b" }}
+                    style={{ fontSize: 16, color: isFailed ? "var(--color-error)" : "var(--color-text-muted)" }}
                   >
                     edit
                   </span>
@@ -313,23 +313,23 @@ export function MatchReviewTable() {
                 className="flex sm:hidden flex-col gap-2"
                 style={{
                   padding: "12px 16px",
-                  borderBottom: "1px solid #FFFFFF08",
-                  background: isFailed ? "#ef44440D" : "transparent",
+                  borderBottom: "1px solid var(--color-border-faint)",
+                  background: isFailed ? "color-mix(in srgb, var(--color-error) 5%, transparent)" : "transparent",
                 }}
               >
                 {/* Match name + date */}
                 <div className="flex items-center justify-between">
-                  <span style={{ fontSize: 13, fontWeight: 600, color: "#e5deff", fontFamily: "Inter, sans-serif" }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "var(--color-text-primary)", fontFamily: "Inter, sans-serif" }}>
                     {match.homeTeam.code} vs {match.awayTeam.code}
                   </span>
-                  <span style={{ fontSize: 11, fontWeight: 500, color: "#64748b", fontFamily: "Inter, sans-serif" }}>
+                  <span style={{ fontSize: 11, fontWeight: 500, color: "var(--color-text-muted)", fontFamily: "Inter, sans-serif" }}>
                     {new Date(match.kickoffTime).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
                   </span>
                 </div>
                 {/* Score inputs + source */}
                 <div className="flex items-center gap-2">
                   {scoreInput("homeScore", displayHome)}
-                  <span style={{ fontSize: 12, fontWeight: 700, color: "#64748b" }}>–</span>
+                  <span style={{ fontSize: 12, fontWeight: 700, color: "var(--color-text-muted)" }}>–</span>
                   {scoreInput("awayScore", displayAway)}
                   <div className="flex-1" />
                   <SourceBadge source={match.scoreSource} />
@@ -364,6 +364,6 @@ const thStyle: React.CSSProperties = {
   fontSize: 11,
   fontWeight: 700,
   letterSpacing: 1,
-  color: "#64748b",
+  color: "var(--color-text-muted)",
   fontFamily: "Inter, sans-serif",
 };

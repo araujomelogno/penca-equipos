@@ -232,7 +232,7 @@ export default function LoginPage() {
             letterSpacing: 1.5,
             color: mode === "password" ? "var(--color-text-accent-dark)" : "var(--color-text-secondary)",
             background: mode === "password"
-              ? "linear-gradient(135deg, #ffe19e, #e9c46a)"
+              ? "linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-amber))"
               : "transparent",
             transition: "all 0.2s",
           }}
@@ -251,7 +251,7 @@ export default function LoginPage() {
             letterSpacing: 1.5,
             color: mode === "otp" ? "var(--color-text-accent-dark)" : "var(--color-text-secondary)",
             background: mode === "otp"
-              ? "linear-gradient(135deg, #ffe19e, #e9c46a)"
+              ? "linear-gradient(135deg, var(--color-accent-gold), var(--color-accent-amber))"
               : "transparent",
             transition: "all 0.2s",
           }}

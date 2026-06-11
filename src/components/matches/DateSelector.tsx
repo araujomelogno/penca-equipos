@@ -82,7 +82,7 @@ function CalendarMonth({
               fontSize: 8,
               fontWeight: 700,
               fontFamily: "var(--font-body)",
-              color: "#e5deff40",
+              color: "color-mix(in srgb, var(--color-text-primary) 25%, transparent)",
               textAlign: "center",
               padding: "2px 0",
             }}
@@ -104,7 +104,7 @@ function CalendarMonth({
                 style={{
                   fontSize: 10,
                   fontWeight: 500,
-                  color: "#e5deff15",
+                  color: "color-mix(in srgb, var(--color-text-primary) 8%, transparent)",
                   textAlign: "center",
                   padding: "4px 0",
                 }}
@@ -196,7 +196,7 @@ export function DateSelector({ pills, selectedDate, baseHref, allMatchDates }: P
               borderRadius: 12,
               background: isSelected ? "var(--color-accent-amber)" : "var(--color-bg-card-secondary)",
               border: isSelected
-                ? "1px solid #ffe19e33"
+                ? "1px solid color-mix(in srgb, var(--color-accent-gold) 20%, transparent)"
                 : "1px solid var(--color-border-subtle)",
               textDecoration: "none",
             }}

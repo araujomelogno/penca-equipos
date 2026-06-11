@@ -17,7 +17,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange }: 
       className="flex items-center justify-between"
       style={{
         padding: "8px 24px",
-        borderTop: "1px solid #FFFFFF0D",
+        borderTop: "1px solid var(--color-border-subtle)",
       }}
     >
       <div className="flex items-center gap-1">
@@ -28,8 +28,8 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange }: 
             width: 28,
             height: 28,
             borderRadius: 8,
-            background: "#1b1736",
-            border: "1px solid #FFFFFF0D",
+            background: "var(--color-bg-card-secondary)",
+            border: "1px solid var(--color-border-subtle)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -37,7 +37,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange }: 
             opacity: page <= 1 ? 0.4 : 1,
           }}
         >
-          <span className="material-symbols-outlined" style={{ fontSize: 14, color: "#64748b" }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 14, color: "var(--color-text-muted)" }}>
             chevron_left
           </span>
         </button>
@@ -53,7 +53,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange }: 
                 width: 28,
                 height: 28,
                 borderRadius: 8,
-                background: isActive ? "#ffe19e33" : "transparent",
+                background: isActive ? "color-mix(in srgb, var(--color-accent-gold) 20%, transparent)" : "transparent",
                 border: "none",
                 display: "flex",
                 alignItems: "center",
@@ -62,7 +62,7 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange }: 
                 fontSize: 11,
                 fontWeight: isActive ? 700 : 500,
                 fontFamily: "Inter, sans-serif",
-                color: isActive ? "#ffe19e" : "#64748b",
+                color: isActive ? "var(--color-text-accent)" : "var(--color-text-muted)",
               }}
             >
               {p}
@@ -77,8 +77,8 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange }: 
             width: 28,
             height: 28,
             borderRadius: 8,
-            background: "#1b1736",
-            border: "1px solid #FFFFFF0D",
+            background: "var(--color-bg-card-secondary)",
+            border: "1px solid var(--color-border-subtle)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -86,13 +86,13 @@ export function Pagination({ page, totalPages, total, pageSize, onPageChange }: 
             opacity: page >= totalPages ? 0.4 : 1,
           }}
         >
-          <span className="material-symbols-outlined" style={{ fontSize: 14, color: "#64748b" }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 14, color: "var(--color-text-muted)" }}>
             chevron_right
           </span>
         </button>
       </div>
 
-      <span style={{ fontSize: 11, fontWeight: 500, fontFamily: "Inter, sans-serif", color: "#64748b" }}>
+      <span style={{ fontSize: 11, fontWeight: 500, fontFamily: "Inter, sans-serif", color: "var(--color-text-muted)" }}>
         <span className="hidden sm:inline">Showing </span>{start}-{end} of {total}
       </span>
     </div>

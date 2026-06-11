@@ -80,7 +80,7 @@ export function LeaderboardTable({ entries, currentUserId }: Props) {
                 style={{
                   borderBottom: "1px solid var(--color-border-subtle)",
                   background: isCurrent ? "rgba(233, 196, 106, 0.08)" : "transparent",
-                  borderLeft: isCurrent ? "4px solid #ffe19e" : "4px solid transparent",
+                  borderLeft: isCurrent ? "4px solid var(--color-accent-gold)" : "4px solid transparent",
                 }}
               >
                 {/* Rank */}
@@ -92,7 +92,7 @@ export function LeaderboardTable({ entries, currentUserId }: Props) {
                     fontWeight: 800,
                     fontFamily: "var(--font-display)",
                     color: isCurrent
-                      ? "#ffe19e"
+                      ? "var(--color-text-accent)"
                       : isTop3
                         ? "var(--color-text-primary)"
                         : "var(--color-text-secondary)",
@@ -121,7 +121,7 @@ export function LeaderboardTable({ entries, currentUserId }: Props) {
                           height: 36,
                           flexShrink: 0,
                           background: "var(--color-bg-card-secondary)",
-                          color: isCurrent ? "#ffe19e" : "var(--color-text-secondary)",
+                          color: isCurrent ? "var(--color-text-accent)" : "var(--color-text-secondary)",
                           fontFamily: "var(--font-display)",
                           fontSize: 14,
                           fontWeight: 700,
@@ -135,7 +135,7 @@ export function LeaderboardTable({ entries, currentUserId }: Props) {
                         fontSize: 14,
                         fontWeight: isCurrent ? 700 : 500,
                         fontFamily: "var(--font-body)",
-                        color: isCurrent ? "#ffe19e" : "var(--color-text-primary)",
+                        color: isCurrent ? "var(--color-text-accent)" : "var(--color-text-primary)",
                       }}
                     >
                       {entry.nickname}
@@ -208,7 +208,7 @@ export function LeaderboardTable({ entries, currentUserId }: Props) {
                     fontSize: 16,
                     fontWeight: 800,
                     fontFamily: "var(--font-display)",
-                    color: isCurrent || isTop3 ? "#ffe19e" : "var(--color-text-primary)",
+                    color: isCurrent || isTop3 ? "var(--color-text-accent)" : "var(--color-text-primary)",
                   }}
                 >
                   {entry.totalPoints}

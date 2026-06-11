@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import type { GroupTabRange } from "@/lib/groupTabs";
 
 interface Props {
@@ -18,6 +19,7 @@ function TabPill({
   isActive: boolean;
   onClick: () => void;
 }) {
+  const tStage = useTranslations("matches.stage");
   return (
     <button
       onClick={onClick}
@@ -32,7 +34,7 @@ function TabPill({
         color: isActive ? "var(--color-text-accent-dark)" : "var(--color-text-secondary)",
       }}
     >
-      {tab.label}
+      {tab.stage ? tStage(tab.stage) : tab.label}
     </button>
   );
 }

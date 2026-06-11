@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { DEFAULT_WEEKLY_EVENTS } from "@/lib/prediction-arena-defaults";
 
 interface Team {
@@ -29,6 +30,7 @@ interface WeekData {
 }
 
 export function PredictionArenaAdmin() {
+  const tDefaults = useTranslations("arena.defaults");
   const [week, setWeek] = useState<WeekData | null>(null);
   const [matchCount, setMatchCount] = useState(0);
   const [teams, setTeams] = useState<Team[]>([]);
@@ -74,11 +76,13 @@ export function PredictionArenaAdmin() {
   }
 
   function loadDefaults() {
+    // Materialize template text in the installation's language (each
+    // installation is monolingual) — this is what gets saved to the DB.
     setEvents(
       DEFAULT_WEEKLY_EVENTS.map((e, i) => ({
         emoji: e.emoji,
-        title: e.title,
-        description: e.description,
+        title: tDefaults(`${e.key}.title`),
+        description: tDefaults(`${e.key}.description`),
         ...(events[i]?.id ? { id: events[i].id } : {}),
       })),
     );
@@ -194,7 +198,7 @@ export function PredictionArenaAdmin() {
 
       {/* Message */}
       {message && (
-        <div style={{ fontSize: 13, fontWeight: 600, color: message.includes("Error") ? "#e5a0a0" : "#ffe19e" }}>
+        <div style={{ fontSize: 13, fontWeight: 600, color: message.includes("Error") ? "var(--color-error-soft)" : "var(--color-text-accent)" }}>
           {message}
         </div>
       )}
@@ -260,9 +264,9 @@ function AdminArenaCard({
         display: "flex",
         flexDirection: "column",
         gap: 12,
-        background: hasResult ? "#393556" : "var(--color-bg-card)",
+        background: hasResult ? "var(--color-bg-highlight)" : "var(--color-bg-card)",
         border: hasResult
-          ? `1px solid ${event.result === "HAPPENED" ? "#ffe19e30" : "#d0c5b230"}`
+          ? `1px solid ${event.result === "HAPPENED" ? "color-mix(in srgb, var(--color-accent-gold) 19%, transparent)" : "color-mix(in srgb, var(--color-text-secondary) 19%, transparent)"}`
           : "1px solid transparent",
         boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
       }}
@@ -276,7 +280,7 @@ function AdminArenaCard({
           style={{
             background: "transparent",
             border: "none",
-            borderBottom: "1px solid #FFFFFF15",
+            borderBottom: "1px solid var(--color-border-light)",
             padding: "4px 0",
             color: "var(--color-text-primary)",
             fontFamily: "var(--font-display)",
@@ -300,7 +304,7 @@ function AdminArenaCard({
           style={{
             background: "transparent",
             border: "none",
-            borderBottom: "1px solid #FFFFFF10",
+            borderBottom: "1px solid var(--color-border-subtle)",
             padding: "4px 0",
             color: "var(--color-text-muted)",
             fontSize: 12,
@@ -324,8 +328,8 @@ function AdminArenaCard({
             fontWeight: 700,
             textTransform: "uppercase",
             letterSpacing: "0.08em",
-            background: hasResult ? (event.result === "HAPPENED" ? "#ffe19e20" : "#d0c5b220") : "#FFFFFF10",
-            color: hasResult ? (event.result === "HAPPENED" ? "#ffe19e" : "#d0c5b2") : "var(--color-accent-gold)",
+            background: hasResult ? (event.result === "HAPPENED" ? "color-mix(in srgb, var(--color-accent-gold) 13%, transparent)" : "color-mix(in srgb, var(--color-text-secondary) 13%, transparent)") : "var(--color-border-subtle)",
+            color: hasResult ? (event.result === "HAPPENED" ? "var(--color-text-accent)" : "var(--color-text-secondary)") : "var(--color-accent-gold)",
           }}
         >
           {hasResult ? (event.result === "HAPPENED" ? "Happened" : "Didn't happen") : event.id ? "Pending" : "New"}
@@ -339,11 +343,11 @@ function AdminArenaCard({
 
       {/* Result display */}
       {hasResult && event.result === "HAPPENED" && event.resultTeam && (
-        <div className="flex items-center gap-3" style={{ padding: "10px 14px", borderRadius: 10, background: "#ffe19e15", border: "1px solid #ffe19e30" }}>
+        <div className="flex items-center gap-3" style={{ padding: "10px 14px", borderRadius: 10, background: "color-mix(in srgb, var(--color-accent-gold) 8%, transparent)", border: "1px solid color-mix(in srgb, var(--color-accent-gold) 19%, transparent)" }}>
           {event.resultTeam.flagUrl && (
             <img src={event.resultTeam.flagUrl} alt="" style={{ width: 24, height: 16, objectFit: "cover", borderRadius: 2 }} />
           )}
-          <span style={{ fontWeight: 700, color: "#ffe19e", fontSize: 14 }}>{event.resultTeam.name}</span>
+          <span style={{ fontWeight: 700, color: "var(--color-text-accent)", fontSize: 14 }}>{event.resultTeam.name}</span>
         </div>
       )}
 
@@ -358,15 +362,15 @@ function AdminArenaCard({
                   flex: 1,
                   padding: "10px",
                   borderRadius: 10,
-                  border: "1px solid #d0c5b240",
+                  border: "1px solid color-mix(in srgb, var(--color-text-secondary) 25%, transparent)",
                   background: "transparent",
-                  color: "#d0c5b2",
+                  color: "var(--color-text-secondary)",
                   fontSize: 12,
                   fontWeight: 700,
                   cursor: "pointer",
                 }}
               >
-                Didn't happen
+                Didn&apos;t happen
               </button>
               <button
                 onClick={() => setResolveMode(true)}
@@ -374,9 +378,9 @@ function AdminArenaCard({
                   flex: 1,
                   padding: "10px",
                   borderRadius: 10,
-                  border: "1px solid #ffe19e40",
+                  border: "1px solid color-mix(in srgb, var(--color-accent-gold) 25%, transparent)",
                   background: "transparent",
-                  color: "#ffe19e",
+                  color: "var(--color-text-accent)",
                   fontSize: 12,
                   fontWeight: 700,
                   cursor: "pointer",
@@ -395,9 +399,9 @@ function AdminArenaCard({
                   className="flex items-center justify-between"
                   style={{
                     width: "100%",
-                    background: "#0e0928",
+                    background: "var(--color-bg-input)",
                     borderRadius: 10,
-                    border: selectedTeam ? "1px solid #ffe19e30" : "1px solid #FFFFFF10",
+                    border: selectedTeam ? "1px solid color-mix(in srgb, var(--color-accent-gold) 19%, transparent)" : "1px solid var(--color-border-subtle)",
                     padding: "10px 14px",
                     cursor: "pointer",
                     textAlign: "left",
@@ -417,10 +421,10 @@ function AdminArenaCard({
                 {dropdownOpen && (
                   <div style={{
                     position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 50,
-                    background: "#1b1736", borderRadius: 10, border: "1px solid #FFFFFF15",
+                    background: "var(--color-bg-card-secondary)", borderRadius: 10, border: "1px solid var(--color-border-light)",
                     boxShadow: "0 12px 32px rgba(0,0,0,0.5)", maxHeight: 220, display: "flex", flexDirection: "column",
                   }}>
-                    <div style={{ padding: "8px 12px", borderBottom: "1px solid #FFFFFF10" }}>
+                    <div style={{ padding: "8px 12px", borderBottom: "1px solid var(--color-border-subtle)" }}>
                       <input
                         autoFocus value={search} onChange={(e) => setSearch(e.target.value)}
                         placeholder="Search country..." style={{ width: "100%", background: "transparent", border: "none", outline: "none", color: "var(--color-text-primary)", fontSize: 13, padding: "4px 0" }}
@@ -432,7 +436,7 @@ function AdminArenaCard({
                           key={t.id} type="button"
                           onClick={() => { setSelectedTeam(t.id); setDropdownOpen(false); setSearch(""); }}
                           className="flex items-center gap-3"
-                          style={{ width: "100%", padding: "8px 14px", background: selectedTeam === t.id ? "#FFFFFF10" : "transparent", border: "none", cursor: "pointer", textAlign: "left" }}
+                          style={{ width: "100%", padding: "8px 14px", background: selectedTeam === t.id ? "var(--color-border-subtle)" : "transparent", border: "none", cursor: "pointer", textAlign: "left" }}
                         >
                           {t.flagUrl && <img src={t.flagUrl} alt="" style={{ width: 20, height: 14, objectFit: "cover", borderRadius: 2, flexShrink: 0 }} />}
                           <span style={{ fontSize: 12, color: "var(--color-text-primary)" }}>{t.name}</span>
@@ -454,7 +458,7 @@ function AdminArenaCard({
                   disabled={!selectedTeam}
                   style={{
                     flex: 1, padding: "10px", borderRadius: 10, border: "none",
-                    background: selectedTeam ? "#ffe19e" : "#ffe19e30", color: "#130f2e",
+                    background: selectedTeam ? "var(--color-accent-gold)" : "color-mix(in srgb, var(--color-accent-gold) 19%, transparent)", color: "var(--color-bg-primary)",
                     fontSize: 12, fontWeight: 700, cursor: selectedTeam ? "pointer" : "default",
                   }}
                 >
@@ -462,7 +466,7 @@ function AdminArenaCard({
                 </button>
                 <button
                   onClick={() => { setResolveMode(false); setSelectedTeam(""); }}
-                  style={{ padding: "10px 16px", borderRadius: 10, background: "transparent", border: "1px solid #FFFFFF15", color: "var(--color-text-muted)", fontSize: 12, cursor: "pointer" }}
+                  style={{ padding: "10px 16px", borderRadius: 10, background: "transparent", border: "1px solid var(--color-border-light)", color: "var(--color-text-muted)", fontSize: 12, cursor: "pointer" }}
                 >
                   Cancel
                 </button>

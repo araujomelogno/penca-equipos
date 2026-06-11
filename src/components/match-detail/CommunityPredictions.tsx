@@ -96,7 +96,7 @@ export async function CommunityPredictions({ predictions, totalUsers }: Props) {
             fontSize: 11,
             fontWeight: 600,
             fontFamily: "var(--font-body)",
-            color: "#e5deff80",
+            color: "color-mix(in srgb, var(--color-text-primary) 50%, transparent)",
           }}
         >
           {t("users", { n: totalUsers })}
@@ -114,7 +114,7 @@ export async function CommunityPredictions({ predictions, totalUsers }: Props) {
               padding: "12px 16px",
               borderRadius: 12,
               background: "var(--color-bg-input)",
-              border: "1px solid #FFFFFF0D",
+              border: "1px solid var(--color-border-subtle)",
             }}
           >
             {p.badges.length > 0 && (
@@ -150,7 +150,7 @@ export async function CommunityPredictions({ predictions, totalUsers }: Props) {
                 style={{
                   padding: "4px 12px",
                   borderRadius: 8,
-                  background: "#130f2e",
+                  background: "var(--color-bg-primary)",
                 }}
               >
                 <span
@@ -180,7 +180,7 @@ export async function CommunityPredictions({ predictions, totalUsers }: Props) {
                     fontSize: 10,
                     fontWeight: 600,
                     fontFamily: "var(--font-body)",
-                    color: "#e5deff80",
+                    color: "color-mix(in srgb, var(--color-text-primary) 50%, transparent)",
                   }}
                 >
                   {p.percentage}%
@@ -194,7 +194,7 @@ export async function CommunityPredictions({ predictions, totalUsers }: Props) {
               style={{
                 height: 6,
                 borderRadius: 4,
-                background: "#353151",
+                background: "var(--color-bg-elevated)",
                 overflow: "hidden",
               }}
             >
@@ -234,7 +234,7 @@ export async function CommunityPredictions({ predictions, totalUsers }: Props) {
             fontSize: 10,
             fontWeight: 500,
             fontFamily: "var(--font-body)",
-            color: "#e5deff80",
+            color: "color-mix(in srgb, var(--color-text-primary) 50%, transparent)",
           }}
         >
           {activeBadges.has("lone_wolf") && (

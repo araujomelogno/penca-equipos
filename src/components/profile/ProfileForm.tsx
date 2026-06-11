@@ -45,7 +45,7 @@ function AvatarDisplay({
         style={{
           width: 160,
           height: 160,
-          border: "4px solid #393556",
+          border: "4px solid var(--color-bg-highlight)",
         }}
       />
     );
@@ -56,7 +56,7 @@ function AvatarDisplay({
       style={{
         width: 160,
         height: 160,
-        border: "4px solid #393556",
+        border: "4px solid var(--color-bg-highlight)",
         background: "var(--color-bg-card-secondary)",
         fontSize: 48,
         fontWeight: 800,
@@ -196,7 +196,7 @@ function PasswordForm() {
         padding: "12px 16px",
         borderRadius: 16,
         background: "var(--color-bg-card-secondary)",
-        border: "1px solid #FFFFFF0D",
+        border: "1px solid var(--color-border-subtle)",
       }}
     >
       <div className="flex items-start gap-3">
@@ -206,13 +206,13 @@ function PasswordForm() {
             width: 40,
             height: 40,
             borderRadius: 10,
-            background: "#ffdec833",
+            background: "color-mix(in srgb, var(--color-accent-peach) 20%, transparent)",
             flexShrink: 0,
           }}
         >
           <span
             className="material-symbols-outlined"
-            style={{ fontSize: 22, color: "#ffdec8" }}
+            style={{ fontSize: 22, color: "var(--color-accent-peach)" }}
           >
             key
           </span>
@@ -265,7 +265,7 @@ function PasswordForm() {
                 fontWeight: 700,
                 fontFamily: "var(--font-body)",
                 letterSpacing: 3,
-                color: "#e9c46a99",
+                color: "color-mix(in srgb, var(--color-accent-amber) 60%, transparent)",
               }}
             >
               {t("current")}
@@ -279,7 +279,7 @@ function PasswordForm() {
                 padding: "12px 16px",
                 borderRadius: 10,
                 background: "var(--color-bg-input)",
-                border: "1px solid #99907e1A",
+                border: "1px solid color-mix(in srgb, var(--color-text-placeholder) 10%, transparent)",
                 fontSize: 14,
                 fontFamily: "var(--font-body)",
                 color: "var(--color-text-primary)",
@@ -293,7 +293,7 @@ function PasswordForm() {
                 fontWeight: 700,
                 fontFamily: "var(--font-body)",
                 letterSpacing: 3,
-                color: "#e9c46a99",
+                color: "color-mix(in srgb, var(--color-accent-amber) 60%, transparent)",
               }}
             >
               {t("new")}
@@ -307,7 +307,7 @@ function PasswordForm() {
                 padding: "12px 16px",
                 borderRadius: 10,
                 background: "var(--color-bg-input)",
-                border: "1px solid #99907e1A",
+                border: "1px solid color-mix(in srgb, var(--color-text-placeholder) 10%, transparent)",
                 fontSize: 14,
                 fontFamily: "var(--font-body)",
                 color: "var(--color-text-primary)",
@@ -496,7 +496,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
         className="flex flex-col lg:flex-row"
         style={{
           borderRadius: 16,
-          border: "1px solid #FFFFFF0D",
+          border: "1px solid var(--color-border-subtle)",
           overflow: "hidden",
         }}
       >
@@ -508,7 +508,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
             maxWidth: "100%",
             padding: 24,
             background: "var(--color-bg-card-secondary)",
-            borderColor: "#FFFFFF0D",
+            borderColor: "var(--color-border-subtle)",
             flexShrink: 0,
           }}
         >
@@ -572,7 +572,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
                 fontWeight: 700,
                 fontFamily: "var(--font-body)",
                 letterSpacing: 3,
-                color: "#e9c46a99",
+                color: "color-mix(in srgb, var(--color-accent-amber) 60%, transparent)",
               }}
             >
               {t("fields.nickname")}
@@ -583,7 +583,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
                 padding: "14px 16px",
                 borderRadius: 10,
                 background: "var(--color-bg-input)",
-                border: "1px solid #99907e1A",
+                border: "1px solid color-mix(in srgb, var(--color-text-placeholder) 10%, transparent)",
               }}
             >
               <input
@@ -615,7 +615,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
                 fontWeight: 700,
                 fontFamily: "var(--font-body)",
                 letterSpacing: 3,
-                color: "#e9c46a99",
+                color: "color-mix(in srgb, var(--color-accent-amber) 60%, transparent)",
               }}
             >
               {t("fields.fullName")}
@@ -626,7 +626,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
                 padding: "14px 16px",
                 borderRadius: 10,
                 background: "var(--color-bg-input)",
-                border: "1px solid #99907e1A",
+                border: "1px solid color-mix(in srgb, var(--color-text-placeholder) 10%, transparent)",
               }}
             >
               <input
@@ -658,7 +658,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
                 fontWeight: 700,
                 fontFamily: "var(--font-body)",
                 letterSpacing: 3,
-                color: "#e9c46a99",
+                color: "color-mix(in srgb, var(--color-accent-amber) 60%, transparent)",
               }}
             >
               {t("fields.email")}
@@ -669,7 +669,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
                 padding: "14px 16px",
                 borderRadius: 10,
                 background: "var(--color-bg-input)",
-                border: "1px solid #99907e1A",
+                border: "1px solid color-mix(in srgb, var(--color-text-placeholder) 10%, transparent)",
                 opacity: 0.6,
               }}
             >
@@ -699,7 +699,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
                 fontWeight: 700,
                 fontFamily: "var(--font-body)",
                 letterSpacing: 3,
-                color: "#e9c46a99",
+                color: "color-mix(in srgb, var(--color-accent-amber) 60%, transparent)",
               }}
             >
               {t("fields.team")}
@@ -710,7 +710,7 @@ export function ProfileForm({ user, presets, teams }: Props) {
                 padding: "10px 16px",
                 borderRadius: 10,
                 background: "var(--color-bg-input)",
-                border: "1px solid #99907e1A",
+                border: "1px solid color-mix(in srgb, var(--color-text-placeholder) 10%, transparent)",
               }}
             >
               {favoriteTeamId && teams.find((t) => t.id === favoriteTeamId)?.flagUrl && (

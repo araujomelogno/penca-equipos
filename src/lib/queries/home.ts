@@ -50,6 +50,11 @@ export interface NextFavoriteTeamMatch {
   isFavoriteHome: boolean;
 }
 
+export interface PredictNudge {
+  stage: string;
+  count: number;
+}
+
 export interface HomeData {
   hasLeaderboard: boolean;
   leaderboard: LeaderboardEntry[];
@@ -62,13 +67,14 @@ export interface HomeData {
   favorites: TournamentFavorite[];
   nextFavoriteMatch: NextFavoriteTeamMatch | null;
   latestHighlights: ResolvedNugget[] | null;
+  predictNudge: PredictNudge | null;
 }
 
 export async function getHomeData(userId: string): Promise<HomeData> {
   // First check if leaderboard is needed before running expensive queries
   const hasLeaderboard = await checkHasLeaderboard();
 
-  const [leaderboardRaw, userPredictions, upcomingMatchesRaw, activityFeed, participation, firstKickoff, favorites, nextFavoriteMatch, latestHighlights] =
+  const [leaderboardRaw, userPredictions, upcomingMatchesRaw, activityFeed, participation, firstKickoff, favorites, nextFavoriteMatch, latestHighlights, predictNudge] =
     await Promise.all([
       hasLeaderboard ? getLeaderboardData() : Promise.resolve([]),
       getUserPredictions(userId),
@@ -79,6 +85,7 @@ export async function getHomeData(userId: string): Promise<HomeData> {
       getTopFavorites(),
       getNextFavoriteTeamMatch(userId),
       getLatestHighlights(),
+      getPredictNudge(userId),
     ]);
 
   const userStats = calculateUserStats(userPredictions);
@@ -98,6 +105,7 @@ export async function getHomeData(userId: string): Promise<HomeData> {
     favorites,
     nextFavoriteMatch,
     latestHighlights,
+    predictNudge,
   };
 }
 
@@ -291,6 +299,31 @@ async function getLatestHighlights(): Promise<ResolvedNugget[] | null> {
   const nuggets = activity.highlightsJson as unknown as HighlightNugget[];
   const resolved = await resolveNuggets(nuggets);
   return resolved.slice(0, 4);
+}
+
+// Pure: given the user's unpredicted, not-yet-started matches, pick the
+// earliest-kickoff stage and count how many of its matches are still open.
+export function pickPredictNudge(
+  matches: { stage: string; kickoffTime: Date }[],
+): PredictNudge | null {
+  if (matches.length === 0) return null;
+  const earliest = matches.reduce((a, b) =>
+    a.kickoffTime.getTime() <= b.kickoffTime.getTime() ? a : b,
+  );
+  const count = matches.filter((m) => m.stage === earliest.stage).length;
+  return { stage: earliest.stage, count };
+}
+
+async function getPredictNudge(userId: string): Promise<PredictNudge | null> {
+  const matches = await prisma.match.findMany({
+    where: {
+      status: "SCHEDULED",
+      kickoffTime: { gt: new Date() },
+      predictions: { none: { userId } },
+    },
+    select: { stage: true, kickoffTime: true },
+  });
+  return pickPredictNudge(matches);
 }
 
 async function getNextFavoriteTeamMatch(userId: string): Promise<NextFavoriteTeamMatch | null> {

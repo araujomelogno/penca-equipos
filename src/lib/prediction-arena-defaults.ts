@@ -1,38 +1,22 @@
-export interface DefaultEvent {
+/**
+ * Default weekly event templates for the Prediction Arena.
+ *
+ * Text lives in messages/en.json + es.json under `arena.defaults.{key}` so
+ * the admin's "load defaults" materializes titles/descriptions in the
+ * installation's language before saving them to the DB (each installation
+ * is monolingual — DEFAULT_LOCALE).
+ */
+export interface DefaultEventTemplate {
   emoji: string;
-  title: string;
-  description: string;
+  /** i18n key under `arena.defaults` (has `.title` and `.description`) */
+  key: string;
 }
 
-export const DEFAULT_WEEKLY_EVENTS: DefaultEvent[] = [
-  {
-    emoji: "🟥",
-    title: "First red card",
-    description: "Which team gets the first red card of the week?",
-  },
-  {
-    emoji: "⚽⚽⚽",
-    title: "Hat-trick",
-    description: "Will there be a hat-trick? Which team?",
-  },
-  {
-    emoji: "🔄",
-    title: "Comeback",
-    description: "Will any team come back from behind?",
-  },
-  {
-    emoji: "⏱️",
-    title: "Latest goal",
-    description: "Which team scores the latest goal of the week?",
-  },
-  {
-    emoji: "🎯",
-    title: "First penalty goal",
-    description: "Which team converts the first penalty?",
-  },
-  {
-    emoji: "🤦",
-    title: "First own goal",
-    description: "Which team concedes the first own goal?",
-  },
+export const DEFAULT_WEEKLY_EVENTS: DefaultEventTemplate[] = [
+  { emoji: "🟥", key: "firstRedCard" },
+  { emoji: "⚽⚽⚽", key: "hatTrick" },
+  { emoji: "🔄", key: "comeback" },
+  { emoji: "⏱️", key: "latestGoal" },
+  { emoji: "🎯", key: "firstPenaltyGoal" },
+  { emoji: "🤦", key: "firstOwnGoal" },
 ];

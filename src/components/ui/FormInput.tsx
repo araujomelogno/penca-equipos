@@ -43,7 +43,7 @@ export default function FormInput({
       <div className="relative">
         <span
           className="absolute left-3.5 top-3.5 material-symbols-outlined text-[20px]"
-          style={{ color: "#99907e" }}
+          style={{ color: "var(--color-text-placeholder)" }}
         >
           {icon}
         </span>

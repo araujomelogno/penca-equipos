@@ -39,3 +39,14 @@ describe("calculatePoints", () => {
     expect(calculatePoints(5, 0, 7, 1)).toBe(3);
   });
 });
+
+describe("calculatePoints — knockout (goals only, penalties ignored)", () => {
+  it("a 1-1 prediction is exact when the cruce ends 1-1 (decided on penalties)", () => {
+    // Knockout match stored as its goal score (1-1); penalty shootout is not a goal.
+    expect(calculatePoints(1, 1, 1, 1)).toBe(5);
+  });
+
+  it("predicting a winner scores 0 when the cruce is a goals draw", () => {
+    expect(calculatePoints(2, 1, 1, 1)).toBe(0);
+  });
+});

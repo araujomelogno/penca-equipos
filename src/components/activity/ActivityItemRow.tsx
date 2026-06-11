@@ -43,7 +43,7 @@ function IconCircle({ bg, icon, iconColor }: { bg: string; icon: string; iconCol
 function MatchRef({ homeTeamCode, awayTeamCode }: { homeTeamCode: string | null; awayTeamCode: string | null }) {
   if (!homeTeamCode || !awayTeamCode) return null;
   return (
-    <span style={{ fontSize: 11, color: "#64748b", fontWeight: 600 }}>
+    <span style={{ fontSize: 11, color: "var(--color-text-muted)", fontWeight: 600 }}>
       {homeTeamCode} vs {awayTeamCode}
     </span>
   );
@@ -60,13 +60,13 @@ export function ActivityItemRow({ item, currentUserId = "", onDeleted }: Activit
   const headerRow = (
     <div className="flex items-center justify-between gap-2">
       <div className="flex items-center gap-2 min-w-0">
-        <span className="text-[14px] font-bold truncate" style={{ color: "#e5deff" }}>
+        <span className="text-[14px] font-bold truncate" style={{ color: "var(--color-text-primary)" }}>
           {item.nickname}
         </span>
       </div>
       <div className="flex items-center gap-2 shrink-0">
         <MatchRef homeTeamCode={item.homeTeamCode} awayTeamCode={item.awayTeamCode} />
-        <span style={{ fontSize: 11, color: "#d0c5b2CC", fontWeight: 700, letterSpacing: 1 }}>
+        <span style={{ fontSize: 11, color: "color-mix(in srgb, var(--color-text-secondary) 80%, transparent)", fontWeight: 700, letterSpacing: 1 }}>
           <TimeAgo date={item.createdAt} />
         </span>
       </div>
@@ -77,7 +77,7 @@ export function ActivityItemRow({ item, currentUserId = "", onDeleted }: Activit
     <p
       className="text-[13px] leading-[1.4]"
       style={{
-        color: "#d0c5b2",
+        color: "var(--color-text-secondary)",
         whiteSpace: "pre-wrap",
         ...(item.type !== "comment" ? {
           display: "-webkit-box",
@@ -95,7 +95,7 @@ export function ActivityItemRow({ item, currentUserId = "", onDeleted }: Activit
   if (item.type === "comment") {
     left = <Avatar nickname={item.nickname} avatarUrl={item.avatarUrl} />;
   } else if (item.type === "match_result") {
-    left = <IconCircle bg="#6366f11A" icon="scoreboard" iconColor="#818cf8" />;
+    left = <IconCircle bg="color-mix(in srgb, var(--color-accent-purple) 10%, transparent)" icon="scoreboard" iconColor="var(--color-accent-purple)" />;
   } else if (item.type === "daily_highlights") {
     left = (
       <div className="shrink-0" style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden" }}>
@@ -103,7 +103,7 @@ export function ActivityItemRow({ item, currentUserId = "", onDeleted }: Activit
       </div>
     );
   } else {
-    left = <IconCircle bg="#e9c46a1A" icon="person_add" iconColor="#e9c46a" />;
+    left = <IconCircle bg="color-mix(in srgb, var(--color-accent-amber) 10%, transparent)" icon="person_add" iconColor="var(--color-accent-amber)" />;
   }
 
   const social = item.type === "comment" ? (

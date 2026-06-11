@@ -87,9 +87,9 @@ export function HomeComposer({ onPosted }: Props) {
       className="flex gap-3"
       style={{
         borderRadius: 16,
-        background: "#2a2646",
+        background: "var(--color-bg-card)",
         padding: "12px 16px 12px 10px",
-        border: "1px solid #FFFFFF0D",
+        border: "1px solid var(--color-border-subtle)",
       }}
     >
       {/* Avatar */}
@@ -106,9 +106,9 @@ export function HomeComposer({ onPosted }: Props) {
         <div
           style={{
             borderRadius: 10,
-            background: "#0e0928",
+            background: "var(--color-bg-input)",
             padding: "12px 16px",
-            border: "1px solid #FFFFFF0D",
+            border: "1px solid var(--color-border-subtle)",
           }}
         >
           <AutoResizeTextarea
@@ -151,7 +151,7 @@ export function HomeComposer({ onPosted }: Props) {
                 cursor: "pointer",
               }}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: 14, color: "#fff" }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 14, color: "white" }}>
                 close
               </span>
             </button>
@@ -181,7 +181,7 @@ export function HomeComposer({ onPosted }: Props) {
             >
               <span
                 className="material-symbols-outlined"
-                style={{ fontSize: 20, color: imageFile ? "var(--color-accent-gold)" : "#64748b" }}
+                style={{ fontSize: 20, color: imageFile ? "var(--color-accent-gold)" : "var(--color-text-muted)" }}
               >
                 image
               </span>

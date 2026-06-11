@@ -54,7 +54,7 @@ export function ImageLightbox({ src, alt = "Attachment" }: Props) {
               cursor: "pointer",
             }}
           >
-            <span className="material-symbols-outlined" style={{ fontSize: 20, color: "#fff" }}>
+            <span className="material-symbols-outlined" style={{ fontSize: 20, color: "white" }}>
               close
             </span>
           </button>

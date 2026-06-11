@@ -92,7 +92,7 @@ function ScoreArea({ match, vsLabel }: { match: MatchDetailData["match"]; vsLabe
             style={{
               padding: "4px 16px",
               borderRadius: 8,
-              background: "#39355680",
+              background: "color-mix(in srgb, var(--color-bg-highlight) 50%, transparent)",
             }}
           >
             <span
@@ -151,7 +151,7 @@ export async function MatchHero({ data }: Props) {
         padding: "16px clamp(12px, 4vw, 32px)",
         borderRadius: 16,
         background:
-          "linear-gradient(180deg, #0e0928EE 0%, #0e0928BB 45%, #0e092866 100%), url('/match-hero-bg.jpg') center/cover",
+          "linear-gradient(180deg, color-mix(in srgb, var(--color-bg-input) 93%, transparent) 0%, color-mix(in srgb, var(--color-bg-input) 73%, transparent) 45%, color-mix(in srgb, var(--color-bg-input) 40%, transparent) 100%), url('/match-hero-bg.jpg') center/cover",
       }}
     >
       {/* Main row: match info (left/center) + prediction (right on desktop, below on mobile) */}
@@ -167,7 +167,7 @@ export async function MatchHero({ data }: Props) {
                 style={{
                   padding: "4px 12px",
                   borderRadius: 100,
-                  background: "#00000066",
+                  background: "rgba(0, 0, 0, 0.4)",
                 }}
               >
                 <div
@@ -176,7 +176,7 @@ export async function MatchHero({ data }: Props) {
                     width: 8,
                     height: 8,
                     borderRadius: "50%",
-                    background: "#f59e0b",
+                    background: "var(--color-accent-amber-dark)",
                   }}
                 />
                 <span
@@ -185,7 +185,7 @@ export async function MatchHero({ data }: Props) {
                     fontWeight: 900,
                     fontFamily: "var(--font-body)",
                     letterSpacing: 3,
-                    color: "#FFFFFF",
+                    color: "white",
                   }}
                 >
                   {t("ongoing")}
@@ -197,12 +197,12 @@ export async function MatchHero({ data }: Props) {
                 style={{
                   padding: "6px 14px",
                   borderRadius: 100,
-                  background: "#0e092880",
+                  background: "color-mix(in srgb, var(--color-bg-input) 50%, transparent)",
                 }}
               >
                 <span
                   className="material-symbols-outlined"
-                  style={{ fontSize: 12, color: "#e5deff99" }}
+                  style={{ fontSize: 12, color: "color-mix(in srgb, var(--color-text-primary) 60%, transparent)" }}
                 >
                   calendar_today
                 </span>
@@ -212,7 +212,7 @@ export async function MatchHero({ data }: Props) {
                     fontWeight: 700,
                     fontFamily: "var(--font-body)",
                     letterSpacing: 1,
-                    color: "#e5deff99",
+                    color: "color-mix(in srgb, var(--color-text-primary) 60%, transparent)",
                   }}
                 >
                   <KickoffTime date={match.kickoffTime.toISOString()} />
@@ -225,12 +225,12 @@ export async function MatchHero({ data }: Props) {
               style={{
                 padding: "5px 12px",
                 borderRadius: 100,
-                background: "#2a264680",
+                background: "color-mix(in srgb, var(--color-bg-card) 50%, transparent)",
               }}
             >
               <span
                 className="material-symbols-outlined"
-                style={{ fontSize: 14, color: "#e9c46a80" }}
+                style={{ fontSize: 14, color: "color-mix(in srgb, var(--color-accent-amber) 50%, transparent)" }}
               >
                 groups
               </span>
@@ -239,7 +239,7 @@ export async function MatchHero({ data }: Props) {
                   fontSize: 11,
                   fontWeight: 600,
                   fontFamily: "var(--font-body)",
-                  color: "#e5deff99",
+                  color: "color-mix(in srgb, var(--color-text-primary) 60%, transparent)",
                 }}
               >
                 {stageLabel}
@@ -255,12 +255,12 @@ export async function MatchHero({ data }: Props) {
                 style={{
                   padding: "5px 12px",
                   borderRadius: 100,
-                  background: "#2a264680",
+                  background: "color-mix(in srgb, var(--color-bg-card) 50%, transparent)",
                 }}
               >
                 <span
                   className="material-symbols-outlined"
-                  style={{ fontSize: 14, color: "#e9c46a80" }}
+                  style={{ fontSize: 14, color: "color-mix(in srgb, var(--color-accent-amber) 50%, transparent)" }}
                 >
                   stadium
                 </span>
@@ -269,7 +269,7 @@ export async function MatchHero({ data }: Props) {
                     fontSize: 11,
                     fontWeight: 600,
                     fontFamily: "var(--font-body)",
-                    color: "#e5deff99",
+                    color: "color-mix(in srgb, var(--color-text-primary) 60%, transparent)",
                   }}
                 >
                   {match.venue}

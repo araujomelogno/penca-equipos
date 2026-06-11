@@ -11,6 +11,7 @@ interface ScoreState {
 
 interface Props {
   groupName: string;
+  knockout?: boolean;
   matches: PredictionMatch[];
   scores: Map<string, ScoreState>;
   errorMatchIds: Set<string>;
@@ -91,7 +92,7 @@ function ScoreInput({
         height: 48,
         borderRadius: 12,
         background: "var(--color-bg-input)",
-        outline: hasError ? "2px solid var(--color-error, #ef4444)" : undefined,
+        outline: hasError ? "2px solid var(--color-error)" : undefined,
       }}
     >
       {disabled ? (
@@ -100,7 +101,7 @@ function ScoreInput({
             fontSize: 20,
             fontWeight: 900,
             fontFamily: "var(--font-display)",
-            color: value ? "var(--color-text-muted)" : "#353151",
+            color: value ? "var(--color-text-muted)" : "var(--color-bg-elevated)",
           }}
         >
           {value || "-"}
@@ -126,7 +127,7 @@ function ScoreInput({
             fontSize: 20,
             fontWeight: 900,
             fontFamily: "var(--font-display)",
-            color: value ? "var(--color-accent-gold)" : "#353151",
+            color: value ? "var(--color-accent-gold)" : "var(--color-bg-elevated)",
             borderRadius: 12,
           }}
         />
@@ -152,7 +153,7 @@ function MatchRow({
       style={{
         padding: 16,
         borderRadius: 16,
-        background: "#353151",
+        background: "var(--color-bg-elevated)",
         opacity: match.hasStarted ? 0.5 : 1,
       }}
     >
@@ -205,15 +206,17 @@ function MatchRow({
 
 export function GroupPredictionCard({
   groupName,
+  knockout,
   matches,
   scores,
   errorMatchIds,
   onScoreChange,
 }: Props) {
   const t = useTranslations("predictions");
+  const tStage = useTranslations("matches.stage");
   return (
     <div
-      className="flex flex-col"
+      className={`flex flex-col${knockout ? " md:col-span-2 lg:col-span-3" : ""}`}
       style={{
         borderRadius: 24,
         background: "var(--color-bg-card-secondary)",
@@ -239,13 +242,17 @@ export function GroupPredictionCard({
             color: "var(--color-accent-gold)",
           }}
         >
-          {t("groupLabel", { name: groupName })}
+          {knockout ? tStage(groupName) : t("groupLabel", { name: groupName })}
         </h3>
       </div>
 
       {/* Match rows */}
       <div
-        className="flex flex-col gap-4"
+        className={
+          knockout
+            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+            : "flex flex-col gap-4"
+        }
         style={{ padding: 8 }}
       >
         {matches.map((match) => (

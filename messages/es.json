@@ -22,6 +22,10 @@
       "title": "COMPLETÁ TUS PRONÓSTICOS",
       "cta": "IR A PRONÓSTICOS"
     },
+    "predictNudge": {
+      "message": "Se abrió {stage} — te faltan {count} pronóstico(s)",
+      "cta": "Predecir ahora"
+    },
     "stats": {
       "matches": "PARTIDOS",
       "accuracy": "ACIERTO",
@@ -583,6 +587,32 @@
     },
     "votes": {
       "wontHappen": "No pasa"
+    },
+    "defaults": {
+      "firstRedCard": {
+        "title": "Primera tarjeta roja",
+        "description": "¿Qué equipo recibe la primera tarjeta roja de la semana?"
+      },
+      "hatTrick": {
+        "title": "Hat-trick",
+        "description": "¿Habrá un hat-trick? ¿De qué equipo?"
+      },
+      "comeback": {
+        "title": "Remontada",
+        "description": "¿Algún equipo dará vuelta un partido?"
+      },
+      "latestGoal": {
+        "title": "Gol más tardío",
+        "description": "¿Qué equipo marca el gol más tardío de la semana?"
+      },
+      "firstPenaltyGoal": {
+        "title": "Primer gol de penal",
+        "description": "¿Qué equipo convierte el primer penal?"
+      },
+      "firstOwnGoal": {
+        "title": "Primer gol en contra",
+        "description": "¿Qué equipo comete el primer gol en contra?"
+      }
     }
   }
 }

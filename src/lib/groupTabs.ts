@@ -1,6 +1,8 @@
 export interface GroupTabRange {
   label: string;
   groups: string[];
+  /** Knockout stage code (e.g. "R32"); when set, the UI translates the label via i18n */
+  stage?: string;
 }
 
 /** Build group tabs in ranges of 3 (e.g. A-C, D-F) */

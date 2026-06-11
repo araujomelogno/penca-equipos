@@ -22,6 +22,10 @@
       "title": "COMPLETE YOUR PREDICTIONS",
       "cta": "ENTER PREDICTIONS"
     },
+    "predictNudge": {
+      "message": "{stage} is open — you have {count} prediction(s) left",
+      "cta": "Predict now"
+    },
     "stats": {
       "matches": "MATCHES",
       "accuracy": "ACCURACY",
@@ -583,6 +587,32 @@
     },
     "votes": {
       "wontHappen": "Won't happen"
+    },
+    "defaults": {
+      "firstRedCard": {
+        "title": "First red card",
+        "description": "Which team gets the first red card of the week?"
+      },
+      "hatTrick": {
+        "title": "Hat-trick",
+        "description": "Will there be a hat-trick? Which team?"
+      },
+      "comeback": {
+        "title": "Comeback",
+        "description": "Will any team come back from behind?"
+      },
+      "latestGoal": {
+        "title": "Latest goal",
+        "description": "Which team scores the latest goal of the week?"
+      },
+      "firstPenaltyGoal": {
+        "title": "First penalty goal",
+        "description": "Which team converts the first penalty?"
+      },
+      "firstOwnGoal": {
+        "title": "First own goal",
+        "description": "Which team concedes the first own goal?"
+      }
     }
   }
 }

@@ -14,9 +14,9 @@ interface Props {
 type Translator = (key: string, values?: Record<string, string | number>) => string;
 
 const BADGE_COLORS = {
-  EXACT: { color: "#4ade80", bg: "#22c55e33", border: "#22c55e4D", ptsColor: "#ffe19e" },
-  PARTIAL: { color: "#fde68a", bg: "#fbbf241A", border: "#fbbf2433", ptsColor: "#fde68a" },
-  MISS: { color: "#ffb4ab", bg: "#ffb4ab1A", border: "#ffb4ab33", ptsColor: "var(--color-text-secondary)" },
+  EXACT: { color: "var(--color-success)", bg: "color-mix(in srgb, var(--color-accent-green) 20%, transparent)", border: "color-mix(in srgb, var(--color-accent-green) 30%, transparent)", ptsColor: "var(--color-text-accent)" },
+  PARTIAL: { color: "var(--color-warning-soft)", bg: "color-mix(in srgb, var(--color-warning) 10%, transparent)", border: "color-mix(in srgb, var(--color-warning) 20%, transparent)", ptsColor: "var(--color-warning-soft)" },
+  MISS: { color: "var(--color-error-soft)", bg: "color-mix(in srgb, var(--color-error-soft) 10%, transparent)", border: "color-mix(in srgb, var(--color-error-soft) 20%, transparent)", ptsColor: "var(--color-text-secondary)" },
 } as const;
 
 function getBadgeType(points: number | null): keyof typeof BADGE_COLORS | null {
@@ -83,7 +83,7 @@ function ScoreInput({
         fontSize: 28,
         fontWeight: 900,
         fontFamily: "var(--font-display)",
-        color: value ? "var(--color-accent-gold)" : "#353151",
+        color: value ? "var(--color-accent-gold)" : "var(--color-bg-elevated)",
       }}
     />
   );
@@ -245,7 +245,7 @@ function ResultSection({
           <button
             onClick={(e) => { stop(e); onCancel(); }}
             className="border-none cursor-pointer flex items-center justify-center"
-            style={{ width: 36, height: 36, borderRadius: 8, background: "#353151" }}
+            style={{ width: 36, height: 36, borderRadius: 8, background: "var(--color-bg-elevated)" }}
           >
             <span className="material-symbols-outlined" style={{ fontSize: 18, color: "var(--color-text-muted)" }}>close</span>
           </button>
@@ -345,7 +345,7 @@ export function MatchCard({ match }: Props) {
       style={{
         padding: 20,
         borderRadius: 12,
-        background: editing ? "#2a264680" : "var(--color-bg-card)",
+        background: editing ? "color-mix(in srgb, var(--color-bg-card) 50%, transparent)" : "var(--color-bg-card)",
         border: editing ? "1px solid var(--color-accent-amber)" : "1px solid var(--color-border-subtle)",
         minHeight: 125,
         overflow: "hidden",
@@ -353,7 +353,7 @@ export function MatchCard({ match }: Props) {
         cursor: editing ? "default" : "pointer",
         transition: "background 0.15s ease, border-color 0.15s ease",
       }}
-      onMouseEnter={(e) => { if (!editing) e.currentTarget.style.background = "#2a264680"; }}
+      onMouseEnter={(e) => { if (!editing) e.currentTarget.style.background = "color-mix(in srgb, var(--color-bg-card) 50%, transparent)"; }}
       onMouseLeave={(e) => { if (!editing) e.currentTarget.style.background = "var(--color-bg-card)"; }}
     >
       <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-12 flex-1 min-w-0">

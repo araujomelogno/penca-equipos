@@ -31,12 +31,12 @@ function UserAvatar({ user, size = 32 }: { user: UserRow; size?: number }) {
   return (
     <div
       className="shrink-0 flex items-center justify-center overflow-hidden"
-      style={{ width: size, height: size, borderRadius: size / 2, background: "#353151" }}
+      style={{ width: size, height: size, borderRadius: size / 2, background: "var(--color-bg-elevated)" }}
     >
       {src ? (
         <Image src={src} alt={user.nickname} width={size} height={size} className="object-cover" style={{ borderRadius: size / 2 }} unoptimized={src.startsWith("/uploads/")} />
       ) : (
-        <span className="font-bold select-none" style={{ color: "#e5deff", fontSize: size * 0.35 }}>
+        <span className="font-bold select-none" style={{ color: "var(--color-text-primary)", fontSize: size * 0.35 }}>
           {user.nickname.charAt(0).toUpperCase()}
         </span>
       )}
@@ -85,19 +85,19 @@ export function UsersTable({ currentUserId }: Props) {
     <div
       style={{
         borderRadius: 16,
-        background: "#2a2646",
-        border: "1px solid #FFFFFF0D",
+        background: "var(--color-bg-card)",
+        border: "1px solid var(--color-border-subtle)",
         overflow: "hidden",
       }}
     >
       {/* Header */}
       <div
         className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
-        style={{ background: "#1b1736", padding: "12px 16px", borderBottom: "1px solid #FFFFFF0D" }}
+        style={{ background: "var(--color-bg-card-secondary)", padding: "12px 16px", borderBottom: "1px solid var(--color-border-subtle)" }}
       >
         <div className="flex items-center gap-2">
-          <span className="material-symbols-outlined" style={{ fontSize: 18, color: "#e9c46a" }}>group</span>
-          <span style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 800, color: "#e5deff" }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 18, color: "var(--color-accent-amber)" }}>group</span>
+          <span style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 800, color: "var(--color-text-primary)" }}>
             Users
           </span>
         </div>
@@ -109,7 +109,7 @@ export function UsersTable({ currentUserId }: Props) {
       {/* Table header */}
       <div
         className="hidden sm:flex items-center"
-        style={{ background: "#1b1736", padding: "10px 16px", borderBottom: "1px solid #FFFFFF0D", minWidth: 520 }}
+        style={{ background: "var(--color-bg-card-secondary)", padding: "10px 16px", borderBottom: "1px solid var(--color-border-subtle)", minWidth: 520 }}
       >
         <span className="flex-1" style={thStyle}>USER</span>
         <span style={{ ...thStyle, width: 220 }}>EMAIL</span>
@@ -125,12 +125,12 @@ export function UsersTable({ currentUserId }: Props) {
             {/* Desktop row */}
             <div
               className="hidden sm:flex items-center"
-              style={{ padding: "10px 16px", borderBottom: "1px solid #FFFFFF08", minWidth: 520 }}
+              style={{ padding: "10px 16px", borderBottom: "1px solid var(--color-border-faint)", minWidth: 520 }}
             >
               {/* User cell */}
               <div className="flex items-center gap-2.5 flex-1">
                 {user.isAdmin ? (
-                  <span className="material-symbols-outlined" style={{ fontSize: 18, color: "#e9c46a" }}>
+                  <span className="material-symbols-outlined" style={{ fontSize: 18, color: "var(--color-accent-amber)" }}>
                     shield_person
                   </span>
                 ) : (
@@ -142,7 +142,7 @@ export function UsersTable({ currentUserId }: Props) {
                     fontSize: 13,
                     fontWeight: user.isAdmin ? 700 : 600,
                     fontFamily: "Inter, sans-serif",
-                    color: user.isAdmin ? "#ffe19e" : "#e5deff",
+                    color: user.isAdmin ? "var(--color-text-accent)" : "var(--color-text-primary)",
                   }}
                 >
                   {user.nickname}
@@ -150,19 +150,19 @@ export function UsersTable({ currentUserId }: Props) {
               </div>
 
               {/* Email */}
-              <span style={{ width: 220, fontSize: 12, fontWeight: 500, color: "#d0c5b2", fontFamily: "Inter, sans-serif" }}>
+              <span style={{ width: 220, fontSize: 12, fontWeight: 500, color: "var(--color-text-secondary)", fontFamily: "Inter, sans-serif" }}>
                 {user.email}
               </span>
 
               {/* Joined */}
-              <span style={{ width: 100, textAlign: "center", fontSize: 12, fontWeight: 500, color: "#64748b", fontFamily: "Inter, sans-serif" }}>
+              <span style={{ width: 100, textAlign: "center", fontSize: 12, fontWeight: 500, color: "var(--color-text-muted)", fontFamily: "Inter, sans-serif" }}>
                 {new Date(user.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
               </span>
 
               {/* Actions */}
               <div style={{ width: 100, display: "flex", justifyContent: "center" }}>
                 {isSelf ? (
-                  <span style={{ fontSize: 12, fontWeight: 500, color: "#64748b" }}>—</span>
+                  <span style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-muted)" }}>—</span>
                 ) : (
                   <ToggleSwitch
                     checked={user.isActive}
@@ -176,10 +176,10 @@ export function UsersTable({ currentUserId }: Props) {
             <Link
               href={`/admin/users/${user.id}`}
               className="flex sm:hidden items-center gap-2.5"
-              style={{ padding: "12px 16px", borderBottom: "1px solid #FFFFFF08", textDecoration: "none", color: "inherit" }}
+              style={{ padding: "12px 16px", borderBottom: "1px solid var(--color-border-faint)", textDecoration: "none", color: "inherit" }}
             >
               {user.isAdmin ? (
-                <span className="material-symbols-outlined" style={{ fontSize: 18, color: "#e9c46a" }}>shield_person</span>
+                <span className="material-symbols-outlined" style={{ fontSize: 18, color: "var(--color-accent-amber)" }}>shield_person</span>
               ) : (
                 <div style={{ width: 18 }} />
               )}
@@ -190,12 +190,12 @@ export function UsersTable({ currentUserId }: Props) {
                   fontSize: 13,
                   fontWeight: user.isAdmin ? 700 : 600,
                   fontFamily: "Inter, sans-serif",
-                  color: user.isAdmin ? "#ffe19e" : "#e5deff",
+                  color: user.isAdmin ? "var(--color-text-accent)" : "var(--color-text-primary)",
                 }}
               >
                 {user.nickname}
               </span>
-              <span className="material-symbols-outlined shrink-0" style={{ fontSize: 16, color: "#64748b" }}>
+              <span className="material-symbols-outlined shrink-0" style={{ fontSize: 16, color: "var(--color-text-muted)" }}>
                 chevron_right
               </span>
             </Link>
@@ -226,6 +226,6 @@ const thStyle: React.CSSProperties = {
   fontSize: 11,
   fontWeight: 700,
   letterSpacing: 1,
-  color: "#64748b",
+  color: "var(--color-text-muted)",
   fontFamily: "Inter, sans-serif",
 };

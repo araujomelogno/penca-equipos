@@ -36,9 +36,11 @@ export async function ArenaStatusCard() {
         padding: 20,
         borderRadius: 16,
         background: isOpen
-          ? "linear-gradient(135deg, #1a1145 0%, #2d1f6e 100%)"
+          ? "var(--gradient-arena)"
           : "var(--color-bg-card)",
-        border: isOpen ? "1px solid #ffe19e20" : "1px solid transparent",
+        border: isOpen
+          ? "1px solid color-mix(in srgb, var(--color-accent-gold) 13%, transparent)"
+          : "1px solid transparent",
         textDecoration: "none",
         color: "inherit",
       }}

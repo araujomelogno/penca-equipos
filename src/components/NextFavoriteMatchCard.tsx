@@ -24,7 +24,7 @@ function TeamSide({ team, flagUrl, highlighted }: {
           style={{ borderRadius: 4, objectFit: "cover" }}
         />
       ) : (
-        <div style={{ width: 36, height: 26, borderRadius: 4, background: "#353151" }} />
+        <div style={{ width: 36, height: 26, borderRadius: 4, background: "var(--color-bg-elevated)" }} />
       )}
       <span
         style={{

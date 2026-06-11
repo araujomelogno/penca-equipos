@@ -11,6 +11,8 @@
 - [x] **Match detail LIVE no debe mostrar botón de predicción:** Fixed — `hasStarted` now also checks `matchStatus` (LIVE/HALFTIME/FINISHED) in addition to kickoff time.
 - [x] **Sacar "World Cup 2026" del hero del match detail:** Removed from MatchHero pills. Stage + venue remain.
 - [ ] **Fixture: revisar que no falten equipos:** Verificar que todos los equipos del mundial estén presentes en la página de fixture.
+- [ ] **Arena: i18n por usuario (opción A, futuro):** Hoy los defaults se generan en el idioma de la instalación (cada instalación es monolingüe). Si algún día una instalación tiene usuarios con idiomas mezclados, migrar a `i18nKey` en `WeeklyHitsEvent` (mismo patrón que highlights): la DB guarda la key neutra y cada usuario ve su idioma al render.
+- [x] **Design tokens sweep (`chore/design-tokens`):** Done 2026-06-11 — ~430 hex migrados a CSS vars (tokens nuevos en `globals.css` + `color-mix` para alphas), bordes colapsados a 3 niveles (faint/subtle/light), regla ESLint `no-restricted-syntax` que prohíbe hex en `.tsx` (única excepción documentada: `icon.tsx`/Satori).
 
 ## Responsive pendiente
 

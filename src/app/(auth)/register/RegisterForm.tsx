@@ -114,7 +114,7 @@ function RegisterFormInner({ teams }: { teams: Team[] }) {
             <div className="relative">
               <span
                 className="absolute left-3.5 top-3.5 material-symbols-outlined text-[20px]"
-                style={{ color: "#99907e" }}
+                style={{ color: "var(--color-text-placeholder)" }}
               >
                 flag
               </span>
@@ -126,7 +126,7 @@ function RegisterFormInner({ teams }: { teams: Team[] }) {
                 style={{
                   background: "var(--color-bg-input)",
                   border: "1px solid var(--color-border-subtle)",
-                  color: favoriteTeamId ? "var(--color-text-primary)" : "#99907e",
+                  color: favoriteTeamId ? "var(--color-text-primary)" : "var(--color-text-placeholder)",
                   fontFamily: "var(--font-body)",
                   outlineColor: "var(--color-accent-amber)",
                 }}
@@ -140,7 +140,7 @@ function RegisterFormInner({ teams }: { teams: Team[] }) {
               </select>
               <span
                 className="absolute right-3.5 top-3.5 material-symbols-outlined text-[20px] pointer-events-none"
-                style={{ color: "#99907e" }}
+                style={{ color: "var(--color-text-placeholder)" }}
               >
                 expand_more
               </span>

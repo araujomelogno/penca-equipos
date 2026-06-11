@@ -91,8 +91,8 @@ export function ActivityFeedList({
         <div
           style={{
             borderRadius: 16,
-            background: "#2a2646",
-            border: "1px solid #FFFFFF0D",
+            background: "var(--color-bg-card)",
+            border: "1px solid var(--color-border-subtle)",
             padding: "48px 24px",
             textAlign: "center",
           }}
@@ -105,15 +105,15 @@ export function ActivityFeedList({
         <div
           style={{
             borderRadius: 16,
-            background: "#2a2646",
-            border: "1px solid #FFFFFF0D",
+            background: "var(--color-bg-card)",
+            border: "1px solid var(--color-border-subtle)",
             overflow: "hidden",
           }}
           className="flex flex-col"
         >
           {items.map((item, i) => (
             <div key={`${item.type}-${item.id}`}>
-              {i > 0 && <div style={{ height: 1, background: "#FFFFFF0D" }} />}
+              {i > 0 && <div style={{ height: 1, background: "var(--color-border-subtle)" }} />}
               <ActivityItemRow
                 item={item}
                 currentUserId={currentUserId}
@@ -125,7 +125,7 @@ export function ActivityFeedList({
           {/* Load more */}
           {nextCursor && (
             <>
-              <div style={{ height: 1, background: "#FFFFFF0D" }} />
+              <div style={{ height: 1, background: "var(--color-border-subtle)" }} />
               <button
                 onClick={handleLoadMore}
                 disabled={loading}
@@ -140,7 +140,7 @@ export function ActivityFeedList({
                 <span
                   className="material-symbols-outlined"
                   aria-hidden="true"
-                  style={{ fontSize: 16, color: "#d0c5b2" }}
+                  style={{ fontSize: 16, color: "var(--color-text-secondary)" }}
                 >
                   keyboard_arrow_down
                 </span>
@@ -148,7 +148,7 @@ export function ActivityFeedList({
                   style={{
                     fontSize: 13,
                     fontWeight: 600,
-                    color: "#d0c5b2",
+                    color: "var(--color-text-secondary)",
                     fontFamily: "Inter, sans-serif",
                   }}
                 >

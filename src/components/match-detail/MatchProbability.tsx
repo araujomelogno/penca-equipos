@@ -61,7 +61,7 @@ function DualBar({
               width: `${official}%`,
               height: "100%",
               borderRadius: 5,
-              background: "linear-gradient(90deg, #ffe19e, #e9c46a)",
+              background: "linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-amber))",
             }}
           />
         </div>
@@ -75,7 +75,7 @@ function DualBar({
               fontSize: 11,
               fontWeight: 700,
               fontFamily: "var(--font-body)",
-              color: "#4ea8de",
+              color: "var(--color-accent-blue)",
               minWidth: 36,
               textAlign: "right",
             }}
@@ -96,7 +96,7 @@ function DualBar({
                 width: `${community}%`,
                 height: "100%",
                 borderRadius: 5,
-                background: "linear-gradient(90deg, #7ec8e3, #4ea8de)",
+                background: "linear-gradient(90deg, var(--color-accent-blue-light), var(--color-accent-blue))",
               }}
             />
           </div>
@@ -171,7 +171,7 @@ export async function MatchProbability({
                 width: 12,
                 height: 8,
                 borderRadius: 4,
-                background: "linear-gradient(90deg, #ffe19e, #e9c46a)",
+                background: "linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-amber))",
               }}
             />
             <span
@@ -191,7 +191,7 @@ export async function MatchProbability({
                 width: 12,
                 height: 8,
                 borderRadius: 4,
-                background: "linear-gradient(90deg, #7ec8e3, #4ea8de)",
+                background: "linear-gradient(90deg, var(--color-accent-blue-light), var(--color-accent-blue))",
               }}
             />
             <span

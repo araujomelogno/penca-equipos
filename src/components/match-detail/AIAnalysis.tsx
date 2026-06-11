@@ -47,7 +47,7 @@ export async function AIAnalysis({ homeTeamName, awayTeamName, analysis }: Props
           fontWeight: 400,
           fontFamily: "var(--font-body)",
           lineHeight: 1.5,
-          color: "#e5deffAA",
+          color: "color-mix(in srgb, var(--color-text-primary) 67%, transparent)",
         }}
       >
         {analysisText}
@@ -57,7 +57,7 @@ export async function AIAnalysis({ homeTeamName, awayTeamName, analysis }: Props
       <div className="flex items-center gap-1.5">
         <span
           className="material-symbols-outlined"
-          style={{ fontSize: 14, color: "#e9c46a80" }}
+          style={{ fontSize: 14, color: "color-mix(in srgb, var(--color-accent-amber) 50%, transparent)" }}
         >
           smart_toy
         </span>
@@ -66,7 +66,7 @@ export async function AIAnalysis({ homeTeamName, awayTeamName, analysis }: Props
             fontSize: 9,
             fontWeight: 600,
             fontFamily: "var(--font-body)",
-            color: "#e5deff40",
+            color: "color-mix(in srgb, var(--color-text-primary) 25%, transparent)",
           }}
         >
           {t("source")}

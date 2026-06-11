@@ -52,7 +52,7 @@ function FeedHeader({ title }: { title: string }) {
           width: 36,
           height: 36,
           borderRadius: 18,
-          background: "#353151",
+          background: "var(--color-bg-elevated)",
         }}
       >
         <span
@@ -107,7 +107,7 @@ export async function ActivityFeed({ items, currentUserId }: Props) {
       <div
         style={{
           borderRadius: 12,
-          background: "#353151",
+          background: "var(--color-bg-elevated)",
           border: "1px solid var(--color-border-subtle)",
           overflow: "hidden",
         }}
@@ -115,7 +115,7 @@ export async function ActivityFeed({ items, currentUserId }: Props) {
         {items.map((item, i) => (
           <div key={item.id}>
             {i > 0 && (
-              <div style={{ height: 1, background: "#FFFFFF0D" }} />
+              <div style={{ height: 1, background: "var(--color-border-subtle)" }} />
             )}
             <ActivityItemRow item={toItemData(item)} currentUserId={currentUserId} />
           </div>

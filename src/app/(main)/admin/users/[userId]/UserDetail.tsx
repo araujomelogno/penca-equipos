@@ -54,7 +54,7 @@ export function UserDetail({ userId, currentUserId }: Props) {
       <button
         onClick={() => router.push("/admin")}
         className="btn-icon"
-        style={{ gap: 6, color: "#d0c5b2" }}
+        style={{ gap: 6, color: "var(--color-text-secondary)" }}
       >
         <span className="material-symbols-outlined" style={{ fontSize: 18 }}>arrow_back</span>
         <span style={{ fontSize: 13, fontWeight: 600, fontFamily: "Inter, sans-serif" }}>Admin</span>
@@ -64,18 +64,18 @@ export function UserDetail({ userId, currentUserId }: Props) {
       <div
         style={{
           borderRadius: 16,
-          background: "#2a2646",
-          border: "1px solid #FFFFFF0D",
+          background: "var(--color-bg-card)",
+          border: "1px solid var(--color-border-subtle)",
           overflow: "hidden",
         }}
       >
         {/* Header */}
         <div
           className="flex items-center gap-2"
-          style={{ background: "#1b1736", padding: "14px 16px", borderBottom: "1px solid #FFFFFF0D" }}
+          style={{ background: "var(--color-bg-card-secondary)", padding: "14px 16px", borderBottom: "1px solid var(--color-border-subtle)" }}
         >
-          <span className="material-symbols-outlined" style={{ fontSize: 18, color: "#e9c46a" }}>person</span>
-          <span style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 800, color: "#e5deff" }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 18, color: "var(--color-accent-amber)" }}>person</span>
+          <span style={{ fontFamily: "var(--font-display)", fontSize: 16, fontWeight: 800, color: "var(--color-text-primary)" }}>
             User Detail
           </span>
         </div>
@@ -86,12 +86,12 @@ export function UserDetail({ userId, currentUserId }: Props) {
           <div className="flex items-center gap-3">
             <div
               className="shrink-0 flex items-center justify-center overflow-hidden"
-              style={{ width: 48, height: 48, borderRadius: 24, background: "#353151" }}
+              style={{ width: 48, height: 48, borderRadius: 24, background: "var(--color-bg-elevated)" }}
             >
               {avatarSrc ? (
                 <Image src={avatarSrc} alt={user.nickname} width={48} height={48} className="object-cover" style={{ borderRadius: 24 }} unoptimized={avatarSrc.startsWith("/uploads/")} />
               ) : (
-                <span className="font-bold select-none" style={{ color: "#e5deff", fontSize: 17 }}>
+                <span className="font-bold select-none" style={{ color: "var(--color-text-primary)", fontSize: 17 }}>
                   {user.nickname.charAt(0).toUpperCase()}
                 </span>
               )}
@@ -99,20 +99,20 @@ export function UserDetail({ userId, currentUserId }: Props) {
             <div className="flex flex-col gap-0.5">
               <div className="flex items-center gap-2">
                 {user.isAdmin && (
-                  <span className="material-symbols-outlined" style={{ fontSize: 16, color: "#e9c46a" }}>shield_person</span>
+                  <span className="material-symbols-outlined" style={{ fontSize: 16, color: "var(--color-accent-amber)" }}>shield_person</span>
                 )}
                 <span
                   style={{
                     fontSize: 16,
                     fontWeight: 700,
                     fontFamily: "Inter, sans-serif",
-                    color: user.isAdmin ? "#ffe19e" : "#e5deff",
+                    color: user.isAdmin ? "var(--color-text-accent)" : "var(--color-text-primary)",
                   }}
                 >
                   {user.nickname}
                 </span>
               </div>
-              <span style={{ fontSize: 12, fontWeight: 500, color: "#d0c5b2", fontFamily: "Inter, sans-serif" }}>
+              <span style={{ fontSize: 12, fontWeight: 500, color: "var(--color-text-secondary)", fontFamily: "Inter, sans-serif" }}>
                 {user.email}
               </span>
             </div>
@@ -131,7 +131,7 @@ export function UserDetail({ userId, currentUserId }: Props) {
           {/* Toggle active */}
           {!isSelf && (
             <div className="flex items-center justify-between" style={{ padding: "12px 0" }}>
-              <span style={{ fontSize: 13, fontWeight: 600, color: "#e5deff", fontFamily: "Inter, sans-serif" }}>
+              <span style={{ fontSize: 13, fontWeight: 600, color: "var(--color-text-primary)", fontFamily: "Inter, sans-serif" }}>
                 Account active
               </span>
               <ToggleSwitch checked={user.isActive} onChange={handleToggleActive} />
@@ -147,10 +147,10 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   return (
     <div
       className="flex items-center justify-between"
-      style={{ background: "#1b1736", padding: "10px 14px" }}
+      style={{ background: "var(--color-bg-card-secondary)", padding: "10px 14px" }}
     >
-      <span style={{ fontSize: 12, fontWeight: 600, color: "#64748b", fontFamily: "Inter, sans-serif" }}>{label}</span>
-      <span style={{ fontSize: 13, fontWeight: 600, color: "#d0c5b2", fontFamily: "Inter, sans-serif" }}>{value}</span>
+      <span style={{ fontSize: 12, fontWeight: 600, color: "var(--color-text-muted)", fontFamily: "Inter, sans-serif" }}>{label}</span>
+      <span style={{ fontSize: 13, fontWeight: 600, color: "var(--color-text-secondary)", fontFamily: "Inter, sans-serif" }}>{value}</span>
     </div>
   );
 }

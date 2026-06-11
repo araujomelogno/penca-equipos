@@ -242,7 +242,7 @@ export function PredictionArenaView({ week, history, nostradamus, communityVotes
       {/* Save bar — compact, right-aligned like FloatingBar */}
       {isOpen && dirty && (
         <div className="flex items-center justify-between" style={{ padding: "12px 0" }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: message === t("errorSaving") ? "#e5a0a0" : message ? "#ffe19e" : "var(--color-text-muted)" }}>
+          <div style={{ fontSize: 13, fontWeight: 600, color: message === t("errorSaving") ? "var(--color-error-soft)" : message ? "var(--color-text-accent)" : "var(--color-text-muted)" }}>
             {message ?? t("unsaved", { n: unsavedCount })}
           </div>
           <button
@@ -266,7 +266,7 @@ export function PredictionArenaView({ week, history, nostradamus, communityVotes
           <div style={{ borderRadius: 16, overflow: "hidden", background: "var(--color-bg-card)" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
-                <tr style={{ background: "#FFFFFF08" }}>
+                <tr style={{ background: "var(--color-border-faint)" }}>
                   <th style={thStyle}>{tLeaders("colRank")}</th>
                   <th style={{ ...thStyle, textAlign: "left" }}>{tLeaders("colUser")}</th>
                   <th style={{ ...thStyle, textAlign: "right" }}>{tLeaders("colPoints")}</th>
@@ -274,7 +274,7 @@ export function PredictionArenaView({ week, history, nostradamus, communityVotes
               </thead>
               <tbody>
                 {leaderboard.map((entry) => (
-                  <tr key={entry.user.id} style={{ borderTop: "1px solid #FFFFFF08" }}>
+                  <tr key={entry.user.id} style={{ borderTop: "1px solid var(--color-border-faint)" }}>
                     <td style={{ ...tdStyle, fontFamily: "var(--font-display)", fontWeight: 800, color: entry.rank === 1 ? "var(--color-accent-gold)" : "var(--color-text-muted)" }}>
                       {String(entry.rank).padStart(2, "0")}
                     </td>
@@ -283,7 +283,7 @@ export function PredictionArenaView({ week, history, nostradamus, communityVotes
                         {entry.user.avatarUrl ? (
                           <img src={entry.user.avatarUrl} alt="" style={{ width: 28, height: 28, borderRadius: "50%", objectFit: "cover" }} />
                         ) : (
-                          <div className="flex items-center justify-center" style={{ width: 28, height: 28, borderRadius: "50%", background: "#FFFFFF10", fontSize: 11, fontWeight: 700, color: "var(--color-text-muted)" }}>
+                          <div className="flex items-center justify-center" style={{ width: 28, height: 28, borderRadius: "50%", background: "var(--color-border-subtle)", fontSize: 11, fontWeight: 700, color: "var(--color-text-muted)" }}>
                             {entry.user.nickname.charAt(0).toUpperCase()}
                           </div>
                         )}
@@ -395,9 +395,9 @@ function TeamDropdown({
         className="flex items-center justify-between"
         style={{
           width: "100%",
-          background: "#0e0928",
+          background: "var(--color-bg-input)",
           borderRadius: 12,
-          border: value !== undefined ? "1px solid #ffe19e30" : "1px solid #FFFFFF10",
+          border: value !== undefined ? "1px solid color-mix(in srgb, var(--color-accent-gold) 19%, transparent)" : "1px solid var(--color-border-subtle)",
           padding: "12px 16px",
           cursor: "pointer",
           textAlign: "left",
@@ -425,9 +425,9 @@ function TeamDropdown({
             left: 0,
             right: 0,
             zIndex: 50,
-            background: "#1b1736",
+            background: "var(--color-bg-card-secondary)",
             borderRadius: 12,
-            border: "1px solid #FFFFFF15",
+            border: "1px solid var(--color-border-light)",
             boxShadow: "0 12px 32px rgba(0,0,0,0.5)",
             maxHeight: 280,
             display: "flex",
@@ -435,7 +435,7 @@ function TeamDropdown({
           }}
         >
           {/* Search input */}
-          <div style={{ padding: "8px 12px", borderBottom: "1px solid #FFFFFF10" }}>
+          <div style={{ padding: "8px 12px", borderBottom: "1px solid var(--color-border-subtle)" }}>
             <input
               autoFocus
               value={search}
@@ -463,11 +463,11 @@ function TeamDropdown({
               style={{
                 width: "100%",
                 padding: "10px 16px",
-                background: isNoSucede ? "#FFFFFF10" : "transparent",
+                background: isNoSucede ? "var(--color-border-subtle)" : "transparent",
                 border: "none",
                 cursor: "pointer",
                 textAlign: "left",
-                borderBottom: "1px solid #FFFFFF08",
+                borderBottom: "1px solid var(--color-border-faint)",
               }}
             >
               <span style={{ fontSize: 14 }}>❌</span>
@@ -485,7 +485,7 @@ function TeamDropdown({
                 style={{
                   width: "100%",
                   padding: "10px 16px",
-                  background: value === t.id ? "#FFFFFF10" : "transparent",
+                  background: value === t.id ? "var(--color-border-subtle)" : "transparent",
                   border: "none",
                   cursor: "pointer",
                   textAlign: "left",
@@ -549,7 +549,7 @@ function ArenaCard({
   const isCompleted = hasResult;
   const isLocked = isClosed && !isResolved && !hasResult;
 
-  const voteColors = ["var(--color-accent-gold)", "#c9bffa", "#393556"];
+  const voteColors = ["var(--color-accent-gold)", "var(--color-accent-lavender)", "var(--color-bg-highlight)"];
 
   return (
     <div
@@ -562,10 +562,10 @@ function ArenaCard({
         justifyContent: "space-between",
         boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
         background: isCompleted
-          ? isCorrect ? "#393556" : "#1b1736"
+          ? isCorrect ? "var(--color-bg-highlight)" : "var(--color-bg-card-secondary)"
           : "var(--color-bg-card)",
         border: isCompleted
-          ? isCorrect ? "2px solid #ffe19e30" : "1px solid #FFFFFF08"
+          ? isCorrect ? "2px solid color-mix(in srgb, var(--color-accent-gold) 19%, transparent)" : "1px solid var(--color-border-faint)"
           : "1px solid transparent",
         opacity: isLocked ? 0.6 : 1,
         filter: isLocked ? "grayscale(0.4)" : "none",
@@ -584,7 +584,7 @@ function ArenaCard({
               fontSize: 13,
               fontWeight: 800,
               fontFamily: "var(--font-display)",
-              color: isCorrect ? "var(--color-accent-gold)" : "#8b8399",
+              color: isCorrect ? "var(--color-accent-gold)" : "var(--color-text-wrong)",
             }}
           >
             {points != null ? (isCorrect ? `+${points}` : `${points}`) : ""}
@@ -615,8 +615,8 @@ function ArenaCard({
               fontWeight: 700,
               textTransform: "uppercase",
               letterSpacing: "0.08em",
-              background: isCompleted ? "var(--color-accent-gold)" : "#FFFFFF10",
-              color: isCompleted ? "#130f2e" : isLocked ? "var(--color-text-muted)" : "var(--color-accent-gold)",
+              background: isCompleted ? "var(--color-accent-gold)" : "var(--color-border-subtle)",
+              color: isCompleted ? "var(--color-bg-primary)" : isLocked ? "var(--color-text-muted)" : "var(--color-accent-gold)",
             }}
           >
             {isCompleted ? tCard("statusCompleted") : isLocked ? tCard("statusClosed") : tCard("statusOpen")}
@@ -638,8 +638,8 @@ function ArenaCard({
         {isCompleted && (
           <div
             style={{
-              background: isCorrect ? "#ffe19e15" : "#FFFFFF08",
-              border: `1px solid ${isCorrect ? "#ffe19e30" : "#FFFFFF10"}`,
+              background: isCorrect ? "color-mix(in srgb, var(--color-accent-gold) 8%, transparent)" : "var(--color-border-faint)",
+              border: `1px solid ${isCorrect ? "color-mix(in srgb, var(--color-accent-gold) 19%, transparent)" : "var(--color-border-subtle)"}`,
               borderRadius: 12,
               padding: "12px 16px",
             }}
@@ -653,12 +653,12 @@ function ArenaCard({
                   {event.result === "HAPPENED" ? teamLabel(event.resultTeam) : tCard("didNotHappen")}
                 </span>
               </div>
-              <span className="material-symbols-outlined" style={{ color: isCorrect ? "var(--color-accent-gold)" : "#8b8399", fontSize: 20 }}>
+              <span className="material-symbols-outlined" style={{ color: isCorrect ? "var(--color-accent-gold)" : "var(--color-text-wrong)", fontSize: 20 }}>
                 {isCorrect ? "check_circle" : "close"}
               </span>
             </div>
             {prediction && (
-              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: isCorrect ? "var(--color-accent-gold)" : "#8b8399", marginTop: 4 }}>
+              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: isCorrect ? "var(--color-accent-gold)" : "var(--color-text-wrong)", marginTop: 4 }}>
                 {isCorrect ? tCard("correctPrediction") : tCard("yourPrediction", { pick: prediction.teamId === null ? tCard("wontHappen") : teamLabel(prediction.team) })}
               </div>
             )}
@@ -684,11 +684,15 @@ function ArenaCard({
         <div style={{ opacity: isCompleted ? 0.6 : 1 }}>
           <div className="flex justify-between" style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "-0.02em", marginBottom: 6 }}>
             <span style={{ color: "var(--color-text-muted)" }}>{tCard("communityVotes")}</span>
-            {votes[0] && <span style={{ color: "var(--color-accent-gold)" }}>{votes[0].name ?? votes[0].code} {votes[0].pct}%</span>}
+            {votes[0] && (
+              <span style={{ color: "var(--color-accent-gold)" }}>
+                {votes[0].code ? teamLabel({ code: votes[0].code, name: votes[0].name ?? votes[0].code }) : votes[0].name} {votes[0].pct}%
+              </span>
+            )}
           </div>
-          <div className="flex" style={{ height: 5, borderRadius: 999, overflow: "hidden", background: "#0e0928" }}>
+          <div className="flex" style={{ height: 5, borderRadius: 999, overflow: "hidden", background: "var(--color-bg-input)" }}>
             {votes.map((v, i) => (
-              <div key={v.teamId ?? "no"} style={{ width: `${v.pct}%`, height: "100%", background: voteColors[i] ?? "#393556" }} />
+              <div key={v.teamId ?? "no"} style={{ width: `${v.pct}%`, height: "100%", background: voteColors[i] ?? "var(--color-bg-highlight)" }} />
             ))}
           </div>
         </div>

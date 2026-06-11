@@ -12,7 +12,7 @@ export function BoldText({ text, className, style }: {
     <span className={className} style={style}>
       {parts.map((part, i) =>
         part.startsWith("**") && part.endsWith("**") ? (
-          <strong key={i} style={{ color: "#e5deff", fontWeight: 700 }}>
+          <strong key={i} style={{ color: "var(--color-text-primary)", fontWeight: 700 }}>
             {part.slice(2, -2)}
           </strong>
         ) : (

@@ -9,13 +9,20 @@
   --color-bg-header: #130f2e66;
   --color-bg-footer: #0b081e;
   --color-bg-glass: #2a264699;
+  --color-bg-elevated: #353151;
+  --color-bg-elevated-light: #4a4668;
+  --color-bg-highlight: #393556;
 
   /* Text colors from .pen */
   --color-text-primary: #e5deff;
   --color-text-secondary: #d0c5b2;
-  --color-text-muted: #64748b;
+  /* WCAG AA: ≥4.5:1 on card bg (#1b1736). Was #64748b (~3.3:1, hard to read 40+) */
+  --color-text-muted: #8b94a8;
   --color-text-accent: #ffe19e;
   --color-text-accent-dark: #3e2e00;
+  /* Muted lavender para predicciones erradas (decisión de diseño del arena) */
+  --color-text-wrong: #8b8399;
+  --color-text-placeholder: #99907e;
 
   /* Accent colors from .pen */
   --color-accent-gold: #ffe19e;
@@ -24,16 +31,36 @@
   --color-accent-green: #22c55e;
   --color-accent-red: #ef4444;
   --color-accent-purple: #818cf8;
+  --color-accent-violet: #c084fc;
+  --color-accent-blue: #4ea8de;
+  --color-accent-blue-light: #7ec8e3;
   --color-accent-silver: #94a3b8;
   --color-accent-bronze: #cd7f32;
+  --color-accent-orange: #f97316;
+  --color-accent-pink: #f472b6;
+  --color-accent-lavender: #c9bffa;
+  --color-accent-peach: #ffdec8;
 
-  /* Border colors from .pen */
+  /* Semantic status colors */
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-warning-soft: #fde68a;
+  --color-error: var(--color-accent-red);
+  --color-error-soft: #ffb4ab;
+
+  /* Border colors from .pen — 3 niveles: faint/subtle/light */
+  --color-border-faint: #FFFFFF08;
   --color-border-subtle: #FFFFFF0D;
   --color-border-light: #FFFFFF1A;
 
   /* Font families — mapped from Next.js font variables */
   --font-display: var(--font-plus-jakarta), "Plus Jakarta Sans", system-ui, sans-serif;
   --font-body: var(--font-inter), "Inter", system-ui, sans-serif;
+}
+
+:root {
+  /* Gradientes compuestos — los stops no son tokens reutilizables */
+  --gradient-arena: linear-gradient(135deg, #1a1145 0%, #2d1f6e 100%);
 }
 
 html {

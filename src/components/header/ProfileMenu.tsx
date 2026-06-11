@@ -48,7 +48,7 @@ export function ProfileMenu({ avatarUrl, nickname }: Props) {
               height: 32,
               borderRadius: "50%",
               objectFit: "cover",
-              border: "2px solid #393556",
+              border: "2px solid var(--color-bg-highlight)",
             }}
           />
         ) : (
@@ -96,7 +96,7 @@ export function ProfileMenu({ avatarUrl, nickname }: Props) {
                   height: 36,
                   borderRadius: "50%",
                   objectFit: "cover",
-                  border: "2px solid #393556",
+                  border: "2px solid var(--color-bg-highlight)",
                   flexShrink: 0,
                 }}
               />

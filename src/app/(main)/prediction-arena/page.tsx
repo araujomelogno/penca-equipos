@@ -1,26 +1,23 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { getCurrentWeek, getWeekHistory, getNostradamus, getCommunityVotes, getArenaLeaderboard } from "@/lib/queries/prediction-arena";
-import { prisma } from "@/lib/prisma";
+import { getCurrentWeek, getWeekHistory, getNostradamus, getCommunityVotes, getArenaLeaderboard, getArenaTeams } from "@/lib/queries/prediction-arena";
 import { PredictionArenaView } from "@/components/prediction-arena/PredictionArenaView";
 
 export default async function PredictionArenaPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
-  const [week, history, nostradamus, teams, leaderboard] = await Promise.all([
-    getCurrentWeek(session.user.id),
+  // Week first: teams and community votes depend on it
+  const week = await getCurrentWeek(session.user.id);
+
+  const [history, nostradamus, teams, leaderboard, communityVotes] = await Promise.all([
     getWeekHistory(session.user.id),
     getNostradamus(),
-    prisma.team.findMany({
-      select: { id: true, name: true, code: true, flagUrl: true },
-      orderBy: { name: "asc" },
-    }),
+    // Only teams that actually play within the arena week make sense as predictions
+    week ? getArenaTeams(new Date(week.weekStart), new Date(week.weekEnd)) : Promise.resolve([]),
     getArenaLeaderboard(),
+    week ? getCommunityVotes(week.id) : Promise.resolve({}),
   ]);
-
-  // Get community votes if there's a week
-  const communityVotes = week ? await getCommunityVotes(week.id) : {};
 
   // Map predictions array to userPrediction and serialize dates
   const mappedWeek = week

@@ -29,15 +29,23 @@ function buildHrefFor(current: CurrentParams, override: Partial<CurrentParams>):
 type KnockoutKey = "R32" | "R16" | "QF" | "SF" | "FINAL";
 const KNOCKOUT_KEYS: readonly KnockoutKey[] = ["R32", "R16", "QF", "SF", "FINAL"];
 
+/** Once knockout rounds join the filter, long group labels ("GROUP A") would
+ * overflow it — switch groups to their short form ("A"). */
+export function shouldUseShortGroupLabels(stages: Pick<StageTab, "value">[]): boolean {
+  return stages.some((s) => (KNOCKOUT_KEYS as readonly string[]).includes(s.value));
+}
+
 export function StageFilter({ stages, activeStage, currentParams }: Props) {
   const t = useTranslations("matches.stageFilter");
   const tStage = useTranslations("matches.stage");
   const buildHref = (stage: string) => buildHrefFor(currentParams, { stage });
+  const shortGroups = shouldUseShortGroupLabels(stages);
 
   const fullLabel = (stage: StageTab): string => {
     if (stage.value === "ALL") return t("all");
     if (stage.value.startsWith("GROUP_")) {
-      return t("group", { letter: stage.value.replace("GROUP_", "") });
+      const letter = stage.value.replace("GROUP_", "");
+      return shortGroups ? t("groupShort", { letter }) : t("group", { letter });
     }
     if ((KNOCKOUT_KEYS as readonly string[]).includes(stage.value)) {
       return tStage(stage.value as KnockoutKey);

@@ -13,6 +13,7 @@ import { NextFavoriteMatchCard } from "@/components/NextFavoriteMatchCard";
 import { HighlightsCard } from "@/components/HighlightsCard";
 import { NostradamusCard } from "@/components/NostradamusCard";
 import { ArenaStatusCard } from "@/components/ArenaStatusCard";
+import { PredictNudge } from "@/components/PredictNudge";
 
 
 export default async function HomePage({
@@ -51,6 +52,7 @@ export default async function HomePage({
   if (hasLeaderboard) {
     return (
       <div className="page-content">
+        <PredictNudge nudge={data.predictNudge} />
         <div className="flex flex-col lg:flex-row gap-6 h-full">
           {/* Left column: Leaderboard + Stats */}
           <div className="flex flex-col gap-6 w-full lg:w-[22%] lg:max-w-[300px] lg:shrink-0">
@@ -94,6 +96,7 @@ export default async function HomePage({
     <div className="page-content" style={{ gap: 16 }}>
         {/* Banner — full width */}
         <HeroBanner />
+        <PredictNudge nudge={data.predictNudge} />
 
         {/* Three-column layout */}
         <div className="flex flex-col lg:flex-row gap-6">

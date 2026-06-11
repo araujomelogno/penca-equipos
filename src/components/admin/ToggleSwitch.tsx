@@ -19,8 +19,8 @@ export function ToggleSwitch({ checked, onChange, disabled }: Props) {
         height: 20,
         borderRadius: 10,
         padding: 2,
-        background: checked ? "#e9c46a66" : "#1b1736",
-        border: `1px solid ${checked ? "#FFFFFF1A" : "#FFFFFF0D"}`,
+        background: checked ? "color-mix(in srgb, var(--color-accent-amber) 40%, transparent)" : "var(--color-bg-card-secondary)",
+        border: `1px solid ${checked ? "var(--color-border-light)" : "var(--color-border-subtle)"}`,
         cursor: disabled ? "default" : "pointer",
         display: "flex",
         alignItems: "center",
@@ -34,7 +34,7 @@ export function ToggleSwitch({ checked, onChange, disabled }: Props) {
           width: 16,
           height: 16,
           borderRadius: "50%",
-          background: checked ? "#ffe19e" : "#4a4668",
+          background: checked ? "var(--color-accent-gold)" : "var(--color-bg-elevated-light)",
           transition: "background 0.15s",
         }}
       />

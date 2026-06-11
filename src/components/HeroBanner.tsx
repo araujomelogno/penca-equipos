@@ -33,7 +33,7 @@ export async function HeroBanner() {
           fontSize: "12px",
           fontWeight: 700,
           letterSpacing: "1.5px",
-          color: "#3e2e00",
+          color: "var(--color-text-accent-dark)",
           background: "linear-gradient(to right, var(--color-accent-gold), var(--color-accent-amber))",
           padding: "12px 32px",
           borderRadius: "100px",

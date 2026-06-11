@@ -42,16 +42,16 @@ export function GenerateHighlightsButton() {
         style={{
           borderRadius: 12,
           padding: "10px 20px",
-          border: "1px solid #FFFFFF1A",
+          border: "1px solid var(--color-border-light)",
           background: "transparent",
-          color: "#d0c5b2",
+          color: "var(--color-text-secondary)",
           cursor: loading ? "wait" : "pointer",
           opacity: loading ? 0.6 : 1,
         }}
       >
         <span
           className="material-symbols-outlined"
-          style={{ fontSize: 16, color: "#d0c5b2" }}
+          style={{ fontSize: 16, color: "var(--color-text-secondary)" }}
         >
           auto_awesome
         </span>
@@ -71,7 +71,7 @@ export function GenerateHighlightsButton() {
             fontSize: 11,
             fontWeight: 600,
             fontFamily: "Inter, sans-serif",
-            color: result.startsWith("Generated") ? "#4ade80" : "#f87171",
+            color: result.startsWith("Generated") ? "var(--color-success)" : "var(--color-error-soft)",
           }}
         >
           {result}

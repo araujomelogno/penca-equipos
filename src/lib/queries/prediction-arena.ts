@@ -18,6 +18,21 @@ export function getWeekBounds(date: Date = new Date()) {
   return { weekStart: monday, weekEnd: sunday };
 }
 
+// --- Teams playing within the arena week (for prediction dropdowns) ---
+
+export async function getArenaTeams(weekStart: Date, weekEnd: Date) {
+  return prisma.team.findMany({
+    where: {
+      OR: [
+        { homeMatches: { some: { kickoffTime: { gte: weekStart, lte: weekEnd } } } },
+        { awayMatches: { some: { kickoffTime: { gte: weekStart, lte: weekEnd } } } },
+      ],
+    },
+    select: { id: true, name: true, code: true, flagUrl: true },
+    orderBy: { name: "asc" },
+  });
+}
+
 // --- Current week for users ---
 
 export async function getCurrentWeek(userId: string) {

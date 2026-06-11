@@ -14,12 +14,12 @@ export function SearchField({ value, onChange, placeholder, width = 200 }: Props
       style={{
         width,
         borderRadius: 8,
-        background: "#0e0928",
+        background: "var(--color-bg-input)",
         padding: "8px 12px",
-        border: "1px solid #FFFFFF0D",
+        border: "1px solid var(--color-border-subtle)",
       }}
     >
-      <span className="material-symbols-outlined" style={{ fontSize: 16, color: "#64748b" }}>
+      <span className="material-symbols-outlined" style={{ fontSize: 16, color: "var(--color-text-muted)" }}>
         search
       </span>
       <input

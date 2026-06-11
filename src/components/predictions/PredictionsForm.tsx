@@ -4,6 +4,7 @@ import { useState, useCallback, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { PredictionsData } from "@/lib/queries/predictions";
+import { KNOCKOUT_STAGES } from "@/lib/queries/constants";
 import { GroupTabs } from "./GroupTabs";
 import { ProgressCard } from "./ProgressCard";
 import { GroupPredictionCard } from "./GroupPredictionCard";
@@ -254,6 +255,7 @@ export function PredictionsForm({ data }: Props) {
               <GroupPredictionCard
                 key={group.name}
                 groupName={group.name}
+                knockout={(KNOCKOUT_STAGES as readonly string[]).includes(group.name)}
                 matches={group.matches}
                 scores={scores}
                 errorMatchIds={errorMatchIds}

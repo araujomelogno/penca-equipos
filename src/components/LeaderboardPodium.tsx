@@ -18,33 +18,33 @@ const PLACE_STYLES = {
   1: {
     avatarSize: 80,
     borderWidth: 4,
-    borderColor: "#ffe19e",
+    borderColor: "var(--color-accent-gold)",
     badgeSize: 28,
     nameFontSize: 14,
     nameWeight: 900,
-    pointsColor: "#ffe19e",
+    pointsColor: "var(--color-text-accent)",
     pointsFontSize: 12,
     pointsWeight: 900,
   },
   2: {
     avatarSize: 56,
     borderWidth: 2,
-    borderColor: "#94a3b8",
+    borderColor: "var(--color-accent-silver)",
     badgeSize: 20,
     nameFontSize: 12,
     nameWeight: 700,
-    pointsColor: "#94a3b8",
+    pointsColor: "var(--color-accent-silver)",
     pointsFontSize: 12,
     pointsWeight: 700,
   },
   3: {
     avatarSize: 56,
     borderWidth: 2,
-    borderColor: "#cd7f32",
+    borderColor: "var(--color-accent-bronze)",
     badgeSize: 20,
     nameFontSize: 12,
     nameWeight: 700,
-    pointsColor: "#cd7f32",
+    pointsColor: "var(--color-accent-bronze)",
     pointsFontSize: 12,
     pointsWeight: 700,
   },
@@ -268,7 +268,7 @@ export async function LeaderboardPodium({ leaderboard, currentUserId }: Props) {
                   borderRadius: 8,
                   gap: 12,
                   background: isCurrent ? "rgba(233,196,106,0.1)" : "transparent",
-                  borderLeft: isCurrent ? "4px solid #ffe19e" : "4px solid transparent",
+                  borderLeft: isCurrent ? "4px solid var(--color-accent-gold)" : "4px solid transparent",
                 }}
               >
                 {/* Rank */}
@@ -276,7 +276,7 @@ export async function LeaderboardPodium({ leaderboard, currentUserId }: Props) {
                   style={{
                     fontSize: 12,
                     fontWeight: 700,
-                    color: isCurrent ? "#ffe19e" : "var(--color-text-secondary)",
+                    color: isCurrent ? "var(--color-text-accent)" : "var(--color-text-secondary)",
                     fontFamily: "var(--font-body)",
                     minWidth: 20,
                   }}
@@ -318,7 +318,7 @@ export async function LeaderboardPodium({ leaderboard, currentUserId }: Props) {
                   style={{
                     fontSize: 12,
                     fontWeight: 600,
-                    color: isCurrent ? "#ffe19e" : "var(--color-text-primary)",
+                    color: isCurrent ? "var(--color-text-accent)" : "var(--color-text-primary)",
                     fontFamily: "var(--font-body)",
                   }}
                 >
@@ -333,7 +333,7 @@ export async function LeaderboardPodium({ leaderboard, currentUserId }: Props) {
                   style={{
                     fontSize: 12,
                     fontWeight: 700,
-                    color: isCurrent ? "#ffe19e" : "var(--color-text-primary)",
+                    color: isCurrent ? "var(--color-text-accent)" : "var(--color-text-primary)",
                     fontFamily: "var(--font-body)",
                     flexShrink: 0,
                   }}
@@ -350,12 +350,12 @@ export async function LeaderboardPodium({ leaderboard, currentUserId }: Props) {
       <div className="flex justify-center" style={{ padding: "0 24px 24px" }}>
         <Link
           href="/leaderboard"
-          className="flex items-center justify-center no-underline hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#e9c46a]"
+          className="flex items-center justify-center no-underline hover:opacity-80 transition-opacity focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent-amber)]"
           style={{
             borderRadius: 12,
-            border: "1px solid #e9c46a33",
+            border: "1px solid color-mix(in srgb, var(--color-accent-amber) 20%, transparent)",
             padding: "12px 24px",
-            color: "#e9c46a",
+            color: "var(--color-accent-amber)",
             fontSize: 12,
             fontWeight: 700,
             letterSpacing: 1.6,

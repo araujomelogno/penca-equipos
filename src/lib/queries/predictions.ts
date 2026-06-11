@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { buildGroupTabs, type GroupTabRange } from "@/lib/groupTabs";
+import { KNOCKOUT_STAGES } from "./constants";
 export type { GroupTabRange } from "@/lib/groupTabs";
 export { buildGroupTabs } from "@/lib/groupTabs";
 
@@ -9,7 +10,7 @@ export interface PredictionMatch {
   id: string;
   kickoffTime: string; // ISO string for client serialization
   stage: string;
-  group: string;
+  group: string | null;
   homeTeam: { name: string; code: string; flagUrl: string | null };
   awayTeam: { name: string; code: string; flagUrl: string | null };
   hasStarted: boolean;
@@ -17,7 +18,7 @@ export interface PredictionMatch {
 }
 
 export interface GroupPredictions {
-  name: string;
+  name: string; // section id: group letter ("A") or stage code ("R32"); the card translates it
   matches: PredictionMatch[];
 }
 
@@ -28,6 +29,84 @@ export interface PredictionsData {
   progress: { completed: number; total: number };
 }
 
+interface RawPredMatch {
+  id: string;
+  kickoffTime: Date;
+  stage: string;
+  group: string | null;
+  homeTeam: { name: string; code: string; flagUrl: string | null };
+  awayTeam: { name: string; code: string; flagUrl: string | null };
+}
+
+// --- Pure assembler (unit-tested) ---
+
+export function assemblePredictionsData(
+  matches: RawPredMatch[],
+  predMap: Map<string, { homeScore: number; awayScore: number }>,
+  now: Date,
+): PredictionsData {
+  const toPM = (m: RawPredMatch): PredictionMatch => {
+    const pred = predMap.get(m.id);
+    return {
+      id: m.id,
+      kickoffTime: m.kickoffTime.toISOString(),
+      stage: m.stage,
+      group: m.group,
+      homeTeam: m.homeTeam,
+      awayTeam: m.awayTeam,
+      hasStarted: m.kickoffTime <= now,
+      prediction: pred ? { homeScore: pred.homeScore, awayScore: pred.awayScore } : null,
+    };
+  };
+
+  // Group sections, keyed by group letter
+  const groupMap = new Map<string, PredictionMatch[]>();
+  // Knockout sections, keyed by stage code
+  const koMap = new Map<string, PredictionMatch[]>();
+
+  for (const m of matches) {
+    if (m.stage === "GROUP") {
+      if (!m.group) continue;
+      const arr = groupMap.get(m.group) ?? [];
+      arr.push(toPM(m));
+      groupMap.set(m.group, arr);
+    } else if ((KNOCKOUT_STAGES as readonly string[]).includes(m.stage)) {
+      const arr = koMap.get(m.stage) ?? [];
+      arr.push(toPM(m));
+      koMap.set(m.stage, arr);
+    }
+  }
+
+  const sortedGroups = [...groupMap.keys()].sort();
+  const loadedKnockoutStages = KNOCKOUT_STAGES.filter((s) => koMap.has(s));
+
+  const allGroups: GroupPredictions[] = [
+    ...sortedGroups.map((name) => ({ name, matches: groupMap.get(name)! })),
+    ...loadedKnockoutStages.map((stage) => ({
+      name: stage,
+      matches: koMap.get(stage)!,
+    })),
+  ];
+
+  const knockoutTabs: GroupTabRange[] = loadedKnockoutStages.map((stage) => ({
+    label: stage,
+    groups: [stage],
+    stage,
+  }));
+
+  const groupTabs = [...buildGroupTabs(sortedGroups), ...knockoutTabs];
+  const individualTabs: GroupTabRange[] = [
+    ...sortedGroups.map((g) => ({ label: g, groups: [g] })),
+    ...knockoutTabs,
+  ];
+
+  // Progress: future (not-started) matches across all loaded stages
+  const total = matches.filter((m) => m.kickoffTime > now).length;
+  const completed = matches.filter((m) => m.kickoffTime > now && predMap.has(m.id)).length;
+
+  return { groupTabs, individualTabs, allGroups, progress: { completed, total } };
+}
+
 // --- Main query ---
 
 export async function getPredictionsData(userId: string): Promise<PredictionsData> {
@@ -35,7 +114,6 @@ export async function getPredictionsData(userId: string): Promise<PredictionsDat
 
   const [matches, userPredictions] = await Promise.all([
     prisma.match.findMany({
-      where: { stage: "GROUP" },
       orderBy: { kickoffTime: "asc" },
       select: {
         id: true,
@@ -47,59 +125,14 @@ export async function getPredictionsData(userId: string): Promise<PredictionsDat
       },
     }),
     prisma.prediction.findMany({
-      where: { userId, match: { stage: "GROUP" } },
+      where: { userId },
       select: { matchId: true, homeScore: true, awayScore: true },
     }),
   ]);
 
-  const predMap = new Map(userPredictions.map((p) => [p.matchId, p]));
+  const predMap = new Map(
+    userPredictions.map((p) => [p.matchId, { homeScore: p.homeScore, awayScore: p.awayScore }]),
+  );
 
-  // Group matches by group letter
-  const groupMap = new Map<string, PredictionMatch[]>();
-
-  for (const m of matches) {
-    if (!m.group) continue;
-
-    const pred = predMap.get(m.id);
-    const pm: PredictionMatch = {
-      id: m.id,
-      kickoffTime: m.kickoffTime.toISOString(),
-      stage: m.stage,
-      group: m.group,
-      homeTeam: m.homeTeam,
-      awayTeam: m.awayTeam,
-      hasStarted: m.kickoffTime <= now,
-      prediction: pred
-        ? { homeScore: pred.homeScore, awayScore: pred.awayScore }
-        : null,
-    };
-
-    const arr = groupMap.get(m.group) ?? [];
-    arr.push(pm);
-    groupMap.set(m.group, arr);
-  }
-
-  const sortedGroups = [...groupMap.keys()].sort();
-  const allGroups: GroupPredictions[] = sortedGroups.map((name) => ({
-    name,
-    matches: groupMap.get(name)!,
-  }));
-
-  // Build group tabs (ranges of 3 for desktop, individual for mobile)
-  const groupTabs = buildGroupTabs(sortedGroups);
-  const individualTabs: GroupTabRange[] = sortedGroups.map((g) => ({ label: g, groups: [g] }));
-
-  // Progress: count predictions for group matches that haven't started
-  const total = matches.filter((m) => m.kickoffTime > now).length;
-  const completed = matches.filter(
-    (m) => m.kickoffTime > now && predMap.has(m.id),
-  ).length;
-
-  return {
-    groupTabs,
-    individualTabs,
-    allGroups,
-    progress: { completed, total },
-  };
+  return assemblePredictionsData(matches, predMap, now);
 }
-

@@ -69,7 +69,7 @@ export function FloatingBar({ unsavedCount, saving, hasErrors, savedMessage, onS
             fontSize: 14,
             fontWeight: 700,
             fontFamily: "var(--font-display)",
-            color: hasErrors ? "var(--color-error, #ef4444)" : "var(--color-text-primary)",
+            color: hasErrors ? "var(--color-error)" : "var(--color-text-primary)",
           }}
         >
           {hasErrors ? t("incomplete") : t("unsaved", { n: unsavedCount })}

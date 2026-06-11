@@ -28,13 +28,13 @@ export default async function AdminPage() {
                 style={{
                   borderRadius: 12,
                   padding: "10px 20px",
-                  border: "1px solid #FFFFFF1A",
+                  border: "1px solid var(--color-border-light)",
                   background: "transparent",
-                  color: "#d0c5b2",
+                  color: "var(--color-text-secondary)",
                   textDecoration: "none",
                 }}
               >
-                <span className="material-symbols-outlined" style={{ fontSize: 16, color: "#d0c5b2" }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 16, color: "var(--color-text-secondary)" }}>
                   fact_check
                 </span>
                 <span style={{ fontSize: 12, fontWeight: 700, fontFamily: "Inter, sans-serif" }}>
@@ -47,13 +47,13 @@ export default async function AdminPage() {
                 style={{
                   borderRadius: 12,
                   padding: "10px 20px",
-                  border: "1px solid #FFFFFF1A",
+                  border: "1px solid var(--color-border-light)",
                   background: "transparent",
-                  color: "#d0c5b2",
+                  color: "var(--color-text-secondary)",
                   textDecoration: "none",
                 }}
               >
-                <span className="material-symbols-outlined" style={{ fontSize: 16, color: "#d0c5b2" }}>
+                <span className="material-symbols-outlined" style={{ fontSize: 16, color: "var(--color-text-secondary)" }}>
                   casino
                 </span>
                 <span style={{ fontSize: 12, fontWeight: 700, fontFamily: "Inter, sans-serif" }}>

@@ -73,7 +73,7 @@ export function ProgressCard({ completed, total }: Props) {
             height: "100%",
             width: `${pct}%`,
             borderRadius: 6,
-            background: "linear-gradient(90deg, #ffe19e, #e9c46a)",
+            background: "linear-gradient(90deg, var(--color-accent-gold), var(--color-accent-amber))",
             transition: "width 0.3s ease",
           }}
         />

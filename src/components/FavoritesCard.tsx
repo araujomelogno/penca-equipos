@@ -6,7 +6,7 @@ interface Props {
   favorites: TournamentFavorite[];
 }
 
-const MEDAL_COLORS = ["#ffe19e", "#c0c0c0", "#cd7f32"];
+const MEDAL_COLORS = ["var(--color-text-accent)", "silver", "var(--color-accent-bronze)"];
 
 export async function FavoritesCard({ favorites }: Props) {
   const t = await getTranslations("home.favorites");
@@ -56,7 +56,7 @@ export async function FavoritesCard({ favorites }: Props) {
                 style={{ borderRadius: 3, objectFit: "cover", flexShrink: 0 }}
               />
             ) : (
-              <div style={{ width: 28, height: 20, borderRadius: 3, background: "#353151", flexShrink: 0 }} />
+              <div style={{ width: 28, height: 20, borderRadius: 3, background: "var(--color-bg-elevated)", flexShrink: 0 }} />
             )}
 
             {/* Name */}

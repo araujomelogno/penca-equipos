@@ -537,7 +537,7 @@ export function ChatPanel({ matchId, matchStatus, commentCount, currentUserId }:
                 cursor: "pointer",
               }}
             >
-              <span className="material-symbols-outlined" style={{ fontSize: 12, color: "#fff" }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 12, color: "white" }}>
                 close
               </span>
             </button>
