@@ -235,7 +235,7 @@ export async function LeaderboardPodium({ leaderboard, currentUserId }: Props) {
             margin: 0,
           }}
         >
-          Leaderboard
+          {t("title")}
         </h2>
       </div>
 

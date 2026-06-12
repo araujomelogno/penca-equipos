@@ -18,6 +18,13 @@ vi.mock("@/lib/prisma", () => ({
   },
 }));
 
+// Mock next-intl so localized event strings resolve to their key (+params)
+// instead of requiring a request context.
+vi.mock("next-intl/server", () => ({
+  getTranslations: async () => (key: string, params?: Record<string, unknown>) =>
+    params ? `${key}:${JSON.stringify(params)}` : key,
+}));
+
 import { getActivityFeed } from "./activity";
 
 function makeActivity(overrides: Record<string, unknown> = {}) {
@@ -96,6 +103,11 @@ describe("getActivityFeed", () => {
     expect(item.likes).toBe(5);
     expect(item.replies).toBe(2);
     expect(item.likedByMe).toBe(true);
+    // Localized: header label and stats suffix go through i18n, not hardcoded English
+    expect(item.nickname).toBe("matchResult");
+    expect(item.detail).toContain("Argentina 2 - 1 Brazil · ");
+    expect(item.detail).toContain("matchStats");
+    expect(item.detail).not.toContain("got it right");
   });
 
   it("maps USER_JOINED activity with event likes/replies from batch queries", async () => {
@@ -118,6 +130,10 @@ describe("getActivityFeed", () => {
     expect(item.type).toBe("user_joined");
     expect(item.likes).toBe(1);
     expect(item.likedByMe).toBe(false);
+    // Localized: "joined Pencachi!" goes through i18n with the nickname as a param
+    expect(item.detail).toContain("userJoined");
+    expect(item.detail).toContain("Bob");
+    expect(item.detail).not.toContain("joined Pencachi");
   });
 
   it("filters out orphaned activities", async () => {

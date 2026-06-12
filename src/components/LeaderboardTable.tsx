@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import type { LeaderboardEntry } from "@/lib/queries/leaderboard";
 
 const MEDAL_EMOJI: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
@@ -8,15 +9,16 @@ interface Props {
 }
 
 const COLUMNS = [
-  { key: "rank", label: "#", width: 48, hideOnMobile: false },
-  { key: "user", label: "USER", width: undefined, hideOnMobile: false },
-  { key: "exactScores", label: "EXACT", width: 80, hideOnMobile: true },
-  { key: "correctWinners", label: "CORRECT", width: 80, hideOnMobile: true },
-  { key: "matchesScored", label: "PLAYED", width: 80, hideOnMobile: true },
-  { key: "totalPoints", label: "POINTS", width: 100, hideOnMobile: false },
+  { key: "rank", labelKey: null, width: 48, hideOnMobile: false },
+  { key: "user", labelKey: "columns.user", width: undefined, hideOnMobile: false },
+  { key: "exactScores", labelKey: "columns.exact", width: 80, hideOnMobile: true },
+  { key: "correctWinners", labelKey: "columns.correct", width: 80, hideOnMobile: true },
+  { key: "matchesScored", labelKey: "columns.played", width: 80, hideOnMobile: true },
+  { key: "totalPoints", labelKey: "columns.points", width: 100, hideOnMobile: false },
 ] as const;
 
 export function LeaderboardTable({ entries, currentUserId }: Props) {
+  const t = useTranslations("leaderboard");
   if (entries.length === 0) {
     return (
       <div
@@ -28,7 +30,7 @@ export function LeaderboardTable({ entries, currentUserId }: Props) {
           fontSize: 14,
         }}
       >
-        Leaderboard activates when matches are finished
+        {t("empty")}
       </div>
     );
   }
@@ -64,7 +66,7 @@ export function LeaderboardTable({ entries, currentUserId }: Props) {
                   width: col.width,
                 }}
               >
-                {col.label}
+                {col.labelKey ? t(col.labelKey) : "#"}
               </th>
             ))}
           </tr>
@@ -148,7 +150,7 @@ export function LeaderboardTable({ entries, currentUserId }: Props) {
                             marginLeft: 8,
                           }}
                         >
-                          (You)
+                          {t("you")}
                         </span>
                       )}
                     </span>

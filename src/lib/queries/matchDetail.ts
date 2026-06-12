@@ -50,11 +50,23 @@ export interface MatchDetailData {
 
 export type PredictionBadge = "lone_wolf" | "bold_call";
 
+export interface PredictionUser {
+  id: string;
+  nickname: string;
+  avatarUrl: string | null;
+}
+
 export interface ScoreDistribution {
   score: string; // "2-0"
   count: number;
   percentage: number;
   badges: PredictionBadge[];
+  // True when this scoreline equals the final result (set only once the match
+  // is FINISHED). Used to highlight the winning row in the predictions list.
+  isExactResult?: boolean;
+  // Users who predicted this scoreline. Only populated for the exact-result row
+  // (so the winners can be listed), to avoid loading users for every row.
+  users?: PredictionUser[];
 }
 
 // --- Main query ---
@@ -87,8 +99,6 @@ export async function getMatchDetailData(
 
   if (!match) return null;
 
-  const hasStarted = match.kickoffTime <= new Date();
-
   const [userPrediction, allPredictions, commentCount, navigation] = await Promise.all([
     prisma.prediction.findUnique({
       where: { userId_matchId: { userId, matchId } },
@@ -115,6 +125,23 @@ export async function getMatchDetailData(
   };
   for (const p of communityPredictions) {
     p.badges = computeBadges(p.score, outcomeCounts, totalPredictions, probs);
+  }
+
+  // Highlight the scoreline that matches the final result (once FINISHED) and
+  // load the list of users who nailed it so the UI can show the winners.
+  const exactRow = markExactResult(
+    communityPredictions,
+    match.status,
+    match.homeScore,
+    match.awayScore,
+  );
+  if (exactRow && match.homeScore != null && match.awayScore != null) {
+    const exactPredictors = await prisma.prediction.findMany({
+      where: { matchId, homeScore: match.homeScore, awayScore: match.awayScore },
+      select: { user: { select: { id: true, nickname: true, avatarUrl: true } } },
+      orderBy: { user: { nickname: "asc" } },
+    });
+    exactRow.users = exactPredictors.map((p) => p.user);
   }
 
   // Community odds: implied win/draw/loss from predicted scores
@@ -153,6 +180,23 @@ export function buildScoreDistribution(
       badges: [] as PredictionBadge[],
     }))
     .sort((a, b) => b.count - a.count);
+}
+
+// Marks the distribution row whose scoreline equals the final result and returns
+// it (or null). Only acts once the match is FINISHED with a known score; if
+// nobody predicted the exact result, no row is marked and null is returned.
+export function markExactResult(
+  distribution: ScoreDistribution[],
+  status: string,
+  homeScore: number | null,
+  awayScore: number | null,
+): ScoreDistribution | null {
+  if (status !== "FINISHED" || homeScore == null || awayScore == null) return null;
+  const key = `${homeScore}-${awayScore}`;
+  const row = distribution.find((p) => p.score === key);
+  if (!row) return null;
+  row.isExactResult = true;
+  return row;
 }
 
 // --- Community odds calculation ---

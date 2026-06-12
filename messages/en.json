@@ -99,6 +99,18 @@
     },
     "you": "You"
   },
+  "leaderboard": {
+    "title": "Leaderboard",
+    "empty": "Leaderboard activates when matches are finished",
+    "you": "(You)",
+    "columns": {
+      "user": "USER",
+      "exact": "EXACT",
+      "correct": "CORRECT",
+      "played": "PLAYED",
+      "points": "POINTS"
+    }
+  },
   "matches": {
     "title": "Matches 2026",
     "today": "TODAY",
@@ -160,7 +172,9 @@
         "loneWolf": "Lone wolf",
         "loneWolfLabel": "Lone wolf — only one with this call",
         "boldCall": "Bold call",
-        "boldCallLabel": "Bold call — against the odds"
+        "boldCallLabel": "Bold call — against the odds",
+        "exactResultLabel": "FINAL RESULT",
+        "nailedBy": "Nailed by"
       },
       "probability": {
         "title": "Probability",
@@ -317,6 +331,12 @@
     "highlights": {
       "showMore": "Show {n} more",
       "showLess": "Show less"
+    },
+    "events": {
+      "matchResult": "Match Result",
+      "matchStats": "{correct, plural, one {# got it right} other {# got it right}}, {exact, plural, one {# exact} other {# exact}}",
+      "userJoined": "{nickname} joined Pencachi!",
+      "highlightsSummary": "{n, plural, one {# highlight today} other {# highlights today}}"
     }
   },
   "profile": {
@@ -579,7 +599,12 @@
     "reviewMatches": "Review Matches",
     "predictionArena": "Prediction Arena",
     "generateHighlights": "Generate Highlights",
-    "generating": "Generating..."
+    "generating": "Generating...",
+    "highlightsUpdated": "{n, plural, one {Updated # highlight} other {Updated # highlights}}",
+    "highlightsGenerated": "{n, plural, one {Generated # highlight} other {Generated # highlights}}",
+    "highlightsNone": "No highlights: {reason}",
+    "highlightsError": "Error",
+    "highlightsNetworkError": "Network error"
   },
   "arena": {
     "title": "Prediction Arena",

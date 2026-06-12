@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export function GenerateHighlightsButton() {
+  const t = useTranslations("admin");
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
+  const [result, setResult] = useState<{ text: string; ok: boolean } | null>(null);
 
   async function handleClick() {
     setLoading(true);
@@ -20,14 +22,19 @@ export function GenerateHighlightsButton() {
       const data = await res.json();
 
       if (!res.ok) {
-        setResult(data.error ?? "Error");
+        setResult({ text: data.error ?? t("highlightsError"), ok: false });
       } else if (data.generated) {
-        setResult(`${data.updated ? "Updated" : "Generated"} ${data.count} highlights`);
+        setResult({
+          text: data.updated
+            ? t("highlightsUpdated", { n: data.count })
+            : t("highlightsGenerated", { n: data.count }),
+          ok: true,
+        });
       } else {
-        setResult(`No highlights: ${data.reason}`);
+        setResult({ text: t("highlightsNone", { reason: data.reason }), ok: false });
       }
     } catch {
-      setResult("Network error");
+      setResult({ text: t("highlightsNetworkError"), ok: false });
     } finally {
       setLoading(false);
     }
@@ -62,7 +69,7 @@ export function GenerateHighlightsButton() {
             fontFamily: "Inter, sans-serif",
           }}
         >
-          {loading ? "Generating..." : "Generate Highlights"}
+          {loading ? t("generating") : t("generateHighlights")}
         </span>
       </button>
       {result && (
@@ -71,10 +78,10 @@ export function GenerateHighlightsButton() {
             fontSize: 11,
             fontWeight: 600,
             fontFamily: "Inter, sans-serif",
-            color: result.startsWith("Generated") ? "var(--color-success)" : "var(--color-error-soft)",
+            color: result.ok ? "var(--color-success)" : "var(--color-error-soft)",
           }}
         >
-          {result}
+          {result.text}
         </span>
       )}
     </div>

@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import { prisma } from "@/lib/prisma";
 import type { ActivityType } from "@/generated/prisma/client";
 import { POINTS_EXACT, POINTS_CORRECT_WINNER } from "./constants";
@@ -160,6 +161,8 @@ export async function getActivityFeed(
     }
   }
 
+  const t = await getTranslations("activity.events");
+
   const items: ActivityItem[] = page.map((a) => {
     switch (a.type) {
       case "COMMENT": {
@@ -191,12 +194,12 @@ export async function getActivityFeed(
           activityId: a.id,
           type: "match_result" as const,
           userId: "",
-          nickname: "Match Result",
+          nickname: t("matchResult"),
           avatarUrl: null,
           matchId: m.id,
           homeTeamCode: m.homeTeam.code,
           awayTeamCode: m.awayTeam.code,
-          detail: `${m.homeTeam.name} ${m.homeScore} - ${m.awayScore} ${m.awayTeam.name} · ${correct} got it right, ${exact} exact`,
+          detail: `${m.homeTeam.name} ${m.homeScore} - ${m.awayScore} ${m.awayTeam.name} · ${t("matchStats", { correct, exact })}`,
           imageUrl: null,
           likes: eventLikeCounts.get(a.id) ?? 0,
           likedByMe: myEventLikes.has(a.id),
@@ -216,7 +219,7 @@ export async function getActivityFeed(
           matchId: null,
           homeTeamCode: null,
           awayTeamCode: null,
-          detail: `${u.nickname} joined Pencachi!`,
+          detail: t("userJoined", { nickname: u.nickname }),
           imageUrl: null,
           likes: eventLikeCounts.get(a.id) ?? 0,
           likedByMe: myEventLikes.has(a.id),
@@ -226,7 +229,7 @@ export async function getActivityFeed(
       }
       case "DAILY_HIGHLIGHTS": {
         const resolved = resolvedHighlightsMap.get(a.id) ?? [];
-        const summary = `${resolved.length} highlight${resolved.length === 1 ? "" : "s"} today`;
+        const summary = t("highlightsSummary", { n: resolved.length });
         return {
           id: a.id,
           activityId: a.id,

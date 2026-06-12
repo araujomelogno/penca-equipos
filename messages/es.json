@@ -99,6 +99,18 @@
     },
     "you": "Vos"
   },
+  "leaderboard": {
+    "title": "Tabla",
+    "empty": "La tabla se activa cuando terminan los partidos",
+    "you": "(vos)",
+    "columns": {
+      "user": "USUARIO",
+      "exact": "EXACTOS",
+      "correct": "ACERTADOS",
+      "played": "JUGADOS",
+      "points": "PUNTOS"
+    }
+  },
   "matches": {
     "title": "Partidos 2026",
     "today": "HOY",
@@ -160,7 +172,9 @@
         "loneWolf": "Lobo solitario",
         "loneWolfLabel": "Lobo solitario — el único con este pronóstico",
         "boldCall": "Apuesta arriesgada",
-        "boldCallLabel": "Apuesta arriesgada — contra las probabilidades"
+        "boldCallLabel": "Apuesta arriesgada — contra las probabilidades",
+        "exactResultLabel": "RESULTADO FINAL",
+        "nailedBy": "La acertaron"
       },
       "probability": {
         "title": "Probabilidad",
@@ -317,6 +331,12 @@
     "highlights": {
       "showMore": "Mostrar {n} más",
       "showLess": "Mostrar menos"
+    },
+    "events": {
+      "matchResult": "Resultado del partido",
+      "matchStats": "{correct, plural, one {# acertó} other {# acertaron}}, {exact, plural, one {# exacto} other {# exactos}}",
+      "userJoined": "¡{nickname} se sumó a Pencachi!",
+      "highlightsSummary": "{n, plural, one {# destacado de hoy} other {# destacados de hoy}}"
     }
   },
   "profile": {
@@ -579,7 +599,12 @@
     "reviewMatches": "Revisar Partidos",
     "predictionArena": "Prediction Arena",
     "generateHighlights": "Generar Highlights",
-    "generating": "Generando..."
+    "generating": "Generando...",
+    "highlightsUpdated": "{n, plural, one {Se actualizó # highlight} other {Se actualizaron # highlights}}",
+    "highlightsGenerated": "{n, plural, one {Se generó # highlight} other {Se generaron # highlights}}",
+    "highlightsNone": "Sin highlights: {reason}",
+    "highlightsError": "Error",
+    "highlightsNetworkError": "Error de red"
   },
   "arena": {
     "title": "Prediction Arena",

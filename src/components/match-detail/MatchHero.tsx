@@ -137,6 +137,11 @@ export async function MatchHero({ data }: Props) {
   const teamLookup = await getTeamNameLookup();
   const { match } = data;
   const isOngoing = match.status === "LIVE" || match.status === "HALFTIME";
+  // Once the match has started there's no chance left to predict, so only keep
+  // the "Your Prediction" block if the user actually made a prediction.
+  const matchStarted =
+    isOngoing || match.status === "FINISHED" || match.kickoffTime <= new Date();
+  const showPrediction = data.userPrediction != null || !matchStarted;
   const KNOCKOUT = ["R16", "R32", "QF", "SF", "FINAL", "GROUP"] as const;
   const stageLabel = match.group
     ? tHome("groupLabel", { name: match.group })
@@ -286,21 +291,24 @@ export async function MatchHero({ data }: Props) {
           </div>
         </div>
 
-        {/* Right (desktop) / Below (mobile): prediction */}
-        <div className="flex justify-center lg:block">
-        <PredictionBadge
-          matchId={match.id}
-          homeTeamCode={match.homeTeam.code}
-          awayTeamCode={match.awayTeam.code}
-          kickoffTime={match.kickoffTime.toISOString()}
-          matchStatus={match.status}
-          userPrediction={data.userPrediction ? {
-            homeScore: data.userPrediction.homeScore,
-            awayScore: data.userPrediction.awayScore,
-            points: data.userPrediction.points,
-          } : null}
-        />
-        </div>
+        {/* Right (desktop) / Below (mobile): prediction.
+            Hidden once the match started if the user never predicted. */}
+        {showPrediction && (
+          <div className="flex justify-center lg:block">
+          <PredictionBadge
+            matchId={match.id}
+            homeTeamCode={match.homeTeam.code}
+            awayTeamCode={match.awayTeam.code}
+            kickoffTime={match.kickoffTime.toISOString()}
+            matchStatus={match.status}
+            userPrediction={data.userPrediction ? {
+              homeScore: data.userPrediction.homeScore,
+              awayScore: data.userPrediction.awayScore,
+              points: data.userPrediction.points,
+            } : null}
+          />
+          </div>
+        )}
       </div>
     </div>
   );

@@ -7,7 +7,9 @@ import {
   countByOutcome,
   computeBadges,
   buildScoreDistribution,
+  markExactResult,
 } from "./matchDetail";
+import type { ScoreDistribution } from "./matchDetail";
 
 describe("computeCommunityOdds", () => {
   it("returns zeros for empty predictions", () => {
@@ -202,5 +204,39 @@ describe("computeBadges", () => {
     const outcomes = { home: 4, draw: 0, away: 1 };
     const badges = computeBadges("0-2", outcomes, 5, noProbs);
     expect(badges).toEqual(["lone_wolf"]);
+  });
+});
+
+describe("markExactResult", () => {
+  const dist = (): ScoreDistribution[] => [
+    { score: "2-0", count: 3, percentage: 50, badges: [] },
+    { score: "2-1", count: 2, percentage: 33, badges: [] },
+    { score: "1-0", count: 1, percentage: 17, badges: [] },
+  ];
+
+  it("marks and returns the row matching the final result when FINISHED", () => {
+    const d = dist();
+    const row = markExactResult(d, "FINISHED", 2, 0);
+    expect(row).toBe(d[0]);
+    expect(d[0].isExactResult).toBe(true);
+    expect(d[1].isExactResult).toBeUndefined();
+  });
+
+  it("returns null and marks nothing when match is not FINISHED", () => {
+    const d = dist();
+    expect(markExactResult(d, "LIVE", 2, 0)).toBeNull();
+    expect(d.some((r) => r.isExactResult)).toBe(false);
+  });
+
+  it("returns null when the score is unknown", () => {
+    const d = dist();
+    expect(markExactResult(d, "FINISHED", null, null)).toBeNull();
+    expect(d.some((r) => r.isExactResult)).toBe(false);
+  });
+
+  it("returns null when nobody predicted the exact result", () => {
+    const d = dist();
+    expect(markExactResult(d, "FINISHED", 4, 4)).toBeNull();
+    expect(d.some((r) => r.isExactResult)).toBe(false);
   });
 });

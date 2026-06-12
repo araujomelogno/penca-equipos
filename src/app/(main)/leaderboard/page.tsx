@@ -1,4 +1,5 @@
 import { auth } from "@/lib/auth";
+import { getTranslations } from "next-intl/server";
 import { redirect } from "next/navigation";
 import { getLeaderboardData } from "@/lib/queries/leaderboard";
 import { LeaderboardTable } from "@/components/LeaderboardTable";
@@ -25,6 +26,8 @@ export default async function LeaderboardPage({
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
 
+  const t = await getTranslations("leaderboard");
+
   const { preview } = await searchParams;
   const isAdmin = (session.user as unknown as Record<string, boolean>).isAdmin;
   const isPreview = isAdmin && preview === "active";
@@ -43,7 +46,7 @@ export default async function LeaderboardPage({
   return (
     <>
       <div className="page-content">
-          <h1 className="page-title">Leaderboard</h1>
+          <h1 className="page-title">{t("title")}</h1>
           <Podium entries={entries} />
           <LeaderboardTable entries={entries} currentUserId={session.user.id} />
       </div>
