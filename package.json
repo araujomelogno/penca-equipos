@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3040",
-    "build": "prisma generate && next build",
+    "build": "prisma generate && next build && npx tsx scripts/rollover-arena-week.ts",
     "start": "next start -p 3040",
     "lint": "eslint",
     "db:seed": "npx tsx prisma/seed.ts",
