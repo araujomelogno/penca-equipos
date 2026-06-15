@@ -7,6 +7,7 @@ import {
   defaultTimeZone,
 } from "@/lib/timezone";
 import { getTimeZone } from "@/lib/timezone.server";
+import { presumedFinishedOrWhere } from "@/lib/match-state";
 
 // --- Exported Types ---
 
@@ -179,13 +180,21 @@ export async function getMatchesData(
 
 // --- Filtered matches ---
 
-async function getFilteredMatches(filters: MatchesFilters, tz: string) {
+export function buildFilteredWhere(
+  filters: MatchesFilters,
+  tz: string,
+  now: Date,
+): Record<string, unknown> {
   const where: Record<string, unknown> = {};
 
   // Status filter
   if (filters.status && filters.status !== "ALL") {
     if (filters.status === "ONGOING") {
       where.status = { in: ["LIVE", "HALFTIME"] };
+    } else if (filters.status === "FINISHED") {
+      // "Terminados" must include matches that have actually finished even when
+      // the API-Football sync hasn't flipped status=FINISHED yet (kickoff + margin).
+      where.OR = presumedFinishedOrWhere(now);
     } else {
       where.status = filters.status;
     }
@@ -206,6 +215,12 @@ async function getFilteredMatches(filters: MatchesFilters, tz: string) {
     const { start, end } = dayRangeUtc(filters.date, tz);
     where.kickoffTime = { gte: start, lte: end };
   }
+
+  return where;
+}
+
+async function getFilteredMatches(filters: MatchesFilters, tz: string) {
+  const where = buildFilteredWhere(filters, tz, new Date());
 
   return prisma.match.findMany({
     where,

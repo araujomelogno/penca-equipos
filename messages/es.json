@@ -140,6 +140,7 @@
       "predict": "PRONOSTICAR",
       "edit": "EDITAR",
       "ongoing": "EN CURSO",
+      "awaitingResult": "ESPERANDO RESULTADO",
       "notPredicted": "Sin pronóstico",
       "predictionLabel": "Pronóstico: {home}-{away}",
       "exact": "EXACTO",
@@ -634,10 +635,23 @@
       "colPoints": "Puntos",
       "you": "(vos)"
     },
+    "participants": {
+      "title": "Jugando esta semana",
+      "count": "{n, plural, one {# jugando} other {# jugando}}",
+      "progress": "{n}/6",
+      "empty": "Nadie predijo todavía — sé el primero."
+    },
     "history": {
       "title": "Historial",
       "week": "Semana {n}",
       "pts": "{n} pts"
+    },
+    "selector": {
+      "current": "Semana {n} · actual",
+      "resolved": "Semana {n}",
+      "ariaLabel": "Elegir semana del arena",
+      "loading": "Cargando semana…",
+      "loadError": "No se pudo cargar esa semana — tocá para reintentar"
     },
     "card": {
       "statusCompleted": "Completado",
@@ -646,6 +660,7 @@
       "selectPrediction": "Elegí tu pronóstico",
       "didNotHappen": "No sucedió",
       "correctPrediction": "Pronóstico correcto",
+      "partialResult": "Sucedió, equipo equivocado — vos: {pick}",
       "yourPrediction": "Tu pronóstico: {pick}",
       "wontHappen": "No va a suceder",
       "predictionLocked": "Pronóstico bloqueado",

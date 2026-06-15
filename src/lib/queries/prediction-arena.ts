@@ -35,6 +35,28 @@ export async function getArenaTeams(weekStart: Date, weekEnd: Date) {
 
 // --- Current week for users ---
 
+/**
+ * Prisma include shared by getCurrentWeek and getWeekDetail: the week's events
+ * (with resolved team) plus the requesting user's own prediction per event.
+ */
+function weekDetailInclude(userId: string) {
+  return {
+    events: {
+      orderBy: { orderIndex: "asc" as const },
+      include: {
+        resultTeam: { select: { id: true, name: true, code: true, flagUrl: true } },
+        predictions: {
+          where: { userId },
+          select: { id: true, teamId: true, points: true, team: { select: { id: true, name: true, code: true, flagUrl: true } } },
+        },
+      },
+    },
+    nostradamus: {
+      select: { id: true, nickname: true, avatarUrl: true, avatarPreset: true },
+    },
+  };
+}
+
 export async function getCurrentWeek(userId: string) {
   const { weekStart } = getWeekBounds();
   const nextWeekStart = new Date(weekStart.getTime() + 7 * 24 * 60 * 60 * 1000);
@@ -45,24 +67,19 @@ export async function getCurrentWeek(userId: string) {
       status: { in: ["OPEN", "CLOSED", "RESOLVED"] },
     },
     orderBy: { weekStart: "desc" },
-    include: {
-      events: {
-        orderBy: { orderIndex: "asc" },
-        include: {
-          resultTeam: { select: { id: true, name: true, code: true, flagUrl: true } },
-          predictions: {
-            where: { userId },
-            select: { id: true, teamId: true, points: true, team: { select: { id: true, name: true, code: true, flagUrl: true } } },
-          },
-        },
-      },
-      nostradamus: {
-        select: { id: true, nickname: true, avatarUrl: true, avatarPreset: true },
-      },
-    },
+    include: weekDetailInclude(userId),
   });
 
   return week;
+}
+
+// --- Any week by id (for the history selector) ---
+
+export async function getWeekDetail(weekId: string, userId: string) {
+  return prisma.weeklyHitsWeek.findUnique({
+    where: { id: weekId },
+    include: weekDetailInclude(userId),
+  });
 }
 
 // --- Current week for admin (includes all predictions count) ---

@@ -1,57 +1,65 @@
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
-import { getCurrentWeek, getWeekHistory, getNostradamus, getCommunityVotes, getArenaLeaderboard, getArenaTeams } from "@/lib/queries/prediction-arena";
+import {
+  getCurrentWeek,
+  getWeekDetail,
+  getWeekHistory,
+  getCommunityVotes,
+  getArenaLeaderboard,
+  getArenaTeams,
+} from "@/lib/queries/prediction-arena";
+import { getArenaParticipants } from "@/lib/queries/arena-participants";
+import { buildWeekOptions, mapWeekForView } from "@/lib/prediction-arena-weeks";
 import { PredictionArenaView } from "@/components/prediction-arena/PredictionArenaView";
 
 export default async function PredictionArenaPage() {
   const session = await auth();
   if (!session?.user?.id) redirect("/login");
+  const userId = session.user.id;
 
-  // Week first: teams and community votes depend on it
-  const week = await getCurrentWeek(session.user.id);
-
-  const [history, nostradamus, teams, leaderboard, communityVotes] = await Promise.all([
-    getWeekHistory(session.user.id),
-    getNostradamus(),
-    // Only teams that actually play within the arena week make sense as predictions
-    week ? getArenaTeams(new Date(week.weekStart), new Date(week.weekEnd)) : Promise.resolve([]),
+  const [currentWeek, history, leaderboard] = await Promise.all([
+    getCurrentWeek(userId),
+    getWeekHistory(userId),
     getArenaLeaderboard(),
-    week ? getCommunityVotes(week.id) : Promise.resolve({}),
   ]);
 
-  // Map predictions array to userPrediction and serialize dates
-  const mappedWeek = week
-    ? {
-        ...week,
-        events: week.events.map((e) => ({
-          ...e,
-          userPrediction: e.predictions[0] ?? null,
-          predictions: undefined,
-        })),
-      }
-    : null;
+  // Week shown by default: the current slot week, else the most recent resolved.
+  const displayWeek =
+    currentWeek ?? (history[0] ? await getWeekDetail(history[0].id, userId) : null);
 
-  const mappedHistory = history.map((w) => ({
-    ...w,
-    events: w.events.map((e) => ({
-      ...e,
-      userPrediction: e.predictions[0] ?? null,
-      predictions: undefined,
-    })),
-  }));
+  const weekOptions = buildWeekOptions(currentWeek, history);
 
-  const serialized = JSON.parse(JSON.stringify({ week: mappedWeek, history: mappedHistory, nostradamus, communityVotes, leaderboard }));
+  // Full detail for the displayed week. Teams are only needed for the open week
+  // (its prediction dropdown); past weeks render read-only.
+  let initialDetail = null;
+  if (displayWeek) {
+    const isOpen = displayWeek.status === "OPEN";
+    const [teams, participants, communityVotes] = await Promise.all([
+      isOpen
+        ? getArenaTeams(new Date(displayWeek.weekStart), new Date(displayWeek.weekEnd))
+        : Promise.resolve([]),
+      getArenaParticipants(displayWeek.id),
+      getCommunityVotes(displayWeek.id),
+    ]);
+    initialDetail = {
+      week: mapWeekForView(displayWeek),
+      participants,
+      communityVotes,
+      teams,
+    };
+  }
+
+  const serialized = JSON.parse(
+    JSON.stringify({ initialDetail, weekOptions, leaderboard }),
+  );
 
   return (
     <div className="page-content">
       <PredictionArenaView
-        week={serialized.week}
-        history={serialized.history}
-        nostradamus={serialized.nostradamus}
-        communityVotes={serialized.communityVotes}
+        initialDetail={serialized.initialDetail}
+        weekOptions={serialized.weekOptions}
         leaderboard={serialized.leaderboard}
-        teams={teams}
-        userId={session.user.id}
+        userId={userId}
       />
     </div>
   );

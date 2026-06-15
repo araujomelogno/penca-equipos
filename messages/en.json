@@ -140,6 +140,7 @@
       "predict": "PREDICT",
       "edit": "EDIT",
       "ongoing": "ONGOING",
+      "awaitingResult": "AWAITING RESULT",
       "notPredicted": "Not predicted",
       "predictionLabel": "Prediction: {home}-{away}",
       "exact": "EXACT MATCH",
@@ -634,10 +635,23 @@
       "colPoints": "Points",
       "you": "(you)"
     },
+    "participants": {
+      "title": "Playing this week",
+      "count": "{n, plural, one {# playing} other {# playing}}",
+      "progress": "{n}/6",
+      "empty": "No one has predicted yet — be the first."
+    },
     "history": {
       "title": "History",
       "week": "Week {n}",
       "pts": "{n} pts"
+    },
+    "selector": {
+      "current": "Week {n} · current",
+      "resolved": "Week {n}",
+      "ariaLabel": "Choose arena week",
+      "loading": "Loading week…",
+      "loadError": "Couldn't load that week — tap to retry"
     },
     "card": {
       "statusCompleted": "Completed",
@@ -646,6 +660,7 @@
       "selectPrediction": "Select prediction",
       "didNotHappen": "Didn't happen",
       "correctPrediction": "Correct prediction",
+      "partialResult": "Happened, wrong team — you: {pick}",
       "yourPrediction": "Your prediction: {pick}",
       "wontHappen": "Won't happen",
       "predictionLocked": "Prediction locked",

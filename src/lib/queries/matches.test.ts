@@ -3,8 +3,9 @@ import { describe, it, expect, vi } from "vitest";
 // Mock prisma before importing the module
 vi.mock("@/lib/prisma", () => ({ prisma: {} }));
 
-import { buildDatePills, groupByDate } from "./matches";
+import { buildDatePills, groupByDate, buildFilteredWhere } from "./matches";
 import type { MatchCardData } from "./matches";
+import { presumedFinishedOrWhere } from "../match-state";
 
 describe("buildDatePills", () => {
   it("returns empty array for empty dates", () => {
@@ -101,5 +102,39 @@ describe("groupByDate", () => {
     m.kickoffTime = new Date("2026-06-10T00:00:00Z"); // 2026-06-09 21:00 in UY
     const groups = groupByDate([m], "America/Montevideo");
     expect(groups[0].dateKey).toBe("2026-06-09");
+  });
+});
+
+describe("buildFilteredWhere", () => {
+  const NOW = new Date("2026-06-15T20:00:00Z");
+  const TZ = "America/Montevideo";
+
+  it("matches presumed-finished (status or kickoff cutoff) for the FINISHED filter", () => {
+    const where = buildFilteredWhere({ status: "FINISHED" }, TZ, NOW);
+    expect(where.OR).toEqual(presumedFinishedOrWhere(NOW));
+    expect(where.status).toBeUndefined();
+  });
+
+  it("maps ONGOING to live/halftime statuses", () => {
+    const where = buildFilteredWhere({ status: "ONGOING" }, TZ, NOW);
+    expect(where.status).toEqual({ in: ["LIVE", "HALFTIME"] });
+    expect(where.OR).toBeUndefined();
+  });
+
+  it("passes other statuses through unchanged", () => {
+    const where = buildFilteredWhere({ status: "SCHEDULED" }, TZ, NOW);
+    expect(where.status).toBe("SCHEDULED");
+  });
+
+  it("applies no status constraint for ALL", () => {
+    const where = buildFilteredWhere({ status: "ALL" }, TZ, NOW);
+    expect(where.status).toBeUndefined();
+    expect(where.OR).toBeUndefined();
+  });
+
+  it("keeps the stage filter alongside the status filter", () => {
+    const where = buildFilteredWhere({ status: "FINISHED", stage: "R16" }, TZ, NOW);
+    expect(where.stage).toBe("R16");
+    expect(where.OR).toEqual(presumedFinishedOrWhere(NOW));
   });
 });

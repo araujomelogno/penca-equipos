@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import type { MatchCardData } from "@/lib/queries/matches";
+import { matchCardState } from "@/lib/match-state";
 import { KickoffTime } from "@/components/ui/KickoffTime";
 
 interface Props {
@@ -201,8 +202,9 @@ function ResultSection({
   onCancel: () => void;
   t: Translator;
 }) {
-  const isFinished = match.status === "FINISHED";
-  const isScheduled = match.status === "SCHEDULED";
+  const state = matchCardState(match, new Date());
+  const isFinished = state === "finished";
+  const isScheduled = state === "editable";
   const hasPrediction = match.userPrediction !== null;
 
   const stop = (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); };
@@ -280,6 +282,20 @@ function ResultSection({
         >
           {hasPrediction ? t("edit") : t("predict")}
         </button>
+      </div>
+    );
+  }
+
+  // Kickoff passed but status still SCHEDULED (sync lag): read-only, prediction locked.
+  if (state === "awaiting") {
+    return (
+      <div className="flex flex-col items-end gap-2 shrink-0">
+        <span style={{ fontSize: 10, fontWeight: 700, color: "var(--color-text-muted)", letterSpacing: 1 }}>{t("awaitingResult")}</span>
+        {match.userPrediction && (
+          <span style={{ fontSize: 12, fontWeight: 500, fontFamily: "var(--font-body)", color: "var(--color-text-secondary)" }}>
+            {t("predictionLabel", { home: match.userPrediction.homeScore, away: match.userPrediction.awayScore })}
+          </span>
+        )}
       </div>
     );
   }

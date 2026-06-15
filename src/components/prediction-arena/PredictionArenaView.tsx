@@ -70,12 +70,6 @@ interface WeekData {
   events: EventData[];
 }
 
-interface NostradamusData {
-  user: { id: string; nickname: string; avatarUrl: string | null; avatarPreset: string | null } | null;
-  weekNumber: number;
-  totalPoints: number;
-}
-
 interface CommunityVote {
   teamId: string | null;
   code: string | null;
@@ -90,27 +84,43 @@ interface LeaderboardEntry {
   totalPoints: number;
 }
 
-interface HistoryWeek extends WeekData {
-  userTotal: number;
+interface ArenaParticipant {
+  user: { id: string; nickname: string; avatarUrl: string | null; avatarPreset: string | null };
+  predicted: number;
+  weekPoints: number;
+  earliest: number;
+}
+
+interface WeekOption {
+  id: string;
+  weekNumber: number;
+  status: string;
+  nostradamusNickname: string | null;
+  isCurrent: boolean;
+}
+
+interface WeekDetail {
+  week: WeekData;
+  participants: ArenaParticipant[];
+  communityVotes: Record<string, CommunityVote[]>;
+  teams: Team[];
 }
 
 interface Props {
-  week: WeekData | null;
-  history: HistoryWeek[];
-  nostradamus: NostradamusData | null;
-  communityVotes: Record<string, CommunityVote[]>;
+  initialDetail: WeekDetail | null;
+  weekOptions: WeekOption[];
   leaderboard: LeaderboardEntry[];
-  teams: Team[];
   userId: string;
 }
 
-export function PredictionArenaView({ week, history, nostradamus, communityVotes, leaderboard, teams, userId }: Props) {
+export function PredictionArenaView({ initialDetail, weekOptions, leaderboard, userId }: Props) {
   const router = useRouter();
   const locale = useLocale();
   const t = useTranslations("arena");
   const tCountdown = useTranslations("arena.countdown");
   const tLeaders = useTranslations("arena.leaders");
-  const tHistory = useTranslations("arena.history");
+  const tParticipants = useTranslations("arena.participants");
+  const tSelector = useTranslations("arena.selector");
   const tCard = useTranslations("arena.card");
   const tDropdown = useTranslations("arena.dropdown");
   const tTeam = useTranslations("teams");
@@ -122,13 +132,60 @@ export function PredictionArenaView({ week, history, nostradamus, communityVotes
     } catch {}
     return team.name;
   };
+
+  // --- Week selection + on-demand detail cache ---
+  const [selectedId, setSelectedId] = useState<string | null>(initialDetail?.week.id ?? null);
+  const [cache, setCache] = useState<Record<string, WeekDetail>>(
+    initialDetail ? { [initialDetail.week.id]: initialDetail } : {},
+  );
+  const [loadingWeek, setLoadingWeek] = useState(false);
+  const [loadError, setLoadError] = useState(false);
+
+  // Keep the current week's cache entry fresh after a router.refresh() (e.g. post-save).
+  useEffect(() => {
+    if (initialDetail) {
+      setCache((prev) => ({ ...prev, [initialDetail.week.id]: initialDetail }));
+    }
+  }, [initialDetail]);
+
+  async function selectWeek(id: string) {
+    setSelectedId(id);
+    setLoadError(false);
+    if (cache[id]) return;
+    setLoadingWeek(true);
+    try {
+      const res = await fetch(`/api/prediction-arena/weeks/${id}/detail`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setCache((prev) => ({
+        ...prev,
+        [id]: {
+          week: data.week,
+          participants: data.participants,
+          communityVotes: data.communityVotes,
+          teams: [],
+        },
+      }));
+    } catch {
+      setLoadError(true);
+    } finally {
+      setLoadingWeek(false);
+    }
+  }
+
+  const detail = selectedId ? cache[selectedId] ?? null : null;
+  const week = detail?.week ?? null;
+  const participants = detail?.participants ?? [];
+  const communityVotes = detail?.communityVotes ?? {};
+  const teams = detail?.teams ?? [];
+
+  // --- Predictions editing (only the open week is editable) ---
   const [predictions, setPredictions] = useState<Record<string, string | null>>(() => {
-    if (!week) return {};
+    const w = initialDetail?.week;
+    if (!w) return {};
     const initial: Record<string, string | null> = {};
-    for (const e of week.events) {
-      if (e.userPrediction) {
-        initial[e.id] = e.userPrediction.teamId;
-      }
+    for (const e of w.events) {
+      if (e.userPrediction) initial[e.id] = e.userPrediction.teamId;
     }
     return initial;
   });
@@ -187,9 +244,7 @@ export function PredictionArenaView({ week, history, nostradamus, communityVotes
             {week && isOpen && <> {t("lockIn")}<strong style={{ color: "var(--color-text-primary)" }}>{new Date(week.deadline).toLocaleString(locale, { weekday: "long", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" })}</strong>.</>}
           </p>
           {week && (
-            <div className="flex items-center gap-2" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>
-              <span>{t("week", { n: week.weekNumber })}</span>
-              <span>·</span>
+            <div className="flex items-center gap-1" style={{ fontSize: 13, color: "var(--color-text-muted)" }}>
               {isOpen ? (
                 <span className="flex items-center gap-1" style={{ color: countdown.urgent ? "var(--color-accent-gold)" : "var(--color-text-muted)" }}>
                   {countdown.urgent && <span className="material-symbols-outlined" style={{ fontSize: 16 }}>warning</span>}
@@ -203,56 +258,98 @@ export function PredictionArenaView({ week, history, nostradamus, communityVotes
             </div>
           )}
         </div>
-        {isResolved && (
-          <div style={{ padding: "8px 16px", borderRadius: 12, background: "var(--color-bg-card)", fontSize: 14, fontWeight: 700, color: "var(--color-accent-gold)" }}>
-            {t("yourScore", { n: userTotal })}
-          </div>
-        )}
+        <div className="flex items-center gap-3">
+          {weekOptions.length > 0 && (
+            <WeekSelector
+              options={weekOptions}
+              selectedId={selectedId}
+              onSelect={selectWeek}
+              disabled={loadingWeek}
+              t={tSelector}
+            />
+          )}
+          {isResolved && (
+            <div style={{ padding: "8px 16px", borderRadius: 12, background: "var(--color-bg-card)", fontSize: 14, fontWeight: 700, color: "var(--color-accent-gold)" }}>
+              {t("yourScore", { n: userTotal })}
+            </div>
+          )}
+        </div>
       </div>
 
-      {/* No week */}
-      {!week && (
+      {/* No arena at all */}
+      {!initialDetail && (
         <div style={{ padding: 60, borderRadius: 24, background: "var(--color-bg-card)", textAlign: "center", color: "var(--color-text-muted)", fontSize: 14 }}>
           {t("noWeek")}
         </div>
       )}
 
-      {/* Event cards grid */}
-      {week && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {week.events.map((event) => (
-            <ArenaCard
-              key={event.id}
-              event={event}
-              teams={teams}
-              votes={communityVotes[event.id] ?? []}
-              selectedTeamId={predictions[event.id]}
-              isOpen={!!isOpen}
-              isClosed={!!isClosed}
-              isResolved={!!isResolved}
-              onPredict={(teamId) => setPrediction(event.id, teamId)}
-              tCard={tCard}
-              tDropdown={tDropdown}
-              teamLabel={teamLabel}
-            />
-          ))}
+      {/* Loading a past week */}
+      {loadingWeek && (
+        <div style={{ padding: 60, borderRadius: 24, background: "var(--color-bg-card)", textAlign: "center", color: "var(--color-text-muted)", fontSize: 14 }}>
+          {tSelector("loading")}
         </div>
       )}
 
-      {/* Save bar — compact, right-aligned like FloatingBar */}
-      {isOpen && dirty && (
-        <div className="flex items-center justify-between" style={{ padding: "12px 0" }}>
-          <div style={{ fontSize: 13, fontWeight: 600, color: message === t("errorSaving") ? "var(--color-error-soft)" : message ? "var(--color-text-accent)" : "var(--color-text-muted)" }}>
-            {message ?? t("unsaved", { n: unsavedCount })}
+      {/* Failed to load a past week */}
+      {!loadingWeek && loadError && (
+        <button
+          onClick={() => selectedId && selectWeek(selectedId)}
+          style={{ padding: 40, borderRadius: 24, background: "var(--color-bg-card)", textAlign: "center", color: "var(--color-error-soft)", fontSize: 14, fontWeight: 600, cursor: "pointer", border: "1px solid var(--color-border-subtle)" }}
+        >
+          {tSelector("loadError")}
+        </button>
+      )}
+
+      {/* Week: event cards + participants sidebar */}
+      {!loadingWeek && !loadError && week && (
+        <div className="flex flex-col lg:flex-row" style={{ gap: 24, alignItems: "flex-start" }}>
+          <div className="flex flex-col" style={{ flex: 1, minWidth: 0, gap: 24 }}>
+            {/* Event cards grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+              {week.events.map((event) => (
+                <ArenaCard
+                  key={event.id}
+                  event={event}
+                  teams={teams}
+                  votes={communityVotes[event.id] ?? []}
+                  selectedTeamId={predictions[event.id]}
+                  isOpen={!!isOpen}
+                  isClosed={!!isClosed}
+                  isResolved={!!isResolved}
+                  onPredict={(teamId) => setPrediction(event.id, teamId)}
+                  tCard={tCard}
+                  tDropdown={tDropdown}
+                  teamLabel={teamLabel}
+                />
+              ))}
+            </div>
+
+            {/* Save bar — compact, right-aligned like FloatingBar */}
+            {isOpen && dirty && (
+              <div className="flex items-center justify-between" style={{ padding: "12px 0" }}>
+                <div style={{ fontSize: 13, fontWeight: 600, color: message === t("errorSaving") ? "var(--color-error-soft)" : message ? "var(--color-text-accent)" : "var(--color-text-muted)" }}>
+                  {message ?? t("unsaved", { n: unsavedCount })}
+                </div>
+                <button
+                  onClick={savePredictions}
+                  disabled={saving}
+                  className="btn-primary"
+                  style={{ padding: "12px 40px", borderRadius: 12, opacity: saving ? 0.7 : 1 }}
+                >
+                  {saving ? t("saving") : t("save")}
+                </button>
+              </div>
+            )}
           </div>
-          <button
-            onClick={savePredictions}
-            disabled={saving}
-            className="btn-primary"
-            style={{ padding: "12px 40px", borderRadius: 12, opacity: saving ? 0.7 : 1 }}
-          >
-            {saving ? t("saving") : t("save")}
-          </button>
+
+          {/* Participants sidebar */}
+          <ParticipantsSidebar
+            participants={participants}
+            isResolved={!!isResolved}
+            userId={userId}
+            t={tParticipants}
+            youLabel={tLeaders("you")}
+          />
         </div>
       )}
 
@@ -303,28 +400,6 @@ export function PredictionArenaView({ week, history, nostradamus, communityVotes
           </div>
         </section>
       )}
-
-      {/* History */}
-      {history.length > 0 && (
-        <section>
-          <h2 className="page-title" style={{ fontSize: 18, marginBottom: 12 }}>{tHistory("title")}</h2>
-          <div className="flex flex-col gap-2">
-            {history.map((w) => (
-              <div key={w.id} className="flex items-center justify-between" style={{ padding: "10px 16px", borderRadius: 12, background: "var(--color-bg-card)" }}>
-                <div>
-                  <span style={{ fontSize: 13, fontWeight: 600 }}>{tHistory("week", { n: w.weekNumber })}</span>
-                  {w.nostradamus && (
-                    <span style={{ fontSize: 11, color: "var(--color-text-muted)", marginLeft: 8 }}>
-                      🔮 {w.nostradamus.nickname}
-                    </span>
-                  )}
-                </div>
-                <span style={{ fontSize: 13, fontWeight: 700, color: "var(--color-accent-gold)" }}>{tHistory("pts", { n: w.userTotal })}</span>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
     </div>
   );
 }
@@ -342,6 +417,188 @@ const tdStyle: React.CSSProperties = {
   padding: "12px 20px",
   fontSize: 13,
 };
+
+// --- Week Selector ---
+
+function WeekSelector({
+  options,
+  selectedId,
+  onSelect,
+  disabled,
+  t,
+}: {
+  options: WeekOption[];
+  selectedId: string | null;
+  onSelect: (id: string) => void;
+  disabled: boolean;
+  t: Translator;
+}) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const label = (o: WeekOption) =>
+    o.isCurrent ? t("current", { n: o.weekNumber }) : t("resolved", { n: o.weekNumber });
+  const selected = options.find((o) => o.id === selectedId) ?? options[0];
+
+  return (
+    <div ref={ref} style={{ position: "relative" }}>
+      <button
+        type="button"
+        onClick={() => !disabled && setOpen((v) => !v)}
+        aria-label={t("ariaLabel")}
+        className="flex items-center justify-between gap-2"
+        style={{
+          minWidth: 180,
+          background: "var(--color-bg-input)",
+          borderRadius: 12,
+          border: "1px solid var(--color-border-subtle)",
+          padding: "10px 14px",
+          cursor: disabled ? "default" : "pointer",
+          opacity: disabled ? 0.6 : 1,
+          textAlign: "left",
+        }}
+      >
+        <span style={{ fontSize: 13, fontWeight: 700, color: "var(--color-text-primary)" }}>
+          {selected ? label(selected) : ""}
+        </span>
+        <span className="material-symbols-outlined" style={{ fontSize: 18, color: "var(--color-text-muted)" }}>
+          expand_more
+        </span>
+      </button>
+
+      {open && (
+        <div
+          style={{
+            position: "absolute",
+            top: "calc(100% + 4px)",
+            right: 0,
+            zIndex: 50,
+            minWidth: 220,
+            background: "var(--color-bg-elevated)",
+            borderRadius: 12,
+            border: "1px solid var(--color-border-light)",
+            boxShadow: "0 16px 40px rgba(0,0,0,0.6)",
+            maxHeight: 320,
+            overflowY: "auto",
+          }}
+        >
+          {options.map((o) => (
+            <button
+              key={o.id}
+              type="button"
+              onClick={() => { onSelect(o.id); setOpen(false); }}
+              className="flex items-center justify-between gap-3"
+              style={{
+                width: "100%",
+                padding: "10px 14px",
+                background: o.id === selectedId ? "var(--color-bg-elevated-light)" : "transparent",
+                border: "none",
+                borderBottom: "1px solid var(--color-border-faint)",
+                cursor: "pointer",
+                textAlign: "left",
+              }}
+            >
+              <span style={{ fontSize: 13, fontWeight: o.id === selectedId ? 700 : 500, color: o.id === selectedId ? "var(--color-accent-gold)" : "var(--color-text-primary)" }}>
+                {label(o)}
+              </span>
+              {o.nostradamusNickname && (
+                <span style={{ fontSize: 11, color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>
+                  🔮 {o.nostradamusNickname}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// --- Participants Sidebar ---
+
+function ParticipantsSidebar({
+  participants,
+  isResolved,
+  userId,
+  t,
+  youLabel,
+}: {
+  participants: ArenaParticipant[];
+  isResolved: boolean;
+  userId: string;
+  t: Translator;
+  youLabel: string;
+}) {
+  return (
+    <aside
+      className="w-full lg:w-[260px]"
+      style={{ flexShrink: 0, position: "sticky", top: 16, alignSelf: "flex-start" }}
+    >
+      <div style={{ borderRadius: 16, background: "var(--color-bg-card)", overflow: "hidden" }}>
+        {/* Header */}
+        <div style={{ padding: "14px 16px" }}>
+          <div style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: 14 }}>
+            {t("title")}
+          </div>
+          <div style={{ fontSize: 12, color: "var(--color-text-muted)", marginTop: 2 }}>
+            {t("count", { n: participants.length })}
+          </div>
+        </div>
+
+        {participants.length === 0 ? (
+          <div style={{ padding: "8px 16px 20px", fontSize: 12, color: "var(--color-text-muted)" }}>
+            {t("empty")}
+          </div>
+        ) : (
+          <div className="flex flex-col">
+            {participants.map((p) => {
+              const complete = p.predicted >= 6;
+              const isYou = p.user.id === userId;
+              return (
+                <div
+                  key={p.user.id}
+                  className="flex items-center gap-3"
+                  style={{ padding: "9px 16px", borderTop: "1px solid var(--color-border-faint)" }}
+                >
+                  {p.user.avatarUrl ? (
+                    <img src={p.user.avatarUrl} alt="" style={{ width: 26, height: 26, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />
+                  ) : (
+                    <div className="flex items-center justify-center" style={{ width: 26, height: 26, borderRadius: "50%", background: "var(--color-border-subtle)", fontSize: 11, fontWeight: 700, color: "var(--color-text-muted)", flexShrink: 0 }}>
+                      {p.user.nickname.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <span style={{ fontWeight: 600, fontSize: 13, flex: 1, minWidth: 0, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                    {p.user.nickname}
+                    {isYou && <span style={{ color: "var(--color-accent-gold)", marginLeft: 4, fontSize: 11 }}>{youLabel}</span>}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 800,
+                      fontSize: 12,
+                      flexShrink: 0,
+                      color: isResolved || complete ? "var(--color-accent-gold)" : "var(--color-text-muted)",
+                    }}
+                  >
+                    {isResolved ? p.weekPoints : t("progress", { n: p.predicted })}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+    </aside>
+  );
+}
 
 // --- Searchable Team Dropdown ---
 
@@ -584,12 +841,12 @@ function ArenaCard({
               fontSize: 13,
               fontWeight: 800,
               fontFamily: "var(--font-display)",
-              color: isCorrect ? "var(--color-accent-gold)" : "var(--color-text-wrong)",
+              color: isCorrect ? "var(--color-accent-gold)" : isPartialCorrect ? "var(--color-accent-lavender)" : "var(--color-text-wrong)",
             }}
           >
-            {points != null ? (isCorrect ? `+${points}` : `${points}`) : ""}
+            {points != null ? (points > 0 ? `+${points}` : `${points}`) : ""}
             <span className="material-symbols-outlined" style={{ fontSize: 16 }}>
-              {isCorrect ? "check_circle" : isPartialCorrect ? "remove" : "close"}
+              {isCorrect ? "check_circle" : isPartialCorrect ? "contrast" : "close"}
             </span>
           </span>
         </div>
@@ -658,8 +915,12 @@ function ArenaCard({
               </span>
             </div>
             {prediction && (
-              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: isCorrect ? "var(--color-accent-gold)" : "var(--color-text-wrong)", marginTop: 4 }}>
-                {isCorrect ? tCard("correctPrediction") : tCard("yourPrediction", { pick: prediction.teamId === null ? tCard("wontHappen") : teamLabel(prediction.team) })}
+              <div style={{ fontSize: 10, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", color: isCorrect ? "var(--color-accent-gold)" : isPartialCorrect ? "var(--color-accent-lavender)" : "var(--color-text-wrong)", marginTop: 4 }}>
+                {isCorrect
+                  ? tCard("correctPrediction")
+                  : isPartialCorrect
+                    ? tCard("partialResult", { pick: prediction.teamId === null ? tCard("wontHappen") : teamLabel(prediction.team) })
+                    : tCard("yourPrediction", { pick: prediction.teamId === null ? tCard("wontHappen") : teamLabel(prediction.team) })}
               </div>
             )}
           </div>
@@ -686,7 +947,7 @@ function ArenaCard({
             <span style={{ color: "var(--color-text-muted)" }}>{tCard("communityVotes")}</span>
             {votes[0] && (
               <span style={{ color: "var(--color-accent-gold)" }}>
-                {votes[0].code ? teamLabel({ code: votes[0].code, name: votes[0].name ?? votes[0].code }) : votes[0].name} {votes[0].pct}%
+                {votes[0].code && votes[0].code !== "NO" ? teamLabel({ code: votes[0].code, name: votes[0].name ?? votes[0].code }) : votes[0].name} {votes[0].pct}%
               </span>
             )}
           </div>
