@@ -26,6 +26,7 @@ export default async function MatchesPage({
   const data = await getMatchesData(session.user.id, filters);
 
   const currentParams = {
+    // Raw param (e.g. "all") so stage/status links preserve the chosen date view.
     date: filters.date,
     stage: filters.stage || "ALL",
     status: filters.status || "ALL",
@@ -45,7 +46,7 @@ export default async function MatchesPage({
             <h1 className="page-title">{t("title")}</h1>
             <DateSelector
               pills={data.datePills}
-              selectedDate={filters.date}
+              selectedDate={data.filters.date}
               baseHref={dateBaseHref}
               allMatchDates={data.allMatchDates}
             />

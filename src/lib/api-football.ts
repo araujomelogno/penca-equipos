@@ -83,7 +83,8 @@ export function mapApiStatus(shortStatus: string): string {
 export function mapApiStage(round: string): string {
   const lower = round.toLowerCase();
   if (lower.includes("group")) return "GROUP";
-  if (lower.includes("16") || lower.includes("round of 16")) return "R16";
+  if (lower.includes("32")) return "R32";
+  if (lower.includes("16")) return "R16";
   if (lower.includes("quarter")) return "QF";
   if (lower.includes("semi")) return "SF";
   if (lower.includes("final") && !lower.includes("semi")) return "FINAL";

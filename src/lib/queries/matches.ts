@@ -69,19 +69,36 @@ export interface MatchesData {
 
 // --- Main query ---
 
+/**
+ * Resolves the raw `date` search param into the effective date filter.
+ * - undefined (no param) → defaults to today
+ * - "all" sentinel → undefined (show every match)
+ * - an explicit YYYY-MM-DD → itself
+ */
+export function resolveDateFilter(
+  rawDate: string | undefined,
+  todayStr: string,
+): string | undefined {
+  if (rawDate === "all") return undefined;
+  return rawDate ?? todayStr;
+}
+
 export async function getMatchesData(
   userId: string,
   filters: MatchesFilters,
 ): Promise<MatchesData> {
   const tz = await getTimeZone();
 
+  const resolvedDate = resolveDateFilter(filters.date, todayDateKey(tz));
+  const resolvedFilters: MatchesFilters = { ...filters, date: resolvedDate };
+
   const [stages, allMatchDates, matchRows] = await Promise.all([
     getAvailableStages(),
     getAllMatchDates(tz),
-    getFilteredMatches(filters, tz),
+    getFilteredMatches(resolvedFilters, tz),
   ]);
 
-  const datePills = buildDatePills(allMatchDates, filters.date, tz);
+  const datePills = buildDatePills(allMatchDates, resolvedFilters.date, tz);
 
   const matchIds = matchRows.map((m) => m.id);
 
@@ -173,7 +190,7 @@ export async function getMatchesData(
     stages,
     datePills,
     allMatchDates,
-    filters,
+    filters: resolvedFilters,
     totalCount: matches.length,
   };
 }

@@ -1,14 +1,15 @@
 /**
- * Roll the Prediction Arena over to the current week.
+ * Roll the Prediction Arena over to the current week (manual / one-off).
  *
- * 1. If a RESOLVED week wrongly occupies the current-week slot (weekStart ==
- *    this Monday) — as happens when an arena was created mid-week — shift its
- *    dates back 7 days to its true week, freeing the slot.
- * 2. Create the new OPEN arena for this Monday with the 6 default events
- *    (text from messages/{DEFAULT_LOCALE}.json), deadline Tuesday 23:00 UTC.
+ * The real logic lives in src/lib/prediction-arena-rollover.ts and is shared
+ * with the cron route (src/app/api/cron/arena/rollover). This wrapper just
+ * points a standalone Prisma client at any install's DATABASE_URL and prints a
+ * dry-run preview before writing.
  *
- * Idempotent: if an OPEN/CLOSED week already occupies this week's slot, it
- * skips creation. Installation-agnostic — point DATABASE_URL at any install.
+ * Behaviour: if a RESOLVED week wrongly occupies this week's slot it is shifted
+ * back 7 days; then a new OPEN week is created with the 6 rotated events
+ * (text from messages/{DEFAULT_LOCALE}.json), deadline Tuesday 23:00 UTC.
+ * Idempotent: if an OPEN/CLOSED week already occupies the slot, it skips.
  *
  *   npx tsx scripts/rollover-arena-week.ts            # dry-run (default)
  *   npx tsx scripts/rollover-arena-week.ts --write    # apply
@@ -19,17 +20,11 @@ dotenv.config({ path: ".env.local" });
 import fs from "node:fs";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
-import { DEFAULT_WEEKLY_EVENTS } from "../src/lib/prediction-arena-defaults";
-
-const DAY = 24 * 60 * 60 * 1000;
-
-function mondayOf(date: Date): Date {
-  const d = new Date(date);
-  d.setUTCHours(0, 0, 0, 0);
-  const day = d.getUTCDay();
-  d.setUTCDate(d.getUTCDate() + (day === 0 ? -6 : 1 - day));
-  return d;
-}
+import {
+  arenaWeekSlot,
+  buildDefaultArenaEvents,
+  rolloverArenaWeek,
+} from "../src/lib/prediction-arena-rollover";
 
 async function main() {
   const write = process.argv.includes("--write");
@@ -37,74 +32,40 @@ async function main() {
 
   const locale = process.env.DEFAULT_LOCALE || "en";
   const messages = JSON.parse(fs.readFileSync(`messages/${locale}.json`, "utf8"));
-  const defaults = messages.arena.defaults as Record<string, { title: string; description: string }>;
-  const events = DEFAULT_WEEKLY_EVENTS.map((e, i) => ({
-    orderIndex: i + 1,
-    emoji: e.emoji,
-    title: defaults[e.key].title,
-    description: defaults[e.key].description,
-  }));
 
   const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL! });
   const prisma = new PrismaClient({ adapter });
 
   try {
-    const thisMonday = mondayOf(new Date());
-    const weekEnd = new Date(thisMonday.getTime() + 6 * DAY);
-    weekEnd.setUTCHours(23, 59, 59, 999);
-    const deadline = new Date(thisMonday.getTime() + 1 * DAY);
-    deadline.setUTCHours(23, 0, 0, 0);
+    const { weekStart, deadline } = arenaWeekSlot();
+    const weekCount = await prisma.weeklyHitsWeek.count();
+    const previewWeekNumber = weekCount + 1;
+    const events = buildDefaultArenaEvents(messages, previewWeekNumber);
+    console.log(`[${mode}] Target week starts ${weekStart.toISOString()} (deadline ${deadline.toISOString()}).`);
+    console.log(`Rotated events for week #${previewWeekNumber} (locale ${locale}):`);
+    for (const e of events) console.log(`   ${e.emoji} ${e.title} [${e.kind}]`);
 
-    console.log(`[${mode}] Target week starts ${thisMonday.toISOString()} (deadline ${deadline.toISOString()}).`);
-
-    // Step 1: free the slot if a RESOLVED week mis-occupies it.
-    const occupant = await prisma.weeklyHitsWeek.findUnique({ where: { weekStart: thisMonday } });
-    if (occupant) {
-      if (occupant.status !== "RESOLVED") {
-        console.log(`An ${occupant.status} week (#${occupant.weekNumber}) already occupies this slot — nothing to do.`);
-        return;
+    if (!write) {
+      const occupant = await prisma.weeklyHitsWeek.findUnique({ where: { weekStart } });
+      if (occupant) {
+        console.log(
+          `\n[DRY-RUN] Slot occupied by ${occupant.status} week #${occupant.weekNumber}. ` +
+            (occupant.status === "RESOLVED"
+              ? "Would shift it back 7d and create a new OPEN week."
+              : "Would skip (nothing to do)."),
+        );
+      } else {
+        console.log("\n[DRY-RUN] Slot is free. Would create a new OPEN week.");
       }
-      const shiftedStart = new Date(occupant.weekStart.getTime() - 7 * DAY);
-      const collision = await prisma.weeklyHitsWeek.findUnique({ where: { weekStart: shiftedStart } });
-      if (collision) {
-        throw new Error(`Cannot shift resolved week #${occupant.weekNumber} back 7d — a week already exists at ${shiftedStart.toISOString()}.`);
-      }
-      console.log(`Step 1: shift RESOLVED week #${occupant.weekNumber} back 7d -> weekStart ${shiftedStart.toISOString()}.`);
-      if (write) {
-        await prisma.weeklyHitsWeek.update({
-          where: { id: occupant.id },
-          data: {
-            weekStart: shiftedStart,
-            weekEnd: new Date(occupant.weekEnd.getTime() - 7 * DAY),
-            deadline: new Date(occupant.deadline.getTime() - 7 * DAY),
-          },
-        });
-      }
-    } else {
-      console.log("Step 1: slot is free, no re-dating needed.");
+      console.log("Re-run with --write to apply.");
+      return;
     }
 
-    // Step 2: create the new OPEN week.
-    const weekCount = await prisma.weeklyHitsWeek.count();
-    const weekNumber = weekCount + 1;
-    console.log(`Step 2: create OPEN week #${weekNumber} with ${events.length} default events (locale ${locale}).`);
-    for (const e of events) console.log(`   ${e.emoji} ${e.title}`);
-
-    if (write) {
-      const created = await prisma.weeklyHitsWeek.create({
-        data: {
-          weekStart: thisMonday,
-          weekEnd,
-          weekNumber,
-          status: "OPEN",
-          deadline,
-          events: { create: events },
-        },
-        select: { id: true, weekNumber: true },
-      });
-      console.log(`\n[WRITE] Created week #${created.weekNumber} (${created.id}), status OPEN.`);
+    const result = await rolloverArenaWeek(prisma, messages);
+    if (result.action === "created") {
+      console.log(`\n[WRITE] Created week #${result.weekNumber} (${result.weekId}), status OPEN.`);
     } else {
-      console.log("\n[DRY-RUN] No changes written. Re-run with --write to apply.");
+      console.log(`\n[WRITE] Skipped: ${result.reason}.`);
     }
   } finally {
     await prisma.$disconnect();

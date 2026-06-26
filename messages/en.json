@@ -117,7 +117,7 @@
     "empty": "No matches found for the selected filters",
     "status": {
       "all": "All",
-      "scheduled": "Scheduled",
+      "upcoming": "Upcoming",
       "ongoing": "Ongoing",
       "finished": "Finished"
     },
@@ -700,7 +700,15 @@
       "firstOwnGoal": {
         "title": "First own goal",
         "description": "Which team concedes the first own goal?"
-      }
+      },
+      "firstGoal": { "title": "First goal", "description": "Which team scores the first goal of the week?" },
+      "earlyGoal": { "title": "Early goal", "description": "Will a goal be scored in the first 5 minutes? Which team?" },
+      "stoppageTimeGoal": { "title": "Stoppage-time goal", "description": "Will a team score in stoppage time (90'+)? Which team?" },
+      "bigWin": { "title": "Big win", "description": "Will a team win by 3+ goals? Which team?" },
+      "goalFest": { "title": "Goal fest", "description": "Will a team score 4 or more in a single match?" },
+      "missedPenalty": { "title": "Missed penalty", "description": "Will a penalty be missed or saved? Which team misses it?" },
+      "firstYellow": { "title": "First yellow card", "description": "Which team gets the first yellow card of the week?" },
+      "winToNil": { "title": "Win to nil", "description": "Will a team win without conceding? Which team?" }
     }
   }
 }

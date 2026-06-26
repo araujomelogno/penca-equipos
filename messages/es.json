@@ -117,7 +117,7 @@
     "empty": "No hay partidos con esos filtros",
     "status": {
       "all": "Todos",
-      "scheduled": "Programados",
+      "upcoming": "Próximos",
       "ongoing": "En curso",
       "finished": "Finalizados"
     },
@@ -700,7 +700,15 @@
       "firstOwnGoal": {
         "title": "Primer gol en contra",
         "description": "¿Qué equipo comete el primer gol en contra?"
-      }
+      },
+      "firstGoal": { "title": "Primer gol", "description": "¿Qué equipo marca el primer gol de la semana?" },
+      "earlyGoal": { "title": "Gol tempranero", "description": "¿Habrá un gol en los primeros 5 minutos? ¿Qué equipo?" },
+      "stoppageTimeGoal": { "title": "Gol en el descuento", "description": "¿Algún equipo marcará en tiempo de descuento (90'+)? ¿Cuál?" },
+      "bigWin": { "title": "Goleada", "description": "¿Algún equipo ganará por 3 o más goles? ¿Cuál?" },
+      "goalFest": { "title": "Festival de goles", "description": "¿Algún equipo marcará 4 o más en un mismo partido?" },
+      "missedPenalty": { "title": "Penal errado", "description": "¿Se errará o atajará un penal? ¿Qué equipo lo falla?" },
+      "firstYellow": { "title": "Primera amarilla", "description": "¿Qué equipo recibe la primera amarilla de la semana?" },
+      "winToNil": { "title": "Ganar sin recibir goles", "description": "¿Algún equipo ganará sin recibir goles? ¿Cuál?" }
     }
   }
 }

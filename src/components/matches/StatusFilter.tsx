@@ -29,7 +29,7 @@ export function StatusFilter({ activeStatus, currentParams }: Props) {
   const buildHref = (status: string) => buildHrefFor(currentParams, { status });
   const statuses = [
     { value: "ALL", label: t("all"), dot: false },
-    { value: "SCHEDULED", label: t("scheduled"), dot: false },
+    { value: "SCHEDULED", label: t("upcoming"), dot: false },
     { value: "ONGOING", label: t("ongoing"), dot: true },
     { value: "FINISHED", label: t("finished"), dot: false },
   ];

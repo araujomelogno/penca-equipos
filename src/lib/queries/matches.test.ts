@@ -3,9 +3,25 @@ import { describe, it, expect, vi } from "vitest";
 // Mock prisma before importing the module
 vi.mock("@/lib/prisma", () => ({ prisma: {} }));
 
-import { buildDatePills, groupByDate, buildFilteredWhere } from "./matches";
+import { buildDatePills, groupByDate, buildFilteredWhere, resolveDateFilter } from "./matches";
 import type { MatchCardData } from "./matches";
 import { presumedFinishedOrWhere } from "../match-state";
+
+describe("resolveDateFilter", () => {
+  const today = "2026-06-17";
+
+  it("defaults to today when no date param is present", () => {
+    expect(resolveDateFilter(undefined, today)).toBe(today);
+  });
+
+  it("returns undefined (show all) for the 'all' sentinel", () => {
+    expect(resolveDateFilter("all", today)).toBeUndefined();
+  });
+
+  it("passes through an explicit date", () => {
+    expect(resolveDateFilter("2026-06-20", today)).toBe("2026-06-20");
+  });
+});
 
 describe("buildDatePills", () => {
   it("returns empty array for empty dates", () => {

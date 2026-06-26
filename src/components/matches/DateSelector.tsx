@@ -171,9 +171,10 @@ export function DateSelector({ pills, selectedDate, baseHref, allMatchDates }: P
     return `${baseHref}${separator}date=${date}`;
   };
 
+  // Clicking the active date toggles back to the "all matches" view.
   const handleDateSelect = (date: string) => {
     setShowCalendar(false);
-    router.push(date === selectedDate ? baseHref : buildHref(date));
+    router.push(date === selectedDate ? buildHref("all") : buildHref(date));
   };
 
   const monthGroups = groupByMonth(allMatchDates, locale);
@@ -181,14 +182,14 @@ export function DateSelector({ pills, selectedDate, baseHref, allMatchDates }: P
   return (
     <div className="flex items-center gap-3 relative">
       {pills.map((pill) => {
-        const isSelected = pill.date === selectedDate || (!selectedDate && pill.isToday);
+        const isSelected = pill.date === selectedDate;
         const href = buildHref(pill.date);
 
         return (
           <a
             key={pill.date}
             href={href}
-            onClick={(e) => { e.preventDefault(); router.push(isSelected ? baseHref : href); }}
+            onClick={(e) => { e.preventDefault(); router.push(isSelected ? buildHref("all") : href); }}
             className="no-underline flex flex-col items-center"
             style={{
               width: isSelected ? 64 : 60,

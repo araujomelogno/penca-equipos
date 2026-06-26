@@ -264,6 +264,7 @@ model WeeklyHitsEvent {
   emoji        String
   title        String
   description  String
+  kind         String?
   result       EventResult?
   resultTeamId String?
 

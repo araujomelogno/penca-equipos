@@ -48,9 +48,24 @@ describe("mapApiStage", () => {
     expect(mapApiStage("group c")).toBe("GROUP");
   });
 
+  it("maps Round of 32 (48-team WC first knockout round)", () => {
+    expect(mapApiStage("Round of 32")).toBe("R32");
+    expect(mapApiStage("round of 32")).toBe("R32");
+  });
+
   it("maps Round of 16", () => {
     expect(mapApiStage("Round of 16")).toBe("R16");
     expect(mapApiStage("round of 16")).toBe("R16");
+  });
+
+  it("does not confuse Round of 32 with Round of 16", () => {
+    expect(mapApiStage("Round of 32")).not.toBe("R16");
+    expect(mapApiStage("Round of 16")).not.toBe("R32");
+  });
+
+  it("maps real API-Football group matchday strings", () => {
+    expect(mapApiStage("Group Stage - 1")).toBe("GROUP");
+    expect(mapApiStage("Group Stage - 3")).toBe("GROUP");
   });
 
   it("maps Quarter Finals", () => {

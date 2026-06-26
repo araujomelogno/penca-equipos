@@ -7,3 +7,15 @@
 0 2 * * *  /opt/pencachi-prod/cron-trigger.sh /api/cron/highlights >> /var/log/pencachi-prod-highlights.log 2>&1
 0 23 * * * /opt/pencachi/cron-trigger.sh /api/cron/highlights >> /var/log/pencachi-trunk-highlights.log 2>&1
 0 2 * * *  /opt/pencachi/cron-trigger.sh /api/cron/highlights >> /var/log/pencachi-trunk-highlights.log 2>&1
+
+# Pencachi prod match results — every 5 min, records FINISHED results only (added 2026-06-09).
+# Prod only (trunk has no live result sync).
+*/5 * * * * /opt/pencachi-prod/cron-trigger.sh /api/cron/matches/sync >> /var/log/pencachi-prod-sync.log 2>&1
+
+# Pencachi Prediction Arena rollover — Mondays 00:30 UTC.
+# Creates this week's OPEN arena (predictions open Mon–Tue). Idempotent: a
+# second run the same week is a no-op. Without this the weekly arena silently
+# goes missing (it used to be created by hand). 30-min offset from the top of
+# the hour to avoid colliding with other midnight jobs.
+30 0 * * 1 /opt/pencachi-prod/cron-trigger.sh /api/cron/arena/rollover >> /var/log/pencachi-prod-arena.log 2>&1
+30 0 * * 1 /opt/pencachi/cron-trigger.sh /api/cron/arena/rollover >> /var/log/pencachi-trunk-arena.log 2>&1
