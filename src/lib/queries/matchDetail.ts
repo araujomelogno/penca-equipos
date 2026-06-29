@@ -35,6 +35,8 @@ export interface MatchDetailData {
     drawProb: number | null;
     awayWinProb: number | null;
     analysis: string | null;
+    analysisEs: string | null;
+    analysisEn: string | null;
   };
   userPrediction: { homeScore: number; awayScore: number; points: number | null } | null;
   communityPredictions: ScoreDistribution[];
@@ -94,6 +96,8 @@ export async function getMatchDetailData(
       drawProb: true,
       awayWinProb: true,
       analysis: true,
+      analysisEs: true,
+      analysisEn: true,
     },
   });
 

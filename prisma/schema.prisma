@@ -101,6 +101,8 @@ model Match {
   drawProb      Float?
   awayWinProb   Float?
   analysis      String?
+  analysisEs    String?
+  analysisEn    String?
   lastSyncedAt  DateTime?
 
   predictions Prediction[]

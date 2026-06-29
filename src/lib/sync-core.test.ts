@@ -23,7 +23,7 @@ function fx(o: {
   gh?: number | null;
   ga?: number | null;
   status?: string;
-  venue?: { name: string; city: string } | null;
+  venue?: { name: string; city: string | null } | null;
   date?: string;
 }): SyncFixtureInput {
   return {
@@ -133,5 +133,14 @@ describe("planFixtureSync", () => {
     );
     if (withVenue.status === "create") expect(withVenue.venue).toBe("SoFi Stadium, Inglewood");
     if (noVenue.status === "create") expect(noVenue.venue).toBeNull();
+  });
+
+  it("omits a null city instead of writing 'Name, null' (API returns null city for many US venues)", () => {
+    const plan = planFixtureSync(
+      fx({ id: 9005, round: "Round of 32", home: "Spain", away: "Croatia", venue: { name: "SoFi Stadium", city: null } }),
+      TEAMS,
+      MATCHES,
+    );
+    if (plan.status === "create") expect(plan.venue).toBe("SoFi Stadium");
   });
 });

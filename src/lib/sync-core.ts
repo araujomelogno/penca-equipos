@@ -29,7 +29,7 @@ export interface SyncFixtureInput {
   fixture: {
     id: number;
     date: string;
-    venue: { name: string; city: string } | null;
+    venue: { name: string; city: string | null } | null;
     status: { short: string };
   };
   league: { round: string };
@@ -51,6 +51,18 @@ export type SyncPlan =
   | { status: "unmatched-team"; unresolved: string[] }
   | ({ status: "update"; matchId: string } & SyncFields)
   | ({ status: "create"; homeTeamId: string; awayTeamId: string; group: string | null } & SyncFields);
+
+/**
+ * Build a human venue label. API-Football often returns `city: null` (e.g. most
+ * US stadiums), so only append the city when it's actually present — otherwise
+ * we'd persist literal strings like "SoFi Stadium, null".
+ */
+export function formatVenue(
+  venue: { name: string; city: string | null } | null,
+): string | null {
+  if (!venue || !venue.name) return null;
+  return venue.city ? `${venue.name}, ${venue.city}` : venue.name;
+}
 
 const pairKey = (a: string, b: string) => [a, b].sort().join("|");
 const stagePairKey = (stage: string, a: string, b: string) => `${stage}|${pairKey(a, b)}`;
@@ -75,9 +87,7 @@ export function planFixtureSync(
     apiFootballId: fixture.fixture.id,
     stage,
     kickoffTime: fixture.fixture.date,
-    venue: fixture.fixture.venue
-      ? `${fixture.fixture.venue.name}, ${fixture.fixture.venue.city}`
-      : null,
+    venue: formatVenue(fixture.fixture.venue),
     homeScore: fixture.goals.home,
     awayScore: fixture.goals.away,
     matchStatus: mapApiStatus(fixture.fixture.status.short),

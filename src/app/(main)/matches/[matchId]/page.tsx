@@ -162,6 +162,8 @@ export default async function MatchDetailPage({
                 homeTeamName={teamLookup(match.homeTeam)}
                 awayTeamName={teamLookup(match.awayTeam)}
                 analysis={match.analysis}
+                analysisEs={match.analysisEs}
+                analysisEn={match.analysisEn}
               />
             </div>
           }
@@ -191,6 +193,8 @@ export default async function MatchDetailPage({
                   homeTeamName={teamLookup(match.homeTeam)}
                   awayTeamName={teamLookup(match.awayTeam)}
                   analysis={match.analysis}
+                  analysisEs={match.analysisEs}
+                  analysisEn={match.analysisEn}
                 />
               </div>
             </div>

@@ -38,6 +38,33 @@ interface RawPredMatch {
   awayTeam: { name: string; code: string; flagUrl: string | null };
 }
 
+/**
+ * The knockout round the user should land on in /predictions.
+ * Among loaded knockout stages (in bracket order), the earliest one that still
+ * has an upcoming match; if every knockout match has started, the most advanced
+ * loaded stage. Returns null when no knockout stage is loaded yet (group phase).
+ */
+export function activeKnockoutStage(
+  koMap: Map<string, PredictionMatch[]>,
+  now: Date,
+): string | null {
+  const loaded = KNOCKOUT_STAGES.filter((s) => koMap.has(s));
+  if (loaded.length === 0) return null;
+
+  const withUpcoming = loaded.find((s) =>
+    koMap.get(s)!.some((m) => new Date(m.kickoffTime) > now),
+  );
+  return withUpcoming ?? loaded[loaded.length - 1];
+}
+
+/** Move the tab matching `stage` to the front, preserving the rest of the order. */
+function stageTabFirst(tabs: GroupTabRange[], stage: string | null): GroupTabRange[] {
+  if (!stage) return tabs;
+  const idx = tabs.findIndex((t) => t.stage === stage);
+  if (idx <= 0) return tabs;
+  return [tabs[idx], ...tabs.slice(0, idx), ...tabs.slice(idx + 1)];
+}
+
 // --- Pure assembler (unit-tested) ---
 
 export function assemblePredictionsData(
@@ -94,11 +121,18 @@ export function assemblePredictionsData(
     stage,
   }));
 
-  const groupTabs = [...buildGroupTabs(sortedGroups), ...knockoutTabs];
-  const individualTabs: GroupTabRange[] = [
-    ...sortedGroups.map((g) => ({ label: g, groups: [g] })),
-    ...knockoutTabs,
-  ];
+  // Preselect the active knockout round by surfacing its tab first. The form
+  // initializes its selected tab from tabs[0], so reordering preselects it too.
+  const activeStage = activeKnockoutStage(koMap, now);
+
+  const groupTabs = stageTabFirst(
+    [...buildGroupTabs(sortedGroups), ...knockoutTabs],
+    activeStage,
+  );
+  const individualTabs: GroupTabRange[] = stageTabFirst(
+    [...sortedGroups.map((g) => ({ label: g, groups: [g] })), ...knockoutTabs],
+    activeStage,
+  );
 
   // Progress: future (not-started) matches across all loaded stages
   const total = matches.filter((m) => m.kickoffTime > now).length;

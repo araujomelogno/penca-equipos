@@ -1,14 +1,29 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
+import { pickAnalysis } from "@/lib/match-analysis";
 
 interface Props {
   homeTeamName: string;
   awayTeamName: string;
   analysis?: string | null;
+  analysisEs?: string | null;
+  analysisEn?: string | null;
 }
 
-export async function AIAnalysis({ homeTeamName, awayTeamName, analysis }: Props) {
+export async function AIAnalysis({
+  homeTeamName,
+  awayTeamName,
+  analysis,
+  analysisEs,
+  analysisEn,
+}: Props) {
   const t = await getTranslations("matches.detail.analysis");
-  const analysisText = analysis ?? t("default", { home: homeTeamName, away: awayTeamName });
+  const locale = await getLocale();
+  const analysisText = pickAnalysis(
+    locale,
+    { es: analysisEs ?? null, en: analysisEn ?? null },
+    analysis ?? null,
+    t("default", { home: homeTeamName, away: awayTeamName }),
+  );
 
   return (
     <div

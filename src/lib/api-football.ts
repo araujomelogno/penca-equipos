@@ -4,7 +4,7 @@ interface ApiFixture {
   fixture: {
     id: number;
     date: string;
-    venue: { name: string; city: string } | null;
+    venue: { name: string; city: string | null } | null;
     status: { long: string; short: string; elapsed: number | null };
   };
   league: {
