@@ -1,29 +1,45 @@
 import { prisma } from "@/lib/prisma";
 import type { MatchStatus } from "@/generated/prisma/client";
-import { getFixtures, mapApiStatus } from "@/lib/api-football";
+import { getFixtures } from "@/lib/api-football";
+import { planFixtureSync } from "@/lib/sync-core";
 import { recalculateMatchPoints } from "@/lib/scoring";
 import { logger } from "@/lib/logger";
 
 export interface MatchSyncResult {
+  created: number;
   updated: number;
   recalculated: number;
   failed: string[];
 }
 
 /**
- * Pull current scores/status from API-Football and update matches that have
- * started or finished. Matches by `apiFootballId`, so the DB must already hold
- * REAL ids (run scripts/reconcile-fixtures.ts once after seeding).
+ * Pull fixtures from API-Football and reconcile them into our DB.
+ *
+ * Two responsibilities, both driven off the same API snapshot:
+ *
+ *  1. Fill the bracket. Knockout fixtures (R16, QF, …) start life with TBD teams
+ *     in API-Football. As soon as the previous round finishes, the API resolves
+ *     the real teams; we then CREATE that fixture with those teams. This is why
+ *     the round of 16 populates automatically once the round of 32 is played —
+ *     API-Football (not us) decides who advances, including on penalties.
+ *  2. Keep scores/status current for fixtures we already hold.
+ *
+ * Matching reuses `planFixtureSync` (stage + unordered team pair, alias-aware),
+ * so a knockout rematch is never confused with the group-stage fixture between
+ * the same two teams. Unlike the manual `scripts/sync-fixtures.ts`, this is
+ * TOLERANT of unresolved teams: an undecided knockout slot (TBD) is expected
+ * mid-tournament, so it's skipped silently instead of aborting the whole run.
  *
  * Shared by the admin route (manual, admin-auth) and the cron route
  * (automated, CRON_SECRET-auth) to avoid duplicated logic.
  */
 export interface MatchSyncOptions {
   /**
-   * When true, only FINISHED fixtures are persisted (final results only, never
-   * in-progress state). Used by the automated cron so the app reflects results
-   * shortly after each match ends, not live. Defaults to false (admin/manual
-   * sync also captures LIVE/HALFTIME).
+   * When true, only FINISHED results are persisted to scores/status; in-progress
+   * (LIVE/HALFTIME) state is never written. Newly-resolved fixtures that haven't
+   * kicked off yet are still CREATED (so the bracket fills), but stored as
+   * SCHEDULED with null scores. Used by the automated cron. Defaults to false
+   * (admin/manual sync also captures LIVE/HALFTIME).
    */
   finishedOnly?: boolean;
 }
@@ -37,38 +53,104 @@ export async function syncMatchResults(
 
   const fixtures = await getFixtures(leagueId, season);
 
+  // Single snapshot of teams + matches (no per-fixture queries → no N+1).
+  const [teams, dbMatches] = await Promise.all([
+    prisma.team.findMany({ select: { id: true, name: true, code: true } }),
+    prisma.match.findMany({
+      select: {
+        id: true,
+        homeTeamId: true,
+        awayTeamId: true,
+        stage: true,
+        status: true,
+        homeScore: true,
+        awayScore: true,
+      },
+    }),
+  ]);
+  const matchById = new Map(dbMatches.map((m) => [m.id, m]));
+
+  let created = 0;
   let updated = 0;
   let recalculated = 0;
   const failed: string[] = [];
 
   for (const f of fixtures) {
-    const apiStatus = mapApiStatus(f.fixture.status.short);
-
-    // Skip not-yet-started matches; in finishedOnly mode skip in-progress too.
-    if (apiStatus === "SCHEDULED") continue;
-    if (finishedOnly && apiStatus !== "FINISHED") continue;
-
     try {
-      const match = await prisma.match.findUnique({
-        where: { apiFootballId: f.fixture.id },
-        select: { id: true, status: true, homeScore: true, awayScore: true },
-      });
+      const plan = planFixtureSync(f, teams, dbMatches);
 
-      if (!match) continue;
+      // Undecided knockout slot (TBD team) — expected mid-tournament. Skip,
+      // don't abort; it'll resolve once the previous round finishes.
+      if (plan.status === "unmatched-team") continue;
 
-      const newHomeScore = f.goals.home;
-      const newAwayScore = f.goals.away;
+      const apiStatus = plan.matchStatus as MatchStatus;
+      const isFinished = apiStatus === "FINISHED";
+
+      if (plan.status === "create") {
+        // A fixture whose teams API-Football just resolved (e.g. an R16 tie
+        // after its R32 feeders finished). Create it so the bracket fills.
+        // In finishedOnly mode don't persist live/in-progress state: park it as
+        // SCHEDULED with null scores unless it's already finished.
+        const parkScheduled = finishedOnly && !isFinished;
+        const storeStatus: MatchStatus = parkScheduled ? "SCHEDULED" : apiStatus;
+        const storeHome = parkScheduled ? null : plan.homeScore;
+        const storeAway = parkScheduled ? null : plan.awayScore;
+
+        const fields = {
+          homeTeamId: plan.homeTeamId,
+          awayTeamId: plan.awayTeamId,
+          kickoffTime: new Date(plan.kickoffTime),
+          stage: plan.stage,
+          venue: plan.venue,
+          homeScore: storeHome,
+          awayScore: storeAway,
+          status: storeStatus,
+          scoreSource: "API",
+          lastSyncedAt: new Date(),
+        };
+
+        const match = await prisma.match.upsert({
+          where: { apiFootballId: plan.apiFootballId },
+          create: {
+            apiFootballId: plan.apiFootballId,
+            group: plan.group,
+            ...fields,
+          },
+          update: fields,
+        });
+        created++;
+
+        if (isFinished && storeHome !== null && storeAway !== null) {
+          await markResult(match.id);
+          recalculated += await recalculateMatchPoints(
+            match.id,
+            storeHome,
+            storeAway,
+          );
+        }
+        continue;
+      }
+
+      // plan.status === "update": a fixture we already hold.
+      // Never persist in-progress state in finishedOnly mode, and there's
+      // nothing to write for a still-scheduled match.
+      if (finishedOnly && !isFinished) continue;
+      if (apiStatus === "SCHEDULED") continue;
+
+      const prev = matchById.get(plan.matchId);
+      const newHomeScore = plan.homeScore;
+      const newAwayScore = plan.awayScore;
       const scoreChanged =
         newHomeScore !== null &&
         newAwayScore !== null &&
-        (match.homeScore !== newHomeScore || match.awayScore !== newAwayScore);
+        (prev?.homeScore !== newHomeScore || prev?.awayScore !== newAwayScore);
 
       await prisma.match.update({
-        where: { apiFootballId: f.fixture.id },
+        where: { id: plan.matchId },
         data: {
           homeScore: newHomeScore,
           awayScore: newAwayScore,
-          status: apiStatus as MatchStatus,
+          status: apiStatus,
           minuteClock: f.fixture.status.elapsed
             ? `${f.fixture.status.elapsed}'`
             : null,
@@ -76,53 +158,43 @@ export async function syncMatchResults(
           lastSyncedAt: new Date(),
         },
       });
-
       updated++;
 
-      // True the first time we see this match as FINISHED (`match` is the
-      // pre-update snapshot, so `match.status` is the previous status).
-      const becameFinished =
-        apiStatus === "FINISHED" && match.status !== "FINISHED";
-
-      // Create activity when transitioning to FINISHED
+      // True the first time we see this match as FINISHED (`prev` is the
+      // pre-update snapshot).
+      const becameFinished = isFinished && prev?.status !== "FINISHED";
       if (becameFinished) {
-        await prisma.activity.upsert({
-          where: { type_matchId: { type: "MATCH_RESULT", matchId: match.id } },
-          create: { type: "MATCH_RESULT", matchId: match.id },
-          update: {},
-        });
+        await markResult(plan.matchId);
       }
 
-      // Recalculate points when the match is FINISHED and we have a result,
-      // either because it just transitioned to FINISHED (the score may already
-      // have been persisted during a LIVE sync, so `scoreChanged` can be false)
-      // or because a finished score was later corrected.
+      // Recalculate points when FINISHED and we have a result — either it just
+      // transitioned (score may already have been persisted during a LIVE sync,
+      // so `scoreChanged` can be false) or a finished score was later corrected.
       if (
-        apiStatus === "FINISHED" &&
+        isFinished &&
         newHomeScore !== null &&
         newAwayScore !== null &&
         (becameFinished || scoreChanged)
       ) {
-        const count = await recalculateMatchPoints(
-          match.id,
+        recalculated += await recalculateMatchPoints(
+          plan.matchId,
           newHomeScore,
           newAwayScore,
         );
-        recalculated += count;
       }
     } catch (err) {
       logger.error({ err, fixtureId: f.fixture.id }, "Sync failed for fixture");
       failed.push(`${f.teams.home.name} vs ${f.teams.away.name}`);
-
-      // Mark as failed if we have the match in DB
-      await prisma.match
-        .update({
-          where: { apiFootballId: f.fixture.id },
-          data: { scoreSource: "FAILED", lastSyncedAt: new Date() },
-        })
-        .catch(() => {});
     }
   }
 
-  return { updated, recalculated, failed };
+  return { created, updated, recalculated, failed };
+}
+
+async function markResult(matchId: string): Promise<void> {
+  await prisma.activity.upsert({
+    where: { type_matchId: { type: "MATCH_RESULT", matchId } },
+    create: { type: "MATCH_RESULT", matchId },
+    update: {},
+  });
 }

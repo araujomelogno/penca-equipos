@@ -87,6 +87,12 @@ describe("mapApiStage", () => {
     expect(mapApiStage("Semi-finals")).toBe("SF");
   });
 
+  it("maps the third-place play-off to THIRD, never FINAL", () => {
+    expect(mapApiStage("3rd Place Final")).toBe("THIRD");
+    expect(mapApiStage("Third Place Play-off")).toBe("THIRD");
+    expect(mapApiStage("3rd place final")).not.toBe("FINAL");
+  });
+
   it("defaults unknown rounds to GROUP", () => {
     expect(mapApiStage("unknown")).toBe("GROUP");
   });

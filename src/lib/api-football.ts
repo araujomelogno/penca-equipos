@@ -87,6 +87,10 @@ export function mapApiStage(round: string): string {
   if (lower.includes("16")) return "R16";
   if (lower.includes("quarter")) return "QF";
   if (lower.includes("semi")) return "SF";
+  // Third-place play-off — often labelled "3rd Place Final". Keep it out of the
+  // FINAL branch below so it never collides with the actual final (which now
+  // gets auto-created by the sync). Its own stage; the bracket UI ignores it.
+  if (lower.includes("3rd place") || lower.includes("third place")) return "THIRD";
   if (lower.includes("final") && !lower.includes("semi")) return "FINAL";
   return "GROUP";
 }
